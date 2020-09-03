@@ -1,0 +1,70 @@
+﻿@model AdSanare.Models.Persona
+
+@{
+  Layout = Layout;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>Index</title>
+</head>
+<body>
+
+  <div style="background-color:lightgray;" class="">
+    <div class="header">
+      <h4>Persona</h4>
+    </div>
+    <hr />
+    <dl class="row">
+      <dt class="col-sm-4">
+        @Html.DisplayNameFor(model => model.Nombre)
+        @Html.TextBoxFor(model => model.Nombre)
+      </dt>
+      <dt class="col-sm-4">
+        @Html.DisplayNameFor(model => model.Apellido)
+        @Html.TextBoxFor(model => model.Apellido)
+      </dt>
+    </dl>
+
+    <dl class="row">
+      <dt class="col-sm-4">
+        @Html.DisplayNameFor(model => model.TipoDocumento)
+        @Html.TextBoxFor(model => model.TipoDocumento)
+      </dt>
+      <dt class="col-sm-4">
+        @Html.DisplayNameFor(model => model.Documento)
+        @Html.TextBoxFor(model => model.Documento)
+      </dt>
+    </dl>
+
+    <dl class="row">
+      <dt class="col-sm-4">
+        @Html.DisplayNameFor(model => model.FechaNacimiento)
+        @Html.TextBoxFor(model => model.FechaNacimiento)
+      </dt>
+    </dl>
+
+    <dl class="row">
+      <dt class="col-sm-2">
+        @Html.HiddenFor(model => model.IdUsuario)
+      </dt>
+      <dt class="col-sm-2">
+        @Html.HiddenFor(model => model.IdUsuarioModificacion)
+      </dt>
+      <dt class="col-sm-2">
+        @Html.HiddenFor(model => model.FechaAlta)
+      </dt>
+      <dt class="col-sm-2">
+        @Html.HiddenFor(model => model.FechaModificacion)
+      </dt>
+    </dl>
+  </div>
+  <div>
+    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+      <a asp-action="Index">Back to List</a>*@
+  </div>
+</body>
+</html>

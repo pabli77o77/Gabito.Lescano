@@ -1,2 +1,0 @@
-# Gabito.Lescano
-AdSanare
