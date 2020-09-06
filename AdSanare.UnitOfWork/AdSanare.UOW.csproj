@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdSanare.Context\AdSanare.Context.csproj" />
+    <ProjectReference Include="..\AdSanare.Repository.Interfaces\AdSanare.Repository.Interfaces.csproj" />
+    <ProjectReference Include="..\AdSanare.Repository\AdSanare.Repository.csproj" />
+    <ProjectReference Include="..\AdSanare.UnitOfWork.Interfaces\AdSanare.UOW.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

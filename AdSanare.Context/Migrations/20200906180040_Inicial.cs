@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AdSanare.MVC.Migrations
+namespace AdSanare.Context.Migrations
 {
     public partial class Inicial : Migration
     {
