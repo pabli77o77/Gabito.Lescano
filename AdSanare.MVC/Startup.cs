@@ -1,8 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AdSanare.MVC.Models;
+using AdSanare.Context;
+using AdSanare.Logic;
+using AdSanare.Logic.Interfaces;
+using AdSanare.Repository;
+using AdSanare.Repository.Interfaces;
+using AdSanare.UOW;
+using AdSanare.UOW.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,16 @@ namespace AdSanare.MVC
             services.AddDbContext<AdSanareDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("AdSanare"))
                 );
+            #region Repositorios
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient<IPersonaRepository, PersonaRepository>();
+            #endregion
+            #region Unidad de Trabajo
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            #endregion
+            #region Logica de Negocio
+            services.AddTransient<IPersonaLogic, PersonaLogic>();
+            #endregion
             services.AddControllersWithViews();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

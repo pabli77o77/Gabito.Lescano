@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AdSanare.MVC.Models
+namespace AdSanare.Entities
 {
     public class Persona
     {

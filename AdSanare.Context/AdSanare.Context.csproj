@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
       <PrivateAssets>all</PrivateAssets>
@@ -15,14 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdSanare.Context\AdSanare.Context.csproj" />
     <ProjectReference Include="..\AdSanare.Entities\AdSanare.Entities.csproj" />
-    <ProjectReference Include="..\AdSanare.Logic.Interfaces\AdSanare.Logic.Interfaces.csproj" />
-    <ProjectReference Include="..\AdSanare.Logic\AdSanare.Logic.csproj" />
-    <ProjectReference Include="..\AdSanare.Repository.Interfaces\AdSanare.Repository.Interfaces.csproj" />
-    <ProjectReference Include="..\AdSanare.Repository\AdSanare.Repository.csproj" />
-    <ProjectReference Include="..\AdSanare.UnitOfWork.Interfaces\AdSanare.UOW.Interfaces.csproj" />
-    <ProjectReference Include="..\AdSanare.UnitOfWork\AdSanare.UOW.csproj" />
   </ItemGroup>
 
 </Project>
