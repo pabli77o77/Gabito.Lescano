@@ -1,0 +1,24 @@
+﻿@model AdSanare.MVC.Models.Persona
+<form asp-antiforgery="true" asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input class="form-control" asp-for="Nombre">
+        <span class="text-danger" asp-validation-for="Nombre"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Apellido"></label>
+        <input class="form-control" asp-for="Apellido">
+        <span class="text-danger" asp-validation-for="Apellido"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Documento"></label>
+        <input class="form-control" asp-for="Documento">
+        <span class="text-danger" asp-validation-for="Documento"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FechaNacimiento"></label>
+        <input class="form-control" asp-for="FechaNacimiento">
+        <span class="text-danger" asp-validation-for="FechaNacimiento"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+</form>
