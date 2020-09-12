@@ -19,6 +19,7 @@
                         <th scope="col">Apellido</th>
                         <th scope="col">DNI</th>
                         <th scope="col">Fecha de Nacimiento</th>
+                        <th scope="col">Editar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,11 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => p.FechaNacimiento)
+                            </td>
+                            <td>
+                                <a asp-controller="Persona" asp-action="Details" asp-route-id="@Html.HiddenFor(modelItem => p.Id)" class="btn btn-info btn-sm">
+                                    <i class="fa fa-plus"></i> Editar
+                                </a>
                             </td>
                         </tr>
                     }
