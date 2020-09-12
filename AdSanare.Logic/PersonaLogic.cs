@@ -2,6 +2,7 @@
 using AdSanare.Logic.Interfaces;
 using AdSanare.UOW.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdSanare.Logic
 {
@@ -25,7 +26,10 @@ namespace AdSanare.Logic
 
         public Persona GetByDocument(string doc)
         {
-            return null;
+            var persona = _unitOfWork.Personas.GetAll()
+                .Where(p => p.Documento == doc)
+                .FirstOrDefault();
+            return persona;
         }
 
         public Persona GetById(int Id)

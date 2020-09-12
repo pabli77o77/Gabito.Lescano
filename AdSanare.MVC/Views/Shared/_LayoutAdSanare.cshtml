@@ -5,17 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <title>@ViewData["Title"] - AdSanare</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <!-- FONTAWESOME : https://kit.fontawesome.com/a23e6feb03.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.  5/jquery.mCustomScrollbar.min.css">
-    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="~/css/site.css"/>
 </head>
 <body>
-    @*<header>
-
-        </header>*@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top baseColor">
         <button id="sidebarCollapse" class="btn navbar-btn">
             <i class="fas fa-lg fa-bars"></i>
@@ -32,12 +27,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" id="link" href="#">
                         <i class="fas fa-sign-out-alt"></i>
-                        LogOut<span class="sr-only">(current) </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="link" href="#">
-                        <i class="fas fa-id-card"></i>Contact Us
+                        Logout<span class="sr-only">(current) </span>
                     </a>
                 </li>
             </ul>
@@ -57,7 +47,7 @@
                     <a href=""><i class="fas fa-clipboard"></i>Historia clínica</a>
                 </li>
                 <li>
-                    <a href=""><i class="fas fa-clipboard"></i>Adm. de usuarios</a>
+                    <a href=""><i class="fas fa-user-cog"></i>Adm. de usuarios</a>
                 </li>
                 <li>
                     <a asp-area="" asp-controller="Persona" asp-action="Index"><i class="fas fa-user-cog"></i>Personas</a>
@@ -67,22 +57,17 @@
         </nav>
 
         <div id="content">
-
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-
+        <footer class="footer text-muted">
+            <div class="footer">
+                &copy; 2020 - AdSanare.
+            </div>
+        </footer>
     </div>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - AdSanare - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

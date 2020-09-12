@@ -17,7 +17,15 @@ namespace AdSanare.MVC.Controllers
 
         public IActionResult Index()
         {
-            return View(_logic.GetAll());
+            try
+            {
+                return View(_logic.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return View("Error", ex);
+            }
+            
         }
 
         public IActionResult Create()
@@ -48,10 +56,10 @@ namespace AdSanare.MVC.Controllers
             if (persona == null)
             {
                 Response.StatusCode = 404;
-                return View("PersonaNoEncontrada");
+                return View("NotFound");
             }
 
-            return View(nameof(Index));
+            return View(nameof(Details), persona);
         }
     }
 }

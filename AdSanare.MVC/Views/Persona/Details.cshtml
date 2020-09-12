@@ -1,1 +1,36 @@
 ﻿@model AdSanare.Entities.Persona
+
+<div class="form-group border-primary">
+    <div class="row col-12">
+        <div class="row col-4">
+            <label asp-for="Nombre"></label>
+        </div>
+        <div class="row col-4">
+            <input class="text-info" asp-validation-for="Nombre" value="@Html.DisplayFor(model => model.Nombre)"/>
+        </div>
+    </div>
+    <div class="row col-12">
+        <div class="row col-4">
+            <label asp-for="Apellido"></label>
+        </div>
+        <div class="row col-4">
+            <input class="text-info" asp-validation-for="Nombre" value="@Html.DisplayFor(model => model.Apellido)"/>
+        </div>
+    </div>
+    <div class="row col-12">
+        <div class="row col-4">
+            <label asp-for="Documento"></label>
+        </div>
+        <div class="row col-4">
+            <input class="text-info" asp-validation-for="Nombre" value="@Html.DisplayFor(model => model.Documento)"/>
+        </div>
+    </div>
+    <div class="row col-12">
+        <div class="row col-4">
+            <label asp-for="FechaNacimiento"></label>
+        </div>
+        <div class="row col-4">
+            <input class="text-info" asp-validation-for="Nombre" value="@Html.DisplayFor(model => model.FechaNacimiento)"/>
+        </div>
+    </div>
+</div>

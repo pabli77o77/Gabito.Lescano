@@ -228,3 +228,13 @@ a[data-toggle="collapse"] {
         display: none;
     }
 }
+
+.footer {
+    padding-left:20px;
+    color:darkgray;
+    background-color:#7599bd;
+}
+
+.textoPrincipal {
+    padding-top:100px;
+}

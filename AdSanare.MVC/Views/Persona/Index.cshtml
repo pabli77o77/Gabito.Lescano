@@ -39,7 +39,7 @@
                                 @Html.DisplayFor(modelItem => p.FechaNacimiento)
                             </td>
                             <td>
-                                <a asp-controller="Persona" asp-action="Details" asp-route-id="@Html.HiddenFor(modelItem => p.Id)" class="btn btn-info btn-sm">
+                                <a href="@Url.Action("Details", "Persona", new { documento = p.Documento})" class="btn btn-info btn-sm" role="button">
                                     <i class="fa fa-plus"></i> Editar
                                 </a>
                             </td>
