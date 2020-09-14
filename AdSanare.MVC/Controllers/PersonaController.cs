@@ -49,9 +49,9 @@ namespace AdSanare.MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Details(string documento) 
+        public ActionResult Details(int id) 
         {
-            Persona persona = _logic.GetByDocument(documento);
+            Persona persona = _logic.GetById(id);
 
             if (persona == null)
             {
@@ -60,6 +60,37 @@ namespace AdSanare.MVC.Controllers
             }
 
             return View(nameof(Details), persona);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Persona persona)
+        {
+            try
+            {
+                _logic.Remove(persona);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", ex);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Persona persona) 
+        {
+            try
+            {
+                _logic.Update(persona);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+
+                return RedirectToAction("Error", ex);
+            }
         }
     }
 }

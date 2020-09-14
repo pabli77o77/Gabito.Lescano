@@ -46,7 +46,6 @@ namespace AdSanare.MVC
             }
             else
             {
-                //app.UseExceptionHandler("/Home/Error");
                 app.UseStatusCodePagesWithRedirects("/Error/{0}");
             }
             app.UseStaticFiles();

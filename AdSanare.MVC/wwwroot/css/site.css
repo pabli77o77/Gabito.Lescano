@@ -89,7 +89,9 @@ body {
 }
 
 .navbar {
-    padding: 10px 10%;
+    /*padding: 10px 10%;*/
+    border-bottom-style: solid;
+    border-bottom-color: #8cb3d9;
 }
 
 #logo {
@@ -140,6 +142,7 @@ i {
     background: #7599bd;
     color: #fff;
     transition: all 0.3s;
+    border-right-style:solid;
 }
 
     #sidebar.active {
@@ -230,9 +233,14 @@ a[data-toggle="collapse"] {
 }
 
 .footer {
+    color: darkgray;
+    background-color: #6699cc;
+    border-top-style: solid;
+    border-top-color: #8cb3d9;
+}
+
+.text-footer {
     padding-left:20px;
-    color:darkgray;
-    background-color:#7599bd;
 }
 
 .textoPrincipal {

@@ -10,7 +10,6 @@ namespace AdSanare.Logic.Interfaces
         void Add(Persona entidad);
         IEnumerable<Persona> GetAll();
         Persona GetById(int Id);
-        Persona GetByDocument(string doc);
         void Remove(Persona entidad);
         void Update(Persona entidad);
     }
