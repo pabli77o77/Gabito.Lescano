@@ -1,8 +1,10 @@
 ﻿using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using AdSanare.UOW.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace AdSanare.Logic
 {
@@ -19,20 +21,29 @@ namespace AdSanare.Logic
             _unitOfWork.Complete();
         }
 
-        public IEnumerable<Persona> GetAll()
+        public IEnumerable<Persona> Get()
         {
-            return _unitOfWork.Personas.GetAll();
+            return _unitOfWork.Personas.Get();
         }
 
-        public Persona GetById(int Id)
+        public Persona Get(int Id)
         {
-            return _unitOfWork.Personas.GetById(Id);
+            return _unitOfWork.Personas.Get(Id);
         }
 
-        public void Remove(Persona entidad)
+        public IEnumerable<Persona> Get(List<Expression<Func<Persona, bool>>> where = null, Func<IQueryable<Persona>, IOrderedQueryable<Persona>> orden = null, string include = "")
         {
-            _unitOfWork.Personas.Remove(entidad);
-            _unitOfWork.Complete();
+            return _unitOfWork.Personas.Get(where, orden, include);            
+        }
+
+        public void Remove(int Id)
+        {
+            Persona persona= _unitOfWork.Personas.Get(Id);
+            if (persona != null)
+            {
+                _unitOfWork.Personas.Remove(persona);
+                _unitOfWork.Complete();
+            }
         }
 
         public void Update(Persona entidad)
