@@ -62,12 +62,12 @@ namespace AdSanare.MVC.Controllers
             return View(nameof(Details), persona);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(Persona persona)
+        [HttpGet]
+        public ActionResult Delete(int id)
         {
             try
             {
+                var persona = _logic.GetById(id);
                 _logic.Remove(persona);
                 return RedirectToAction(nameof(Index));
             }

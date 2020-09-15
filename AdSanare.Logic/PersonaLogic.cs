@@ -24,14 +24,6 @@ namespace AdSanare.Logic
             return _unitOfWork.Personas.GetAll();
         }
 
-        //public Persona GetByDocument(string doc)
-        //{
-        //    var persona = _unitOfWork.Personas.GetAll()
-        //        .Where(p => p.Documento == doc)
-        //        .FirstOrDefault();
-        //    return persona;
-        //}
-
         public Persona GetById(int Id)
         {
             return _unitOfWork.Personas.GetById(Id);
