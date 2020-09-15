@@ -19,7 +19,7 @@ namespace AdSanare.MVC.Controllers
         {
             try
             {
-                return View(_logic.GetAll());
+                return View(_logic.Get());
             }
             catch (Exception ex)
             {
@@ -35,23 +35,27 @@ namespace AdSanare.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Persona persona)
-        {
+        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,ObraSocial,ObraSocialNumero,Diagnostico,FechaNacimiento")]Persona persona)
+        {            
             try
             {
-                _logic.Add(persona);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _logic.Add(persona);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Error", ex);
             }
+            return View(persona);
         }
 
         [HttpGet]
-        public ActionResult Details(int id) 
+        public ActionResult Edit(int id) 
         {
-            Persona persona = _logic.GetById(id);
+            Persona persona = _logic.Get(id);
 
             if (persona == null)
             {
@@ -59,36 +63,38 @@ namespace AdSanare.MVC.Controllers
                 return View("NotFound");
             }
 
-            return View(nameof(Details), persona);
+            return View(persona);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Persona persona)
+        public ActionResult Edit([Bind(include: "Id,Nombre,Apellido,Documento,ObraSocial,ObraSocialNumero,Diagnostico,FechaNacimiento")] Persona persona)
         {
             try
             {
-                _logic.Remove(persona);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _logic.Update(persona);
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (Exception ex)
             {
+
                 return RedirectToAction("Error", ex);
             }
+            return View(persona);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Persona persona) 
+        [HttpGet]
+        public ActionResult Delete(int Id)
         {
             try
             {
-                _logic.Update(persona);
+                _logic.Remove(Id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-
                 return RedirectToAction("Error", ex);
             }
         }
