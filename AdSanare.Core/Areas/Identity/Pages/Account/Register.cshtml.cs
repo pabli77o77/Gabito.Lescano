@@ -48,8 +48,33 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Nombre")]
+            public string Name { get; set; }
+
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Apellido")]
+            public string LastName { get; set; }
+
+            [Required]
+            [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Usuario")]
+            public string UserName { get; set; }
+
+            [Required]
+            [EmailAddress]
+            [Display(Name = "N° Legajo")]
+            public string EmployeeFileNumber { get; set; }
+
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Teléfono")]
+            public string PhoneNumber { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "El {0} debe tener por lo menos {2} y un máximo de {1} caracteres.", MinimumLength = 6)]
@@ -75,7 +100,13 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new Usuario { UserName = Input.Email, Email = Input.Email };
+                var user = new Usuario {
+                                            Name = Input.Name, LastName = Input.LastName, 
+                                            Email = Input.Email, PhoneNumber = Input.PhoneNumber, 
+                                            EmployeeFileNumber = Convert.ToInt32(Input.EmployeeFileNumber), 
+                                            UserName = Input.UserName  
+                                        };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

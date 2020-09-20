@@ -20,7 +20,11 @@ namespace AdSanare.Core.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AdSanareCoreDbContextConnection")));
 
-                services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<Usuario>(options => 
+                { 
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireUppercase = false;
+                })
                     .AddEntityFrameworkStores<AdSanareCoreDbContext>();
             });
         }
