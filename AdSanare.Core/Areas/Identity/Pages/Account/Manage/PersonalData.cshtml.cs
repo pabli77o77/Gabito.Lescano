@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using AdSanare.Core.Areas.Identity.Data;
+using AdSanare.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
