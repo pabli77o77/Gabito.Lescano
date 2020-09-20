@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AdSanare.Core.Migrations
+namespace AdSanare.Context.MigrationsIdentity
 {
-    public partial class Initial_Create : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

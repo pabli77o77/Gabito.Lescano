@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using AdSanare.Core.Areas.Identity.Data;
+using AdSanare.Entities;
 
 namespace AdSanare.Core.Areas.Identity.Pages.Account.Manage
 {

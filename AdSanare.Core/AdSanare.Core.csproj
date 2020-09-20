@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200920025315_Initial_Create.cs" />
-    <Compile Remove="Migrations\20200920025315_Initial_Create.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.5.2" />
     <PackageReference Include="bootstrap.sass" Version="4.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
@@ -22,6 +17,17 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdSanare.Context\AdSanare.Context.csproj" />
+    <ProjectReference Include="..\AdSanare.Entities\AdSanare.Entities.csproj" />
+    <ProjectReference Include="..\AdSanare.Logic.Interfaces\AdSanare.Logic.Interfaces.csproj" />
+    <ProjectReference Include="..\AdSanare.Logic\AdSanare.Logic.csproj" />
+    <ProjectReference Include="..\AdSanare.Repository.Interfaces\AdSanare.Repository.Interfaces.csproj" />
+    <ProjectReference Include="..\AdSanare.Repository\AdSanare.Repository.csproj" />
+    <ProjectReference Include="..\AdSanare.UnitOfWork.Interfaces\AdSanare.UOW.Interfaces.csproj" />
+    <ProjectReference Include="..\AdSanare.UnitOfWork\AdSanare.UOW.csproj" />
   </ItemGroup>
 
 </Project>

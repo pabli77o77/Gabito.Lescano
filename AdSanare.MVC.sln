@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.MVC", "AdSanare.MVC\AdSanare.MVC.csproj", "{FE0F70C9-4DB4-4416-AEEB-3D0BC2DC5A67}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Logic", "AdSanare.Logic\AdSanare.Logic.csproj", "{004E35D3-3E70-4AA5-8E9D-543640CD4ABF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Logic.Interfaces", "AdSanare.Logic.Interfaces\AdSanare.Logic.Interfaces.csproj", "{9FA27304-0DA1-4DAB-9322-BF5D58AF6D3D}"
@@ -25,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{743A2539
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Logic.Tests", "AdSanare.Logic.Tests\AdSanare.Logic.Tests.csproj", "{F82DDC77-23D9-4B33-9448-F49F0C0DACA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdSanare.Core", "AdSanare.Core\AdSanare.Core.csproj", "{646C363C-9553-4626-BF1D-30ADFBE3674C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Core", "AdSanare.Core\AdSanare.Core.csproj", "{646C363C-9553-4626-BF1D-30ADFBE3674C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FE0F70C9-4DB4-4416-AEEB-3D0BC2DC5A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE0F70C9-4DB4-4416-AEEB-3D0BC2DC5A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE0F70C9-4DB4-4416-AEEB-3D0BC2DC5A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE0F70C9-4DB4-4416-AEEB-3D0BC2DC5A67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{004E35D3-3E70-4AA5-8E9D-543640CD4ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{004E35D3-3E70-4AA5-8E9D-543640CD4ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{004E35D3-3E70-4AA5-8E9D-543640CD4ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU

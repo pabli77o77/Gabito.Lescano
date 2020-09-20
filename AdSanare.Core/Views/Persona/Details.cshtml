@@ -1,0 +1,54 @@
+﻿@model AdSanare.Entities.Persona
+
+<div class="card">
+    <div class="card-body">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Editar Paciente</h3>
+                </div>
+                <div class="box-body">
+                    <form asp-antiforgery="true" asp-action="Edit" method="post">
+                        <div class="row" hidden="hidden">
+                            <input type="text" asp-for="Id"/>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div class="row">
+                                    <label asp-for="Nombre">Nombre</label>
+                                    <input type="text" class="form-control" asp-for="Nombre" />
+                                    <span class="text-danger" asp-validation-for="Nombre"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="row">
+                                    <label asp-for="Apellido"></label>
+                                    <input type="text" class="form-control" asp-for="Apellido" />
+                                    <span class="text-danger" asp-validation-for="Apellido"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div class="row">
+                                    <label asp-for="Documento"></label>
+                                    <input type="text" class="form-control" asp-for="Documento" />
+                                    <span class="text-danger" asp-validation-for="Documento"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="row">
+                                    <label asp-for="FechaNacimiento"></label>
+                                    <input class="form-control" asp-for="FechaNacimiento">
+                                    <span class="text-danger" asp-validation-for="FechaNacimiento"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

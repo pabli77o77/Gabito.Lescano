@@ -1,9 +1,6 @@
-﻿using System;
-using AdSanare.Core.Areas.Identity.Data;
-using AdSanare.Core.Data;
+﻿using AdSanare.Entities;
+using AdSanare.Context;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,16 +13,16 @@ namespace AdSanare.Core.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<AdSanareCoreDbContext>(options =>
+                services.AddDbContext<AdSanareUsuariosDbContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("AdSanareCoreDbContextConnection")));
+                        context.Configuration.GetConnectionString("AdSanareUsuarios")));
 
                 services.AddDefaultIdentity<Usuario>(options => 
                 { 
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireUppercase = false;
                 })
-                    .AddEntityFrameworkStores<AdSanareCoreDbContext>();
+                    .AddEntityFrameworkStores<AdSanareUsuariosDbContext>();
             });
         }
     }
