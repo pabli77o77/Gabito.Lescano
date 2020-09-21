@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Core", "AdSanare.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdSanare.Validation", "AdSanare.Validation\AdSanare.Validation.csproj", "{7E8A4334-6573-4A10-A485-4B5D903C4034}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdSanare.Validator.Tests", "AdSanare.Validator.Tests\AdSanare.Validator.Tests.csproj", "{310D478D-C8D0-412D-ABD8-C258A39D8217}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,12 +79,17 @@ Global
 		{7E8A4334-6573-4A10-A485-4B5D903C4034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E8A4334-6573-4A10-A485-4B5D903C4034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E8A4334-6573-4A10-A485-4B5D903C4034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{310D478D-C8D0-412D-ABD8-C258A39D8217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310D478D-C8D0-412D-ABD8-C258A39D8217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310D478D-C8D0-412D-ABD8-C258A39D8217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310D478D-C8D0-412D-ABD8-C258A39D8217}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F82DDC77-23D9-4B33-9448-F49F0C0DACA9} = {743A2539-EA0B-484C-A903-163DD026B356}
+		{310D478D-C8D0-412D-ABD8-C258A39D8217} = {743A2539-EA0B-484C-A903-163DD026B356}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88C10BE9-9E3E-4507-A79C-BFAC4EFD11DC}
