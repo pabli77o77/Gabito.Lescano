@@ -1,14 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AdSanare.Context;
+using AdSanare.Entities;
 using AdSanare.Logic;
 using AdSanare.Logic.Interfaces;
 using AdSanare.Repository;
 using AdSanare.Repository.Interfaces;
 using AdSanare.UOW;
 using AdSanare.UOW.Interfaces;
+using AdSanare.Validation;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +33,13 @@ namespace AdSanare.Core
             services.AddDbContext<AdSanareDbContext>(
                             options => options.UseSqlServer(Configuration.GetConnectionString("AdSanare"))
                             );
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddMvc().AddFluentValidation(v =>{
+                v.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+            }) ;
+
             #region Repositorios
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPersonaRepository, PersonaRepository>();
@@ -43,8 +50,9 @@ namespace AdSanare.Core
             #region Logica de Negocio
             services.AddTransient<IPersonaLogic, PersonaLogic>();
             #endregion
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+            #region Validador
+            services.AddTransient<IValidator<Persona>, PersonaValidator>();
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
