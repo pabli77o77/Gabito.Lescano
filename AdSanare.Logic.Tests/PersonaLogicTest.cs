@@ -39,7 +39,9 @@ namespace AdSanare.Logic.Tests
                 FechaNacimiento = DateTime.Parse("1990-01-10")
             };
 
-            _autoMoquer.GetMock<IPersonaRepository>().Setup(p => p.Get(personaId)).Returns(persona);
+            Persona persona1 = (Persona)persona.Clone();
+
+            _autoMoquer.GetMock<IPersonaRepository>().Setup(p => p.Get(personaId)).Returns(persona1);
 
             var result = _personaLogic.Get(personaId);
 

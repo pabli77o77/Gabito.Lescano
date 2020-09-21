@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdSanare.Entities
 {
-    public class Persona
+    public class Persona:ICloneable
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
@@ -19,5 +19,10 @@ namespace AdSanare.Entities
         public string Diagnostico { get; set; }
         [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }
