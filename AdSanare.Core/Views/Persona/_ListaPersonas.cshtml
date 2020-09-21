@@ -1,0 +1,55 @@
+﻿@model List<AdSanare.Entities.Persona>
+
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="Persona" asp-action="Create"><i class="fa fa-plus"></i>Nuevo</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Fecha de Nacimiento</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td hidden="hidden">
+                            @Html.DisplayFor(modelItem => p.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.Apellido)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.Documento)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.FechaNacimiento)
+                        </td>
+                        <td align="center">
+                            <a href="@Url.Action("Edit", "Persona", new { id = p.Id})" class="btn btn-primary btn-sm" role="button">
+                                <i class="fa fa-pencil-square-o"></i> Editar
+                            </a>
+                            &nbsp;
+                            <a href="@Url.Action("Delete", "Persona", new { id = p.Id })" class="btn btn-danger btn-sm" role="button">
+                                <i class="fa fa-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
