@@ -1,62 +1,63 @@
-﻿@model List<AdSanare.Entities.Persona>
-
-<div class="card">
-    <div class="card-body">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Listado de Pacientes</h3>
-                    <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
-                        <a asp-controller="Persona" asp-action="Create" class="btn btn-info btn-sm">
-                            <i class="fa fa-plus"></i> Nuevo
-                        </a>
+﻿@model AdSanare.Entities.Persona
+@section Scripts {
+    <script type="text/javascript">
+        $("#btnBuscarDocumentacion").on("click", function () {
+            $("#listadoCorrespondiente").html("<div class='col-md-12'><div class='form-group'><br/><label class='control-label'>Buscando...</label></div></div>");
+            $("#collapseOne").collapse('toggle')
+            $.ajax({
+                url: "/Persona/_ListaPersonas",
+                data: {
+                    Nombre: $("#Nombre").val(),
+                    Apellido: $("#Apellido").val(),
+                    Documento: $("#Documento").val()
+                },
+                type: "GET",
+                success: function (data) {
+                    $("#listadoCorrespondiente").html(data);
+                }
+            });
+        });
+    </script>
+}
+<div class="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Buscador
+                </button>
+            </h2>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Nombre" class="control-label"></label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Ingrese el Nombre del Paciente" />
+                        </div>
                     </div>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellido</th>
-                                <th scope="col">DNI</th>
-                                <th scope="col">Fecha de Nacimiento</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var p in Model)
-                            {
-                            <tr>
-                                <td hidden="hidden">
-                                    @Html.DisplayFor(modelItem => p.Id)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => p.Nombre)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => p.Apellido)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => p.Documento)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => p.FechaNacimiento)
-                                </td>
-                                <td align="center">
-                                    <a href="@Url.Action("Edit", "Persona", new { id = p.Id})" class="btn btn-primary btn-sm" role="button">
-                                        <i class="fa fa-pencil-square-o"></i> Editar
-                                    </a>
-                                    &nbsp;
-                                    <a href="@Url.Action("Delete", "Persona", new { id = p.Id })" class="btn btn-danger btn-sm" role="button">
-                                        <i class="fa fa-trash"></i> Eliminar
-                                    </a>
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
-                    </table>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Apellido" class="control-label"></label>
+                            <input asp-for="Apellido" class="form-control" placeholder="Ingrese el Apellido del Paciente" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Documento" class="control-label"></label>
+                            <input asp-for="Documento" class="form-control" placeholder="Ingrese el Numero de Documento del Paciente" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label></label>
+                            <a class="btn btn-primary form-control" id="btnBuscarDocumentacion">Buscar</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div id="listadoCorrespondiente"></div>
