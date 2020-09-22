@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 
 [assembly: HostingStartup(typeof(AdSanare.Core.Areas.Identity.IdentityHostingStartup))]
 namespace AdSanare.Core.Areas.Identity
@@ -22,6 +23,7 @@ namespace AdSanare.Core.Areas.Identity
                     options.SignIn.RequireConfirmedAccount = false;
                     options.Password.RequireUppercase = false;
                 })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AdSanareUsuariosDbContext>();
             });
         }

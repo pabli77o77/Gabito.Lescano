@@ -25,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Logic.Tests", "AdS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Core", "AdSanare.Core\AdSanare.Core.csproj", "{646C363C-9553-4626-BF1D-30ADFBE3674C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdSanare.Validation", "AdSanare.Validation\AdSanare.Validation.csproj", "{7E8A4334-6573-4A10-A485-4B5D903C4034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Validation", "AdSanare.Validation\AdSanare.Validation.csproj", "{7E8A4334-6573-4A10-A485-4B5D903C4034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdSanare.Validator.Tests", "AdSanare.Validator.Tests\AdSanare.Validator.Tests.csproj", "{310D478D-C8D0-412D-ABD8-C258A39D8217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdSanare.Validator.Tests", "AdSanare.Validator.Tests\AdSanare.Validator.Tests.csproj", "{310D478D-C8D0-412D-ABD8-C258A39D8217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
