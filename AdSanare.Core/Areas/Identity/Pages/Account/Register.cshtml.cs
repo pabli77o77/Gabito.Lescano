@@ -47,12 +47,10 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
             [Display(Name = "Nombre")]
             public string Name { get; set; }
 
             [Required]
-            [EmailAddress]
             [Display(Name = "Apellido")]
             public string LastName { get; set; }
 
@@ -62,34 +60,35 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [EmailAddress]
             [Display(Name = "Usuario")]
             public string UserName { get; set; }
 
             [Required]
-            [EmailAddress]
             [Display(Name = "N° Legajo")]
             public string EmployeeFileNumber { get; set; }
 
-            [Required]
-            [EmailAddress]
             [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "El {0} debe tener por lo menos {2} y un máximo de {1} caracteres.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirmar password")]
-            [Compare("Password", ErrorMessage = "EL password y la confirmación del mismo no coinciden.")]
+            [Compare("Password", ErrorMessage = "Los Passwords no coinciden.")]
             public string ConfirmPassword { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/");
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -121,7 +120,7 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirme su email",
-                        $"Por favor confirme su cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Por favor confirme su cuenta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickee aquí</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

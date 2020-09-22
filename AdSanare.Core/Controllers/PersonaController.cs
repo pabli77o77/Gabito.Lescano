@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdSanare.Core.Controllers
 {
+    [Authorize]
     public class PersonaController : Controller
     {
         private IPersonaLogic _logic;
