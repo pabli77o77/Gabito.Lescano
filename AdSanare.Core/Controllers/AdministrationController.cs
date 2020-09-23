@@ -1,4 +1,5 @@
 ﻿using AdSanare.Core.Models;
+using AdSanare.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,9 +12,13 @@ namespace AdSanare.Core.Controllers
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AdministrationController(RoleManager<IdentityRole> roleManager)
+        private readonly UserManager<Usuario> _userManager;
+
+        public AdministrationController(RoleManager<IdentityRole> roleManager,
+                                        UserManager<Usuario> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -43,7 +48,7 @@ namespace AdSanare.Core.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ListRoles", "Administration");
                 }
 
                 foreach (IdentityError error in result.Errors)
@@ -55,5 +60,68 @@ namespace AdSanare.Core.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult ListRoles()
+        {
+            var roles = _roleManager.Roles;
+            return View(roles);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = "No se encontró un role con el id indicado.";
+                return View("Error");
+            }
+
+            var model = new EditRoleViewModel
+            {
+                Id = role.Id,
+                RoleName = role.Name
+            };
+
+            foreach (var user in _userManager.Users)
+            {
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    model.Users.Add(user.Name);
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model) 
+        {
+            var role = await _roleManager.FindByIdAsync(model.Id);
+            
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = "No se encontró un role con el id indicado.";
+                return View("Error");
+            }
+            else
+            {
+                role.Name = model.RoleName;
+                var result = await _roleManager.UpdateAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+        }
     }
 }
