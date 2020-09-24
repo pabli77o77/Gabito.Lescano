@@ -1,0 +1,73 @@
+﻿@model List<AdSanare.Entities.Usuario>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#listaUsuarios').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 6
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+    </script>
+}
+<h1>Listado de Usuarios</h1>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Usuarios</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Usuarios" asp-action="Create" title="Agregar Usuario"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listaUsuarios">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Nombre de Usuario</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">N° Telefono</th>
+                    <th scope="col">N° Legajo</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.EmployeeFileNumber)
+                        </td>
+                        <td align="center">
+                            <a href="@Url.Action("Edit", "Usuarios", new { id = p.Id})" title="Editar Usuario" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+}
+            </tbody>
+        </table>
+    </div>
+</div>
