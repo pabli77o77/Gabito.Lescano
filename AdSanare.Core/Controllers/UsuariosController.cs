@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdSanare.Context;
 using AdSanare.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using static AdSanare.Core.Areas.Identity.Pages.Account.RegisterModel;
 
 namespace AdSanare.Core.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly UserManager<Usuario> _userManager;
@@ -50,8 +52,10 @@ namespace AdSanare.Core.Controllers
                         LastName=user.LastName,
                         EmployeeFileNumber=Convert.ToInt32(user.EmployeeFileNumber),
                         PhoneNumber = user.PhoneNumber,
-                        PasswordHash = user.Password
-
+                        PasswordHash = _userManager.PasswordHasher.HashPassword(Usuario, user.Password),
+                        EmailConfirmed=true,
+                        PhoneNumberConfirmed=true,
+                        LockoutEnabled = false
                     };
                     await _userManager.CreateAsync(Usuario, user.Password);
                     return RedirectToAction(nameof(Index));
@@ -87,6 +91,9 @@ namespace AdSanare.Core.Controllers
                     Usuario.EmployeeFileNumber = Convert.ToInt32(user.EmployeeFileNumber);
                     Usuario.PhoneNumber = user.PhoneNumber;
                     Usuario.PasswordHash = _userManager.PasswordHasher.HashPassword(Usuario, user.PasswordHash);
+                    Usuario.EmailConfirmed = true;
+                    Usuario.PhoneNumberConfirmed = true;
+                    Usuario.LockoutEnabled = false;
                     _context.Users.Update(Usuario);
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));

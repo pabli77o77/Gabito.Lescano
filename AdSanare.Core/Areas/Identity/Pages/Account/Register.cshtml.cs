@@ -100,12 +100,17 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new Usuario {
-                                            Name = Input.Name, LastName = Input.LastName, 
-                                            Email = Input.Email, PhoneNumber = Input.PhoneNumber, 
-                                            EmployeeFileNumber = Convert.ToInt32(Input.EmployeeFileNumber), 
-                                            UserName = Input.UserName  
-                                        };
-
+                     Name = Input.Name,
+                    LastName = Input.LastName, 
+                    Email = Input.Email, 
+                    PhoneNumber = Input.PhoneNumber, 
+                    EmployeeFileNumber = Convert.ToInt32(Input.EmployeeFileNumber), 
+                    UserName = Input.UserName,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    LockoutEnabled=false                    
+                };
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, Input.Password);
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
