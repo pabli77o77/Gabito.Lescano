@@ -127,5 +127,18 @@ namespace AdSanare.Core.Controllers
                 return RedirectToAction("Error", ex);
             }
         }
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            Persona persona = _logic.Get(id);
+
+            if (persona == null)
+            {
+                Response.StatusCode = 404;
+                return View("NotFound");
+            }
+
+            return PartialView(persona);
+        }
     }
 }

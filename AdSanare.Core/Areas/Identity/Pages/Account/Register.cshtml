@@ -1,76 +1,92 @@
 ﻿@page
 @model RegisterModel
 @{
-    Layout = "~/Areas/Identity/Pages/_LayoutAdSanare.cshtml";
+    Layout = null;
+    ViewData["Title"] = "Register";
 }
-
-<div class="row justify-content-md-center">
-    <div class="card col-md-10">
-        <div class="card-body">
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h4>Registrar nuevo usuario</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group row col-md-12">
-                    <div class="col-md-6">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition register-page">
+    <div class="register-box">
+        <div class="register-logo">
+            <b>AdSanare</b>
+        </div>
+        <div class="card">
+            <div class="card-body register-card-body">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <h4>Registrar nuevo usuario</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.LastName"></label>
                         <input asp-for="Input.LastName" class="form-control" />
                         <span asp-validation-for="Input.LastName" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.Name"></label>
                         <input asp-for="Input.Name" class="form-control" />
                         <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group row col-md-12">
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.Email"></label>
                         <input asp-for="Input.Email" class="form-control" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.PhoneNumber"></label>
                         <input asp-for="Input.PhoneNumber" class="form-control" />
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group row col-md-12">
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.UserName"></label>
                         <input asp-for="Input.UserName" class="form-control" />
                         <span asp-validation-for="Input.UserName" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.EmployeeFileNumber"></label>
                         <input asp-for="Input.EmployeeFileNumber" class="form-control" />
                         <span asp-validation-for="Input.EmployeeFileNumber" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group row col-md-12">
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.Password"></label>
                         <input asp-for="Input.Password" class="form-control" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group row col-md-12">
                         <label asp-for="Input.ConfirmPassword"></label>
                         <input asp-for="Input.ConfirmPassword" class="form-control" />
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group row col-md-12">
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary">Registrar</button><br />
-                        <p>
-                            <a id="forgot-password" asp-page="./Login">Volver al LogIn</a>
-                        </p>
+                    <div class="form-group row col-md-12">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Registrar</button><br />
+                            <p>
+                                <a id="forgot-password" asp-page="./Login">Volver al LogIn</a>
+                            </p>
+                        </div>
+                        <div class="col-md-3"></div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/adminlte.min.js"></script>
+</body>
+</html>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

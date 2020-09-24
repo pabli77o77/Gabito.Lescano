@@ -1,14 +1,16 @@
 ﻿@model List<AdSanare.Entities.Persona>
-
 <div class="card">
     <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-                <a class="nav-link active" asp-controller="Persona" asp-action="Create"><i class="fa fa-plus"></i>Nuevo</a>
-            </li>
-        </ul>
+        <h3 class="card-title">Lista de Pacientes</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Persona" asp-action="Create" title="Agregar Paciente"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
+    <div class="card-body table-responsive">
         <table class="table table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
@@ -22,34 +24,46 @@
             <tbody>
                 @foreach (var p in Model)
                 {
-                    <tr>
-                        <td hidden="hidden">
-                            @Html.DisplayFor(modelItem => p.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => p.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => p.Apellido)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => p.Documento)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => p.FechaNacimiento)
-                        </td>
-                        <td align="center">
-                            <a href="@Url.Action("Edit", "Persona", new { id = p.Id})" class="btn btn-primary btn-sm" role="button">
-                                <i class="fa fa-pencil-square-o"></i> Editar
-                            </a>
-                            &nbsp;
-                            <a href="@Url.Action("Delete", "Persona", new { id = p.Id })" class="btn btn-danger btn-sm" role="button">
-                                <i class="fa fa-trash"></i> Eliminar
-                            </a>
-                        </td>
-                    </tr>
-                }
+    <tr>
+        <td hidden="hidden">
+            @Html.DisplayFor(modelItem => p.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => p.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => p.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => p.Documento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => p.FechaNacimiento)
+        </td>
+        <td align="center">
+            <a href="#" onclick="VerPaciente(@p.Id)" data-toggle="modal" data-target="#detalle" title="Ver Paciente" class="btn btn-info btn-xs"><i class="fa fa-search"></i></a>
+            <a href="@Url.Action("Edit", "Persona", new { id = p.Id})" title="Editar Paciente" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+            <a href="@Url.Action("Delete", "Persona", new { id = p.Id })" title="Borrar Paciente" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+        </td>
+    </tr>
+}
             </tbody>
         </table>
     </div>
 </div>
+<div class="modal fade" id="detalle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" id="detalleBody">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function VerPaciente(Id) {
+        var url = "/Persona/Details?id=" + Id;
+        $("#detalleBody").load(url, function () {
+            $("#detalle").modal("show");
+        })
+    }
+</script>
