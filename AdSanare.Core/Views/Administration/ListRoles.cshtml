@@ -8,25 +8,46 @@
 
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
-       asp-controller="administration">Nuevo Rol</a>
-
-    foreach (var role in Model)
-    {
-        <div class="card mb-3">
-            <div class="card-header">
-                Rol Id: @role.Id
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">@role.Name</h5>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" asp-action="EditRole" 
-                    asp-controller="administration" asp-route-id="@role.Id">Editar</a>
-                <a href="#" class="btn btn-danger">Borrar</a>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Lista de Roles</h3>
+            <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <div class="input-group input-group-sm pull-right">
+                        <a class="btn btn-primary btn-sm" asp-controller="Administration" asp-action="CreateRole" title="Crear Rol"><i class="fas fa-plus">Nuevo Rol</i></a>
+                    </div>
+                </div>
             </div>
         </div>
-    }
+        <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rol in Model)
+                    {
+                        <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => rol.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => rol.Name)
+                        </td>
+                        <td align="center">
+                            <a href="@Url.Action("EditRole", "administration", new { id = rol.Id})" title="Editar Rol" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Action("DeleteRole", "administration", new { id = rol.Id })" title="Borrar Rol" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }
 else
 {

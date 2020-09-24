@@ -1,56 +1,68 @@
 ﻿@page
 @model LoginModel
 @{
-    Layout = "~/Areas/Identity/Pages/_LayoutAdSanare.cshtml";
-    ViewData["Title"] = "Log in";
+    Layout = null;
+    ViewData["Title"] = "Ingresar";
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"] - AdSanare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/css/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Ingresar a AdSanare</p>
 
-<div class="row justify-content-md-center">
-    <div class="card col-md-10">
-        <div class="card-body">
-            <div class="col-md-12">
-                <div class="login-form-icon text-center">
-                    <i class="fa fa-user-circle fa-9x text-secondary"></i>
-                </div>
                 <form id="account" method="post">
-                    <h4>Login</h4>
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="Input.RememberMe">
-                                <input asp-for="Input.RememberMe" />
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                            </label>
+                    <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="Input.Email" class="form-control" placeholder="Ingrese su email" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Log in</button>
+                    <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                    <div class="input-group mb-3">
+                        <input asp-for="Input.Password" class="form-control" placeholder="Ingrese su Contraseña" />
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">¿Olvidó su password?</a>
-                        </p>
-                        <p>
-                            <a id="forgot-password" asp-page="./Register">Registrar nuevo usuario.</a>
-                        </p>
+                    <div class="row">
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary">Ingresar<i class="fas fa-sign-in-alt"></i></button>
+                        </div>
+                        <div class="col-4">
+                        </div>
                     </div>
+                    <div asp-validation-summary="All" class="text-danger small"></div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/adminlte.min.js"></script>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>
