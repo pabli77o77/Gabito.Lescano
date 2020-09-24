@@ -1,37 +1,45 @@
 ﻿@model IEnumerable<IdentityRole>
-
-@{
-
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#listadoRoles').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 2
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+    </script>
 }
-
 <h1>Administración de roles de usuario.</h1>
-
-@if (Model.Any())
-{
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Lista de Roles</h3>
-            <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                    <div class="input-group input-group-sm pull-right">
-                        <a class="btn btn-primary btn-sm" asp-controller="Administration" asp-action="CreateRole" title="Crear Rol"><i class="fas fa-plus">Nuevo Rol</i></a>
-                    </div>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Roles</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Administration" asp-action="CreateRole" title="Crear Rol"><i class="fas fa-plus">Nuevo Rol</i></a>
                 </div>
             </div>
         </div>
-        <div class="card-body table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listadoRoles">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rol in Model)
+                {
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var rol in Model)
-                    {
-                        <tr>
                         <td>
                             @Html.DisplayFor(modelItem => rol.Id)
                         </td>
@@ -42,20 +50,9 @@
                             <a href="@Url.Action("EditRole", "administration", new { id = rol.Id})" title="Editar Rol" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a href="@Url.Action("DeleteRole", "administration", new { id = rol.Id })" title="Borrar Rol" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
-                        </tr>
-                        }
-                </tbody>
-            </table>
-        </div>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-}
-else
-{
-    <div class="card">
-        <div class="card-header">Aún no hay roles creados.</div>
-        <div class="card-body">
-            <h5 class="card-title">Use el botón para crear roles</h5>
-            <a class="btn btn-primary" style="width:auto" asp-controller="administration" asp-action="CreateRole">Crear Rol</a>
-        </div>
-    </div>
-}
+</div>
