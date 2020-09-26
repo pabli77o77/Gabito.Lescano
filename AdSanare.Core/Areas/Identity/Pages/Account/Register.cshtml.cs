@@ -100,7 +100,7 @@ namespace AdSanare.Core.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new Usuario {
-                     Name = Input.Name,
+                    Name = Input.Name,
                     LastName = Input.LastName, 
                     Email = Input.Email, 
                     PhoneNumber = Input.PhoneNumber, 
