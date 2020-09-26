@@ -18,12 +18,12 @@ namespace AdSanare.Core.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AdSanareUsuarios")));
 
-                services.AddDefaultIdentity<Usuario>(options => 
-                { 
+                services.AddIdentity<Usuario, IdentityRole>(options =>
+                {
                     options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequiredLength = 6;
                     options.Password.RequireUppercase = false;
                 })
-                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AdSanareUsuariosDbContext>();
             });
         }
