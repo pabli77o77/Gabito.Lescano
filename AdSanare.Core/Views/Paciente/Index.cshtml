@@ -1,10 +1,10 @@
-﻿@model AdSanare.Entities.Persona
+﻿@model AdSanare.Entities.Paciente
 @section Scripts {
     <script type="text/javascript">
         $("#btnBuscarDocumentacion").on("click", function () {
             $("#listadoCorrespondiente").html("<div class='col-md-12'><div class='form-group'><br/><label class='control-label'>Buscando...</label></div></div>");
             $.ajax({
-                url: "/Persona/_ListaPersonas",
+                url: "/Paciente/_ListaPacientes",
                 data: {
                     Nombre: $("#Nombre").val(),
                     Apellido: $("#Apellido").val(),

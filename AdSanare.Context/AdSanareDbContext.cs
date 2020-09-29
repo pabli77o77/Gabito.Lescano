@@ -11,6 +11,6 @@ namespace AdSanare.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }
-        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Paciente> Pacientes { get; set; }
     }
 }

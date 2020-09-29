@@ -5,7 +5,7 @@ namespace AdSanare.UOW.Interfaces
 {
     public interface IUnitOfWork:IDisposable
     {
-        IPersonaRepository Personas { get; }
+        IPacienteRepository Pacientes { get; }
         int Complete();
     }
 }

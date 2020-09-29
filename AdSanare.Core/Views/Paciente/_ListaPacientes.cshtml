@@ -1,11 +1,11 @@
-﻿@model List<AdSanare.Entities.Persona>
+﻿@model List<AdSanare.Entities.Paciente>
 <div class="card">
     <div class="card-header">
         <h3 class="card-title">Lista de Pacientes</h3>
         <div class="card-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
                 <div class="input-group input-group-sm pull-right">
-                    <a class="btn btn-primary btn-sm" asp-controller="Persona" asp-action="Create" title="Agregar Paciente"><i class="fas fa-plus">Nuevo</i></a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Paciente" asp-action="Create" title="Agregar Paciente"><i class="fas fa-plus">Nuevo</i></a>
                 </div>
             </div>
         </div>
@@ -39,8 +39,8 @@
                         </td>
                         <td align="center">
                             <a href="#" onclick="VerPaciente(@p.Id)" data-toggle="modal" data-target="#detalle" title="Ver Paciente" class="btn btn-info btn-xs"><i class="fa fa-search"></i></a>
-                            <a href="@Url.Action("Edit", "Persona", new { id = p.Id})" title="Editar Paciente" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a href="@Url.Action("Delete", "Persona", new { id = p.Id })" title="Borrar Paciente" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            <a href="@Url.Action("Edit", "Paciente", new { id = p.Id})" title="Editar Paciente" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Action("Delete", "Paciente", new { id = p.Id })" title="Borrar Paciente" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 }
@@ -70,7 +70,7 @@
         });
     });
     function VerPaciente(Id) {
-        var url = "/Persona/Details?id=" + Id;
+        var url = "/Paciente/Details?id=" + Id;
         $("#detalleBody").load(url, function () {
             $("#detalle").modal("show");
         })

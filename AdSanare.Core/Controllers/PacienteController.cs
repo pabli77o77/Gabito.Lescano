@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdSanare.Core.Controllers
 {
     [Authorize]
-    public class PersonaController : Controller
+    public class PacienteController : Controller
     {
-        private IPersonaLogic _logic;
+        private IPacienteLogic _logic;
 
-        public PersonaController(IPersonaLogic logic)
+        public PacienteController(IPacienteLogic logic)
         {
             _logic = logic;
         }
@@ -30,11 +30,11 @@ namespace AdSanare.Core.Controllers
             }
             
         }
-        public IActionResult _ListaPersonas(Persona model)
+        public IActionResult _ListaPacientes(Paciente model)
         {
             try
             {
-                List<Expression<Func<Persona, bool>>> listaWhere = new List<Expression<Func<Persona, bool>>>();
+                List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
                 if (!string.IsNullOrWhiteSpace(model.Nombre))
                 {
                     listaWhere.Add(p => p.Nombre.Trim().ToUpper().Contains(model.Nombre.Trim().ToUpper()));
@@ -64,13 +64,13 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,ObraSocial,ObraSocialNumero,Diagnostico,FechaNacimiento")]Persona persona)
+        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente model)
         {            
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(persona);
+                    _logic.Add(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -78,31 +78,31 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            return View(persona);
+            return View(model);
         }
 
         [HttpGet]
         public ActionResult Edit(int id) 
         {
-            Persona persona = _logic.Get(id);
+            Paciente model = _logic.Get(id);
 
-            if (persona == null)
+            if (model == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return View(persona);
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(include: "Id,Nombre,Apellido,Documento,ObraSocial,ObraSocialNumero,Diagnostico,FechaNacimiento")] Persona persona)
+        public ActionResult Edit([Bind(include: "Id,Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(persona);
+                    _logic.Update(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -111,7 +111,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            return View(persona);
+            return View(model);
         }
 
         [HttpGet]
@@ -130,15 +130,15 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            Persona persona = _logic.Get(id);
+            Paciente model = _logic.Get(id);
 
-            if (persona == null)
+            if (model == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return PartialView(persona);
+            return PartialView(model);
         }
     }
 }

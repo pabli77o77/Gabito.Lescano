@@ -2,7 +2,7 @@
 
 namespace AdSanare.Repository.Interfaces
 {
-    public interface IPersonaRepository:IGenericRepository<Persona>
+    public interface IPacienteRepository:IGenericRepository<Paciente>
     {
     }
 }
