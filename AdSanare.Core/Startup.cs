@@ -42,16 +42,16 @@ namespace AdSanare.Core
 
             #region Repositorios
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddTransient<IPersonaRepository, PersonaRepository>();
+            services.AddTransient<IPacienteRepository, PacienteRepository>();
             #endregion
             #region Unidad de Trabajo
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             #endregion
             #region Logica de Negocio
-            services.AddTransient<IPersonaLogic, PersonaLogic>();
+            services.AddTransient<IPacienteLogic, PacienteLogic>();
             #endregion
             #region Validador
-            services.AddTransient<IValidator<Persona>, PersonaValidator>();
+            services.AddTransient<IValidator<Paciente>, PacienteValidator>();
             #endregion
         }
 

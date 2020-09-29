@@ -1,0 +1,51 @@
+﻿@model AdSanare.Entities.Paciente
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Detalle de Paciente</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label asp-for="Nombre"></label>
+            <input class="form-control" asp-for="Nombre">
+            <span class="text-danger" asp-validation-for="Nombre"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Apellido"></label>
+            <input class="form-control" asp-for="Apellido">
+            <span class="text-danger" asp-validation-for="Apellido"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Documento"></label>
+            <input class="form-control" asp-for="Documento">
+            <span class="text-danger" asp-validation-for="Documento"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FechaNacimiento"></label>
+            <input class="form-control" asp-for="FechaNacimiento">
+            <span class="text-danger" asp-validation-for="FechaNacimiento"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Sexo"></label>
+            <input class="form-control" asp-for="Sexo">
+            <span class="text-danger" asp-validation-for="Sexo"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EstadoCivil"></label>
+            <input class="form-control" asp-for="EstadoCivil">
+            <span class="text-danger" asp-validation-for="EstadoCivil"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Telefono"></label>
+            <input class="form-control" asp-for="Telefono">
+            <span class="text-danger" asp-validation-for="Telefono"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ObraSocialNumero"></label>
+            <input class="form-control" asp-for="ObraSocialNumero">
+            <span class="text-danger" asp-validation-for="ObraSocialNumero"></span>
+        </div>
+    </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+</div>

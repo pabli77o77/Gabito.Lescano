@@ -10,12 +10,12 @@ namespace AdSanare.UOW
     {
         private readonly AdSanareDbContext _context;
 
-        public IPersonaRepository Personas { get; private set; }
+        public IPacienteRepository Pacientes { get; private set; }
 
         public UnitOfWork(AdSanareDbContext context)
         {
             _context = context;
-            Personas = new PersonaRepository(_context);
+            Pacientes = new PacienteRepository(_context);
 
         }
 
