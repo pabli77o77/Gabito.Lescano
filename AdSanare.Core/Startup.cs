@@ -12,10 +12,12 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace AdSanare.Core
 {
@@ -36,7 +38,20 @@ namespace AdSanare.Core
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddMvc().AddFluentValidation(v =>{
+            services.AddMvc(
+                options =>
+                {
+                    options.CacheProfiles.Add("DefaultNoCacheProfile", new CacheProfile
+                    {
+                        NoStore = true,
+                        Location = ResponseCacheLocation.None
+                    });
+                    options.Filters.Add(new ResponseCacheAttribute
+                    {
+                        CacheProfileName = "DefaultNoCacheProfile"
+                    });
+                })
+                .AddFluentValidation(v =>{
                 v.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
             }) ;
 
