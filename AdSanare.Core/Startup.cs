@@ -67,6 +67,7 @@ namespace AdSanare.Core
             #endregion
             #region Validador
             services.AddTransient<IValidator<Paciente>, PacienteValidator>();
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
             #endregion
         }
 
