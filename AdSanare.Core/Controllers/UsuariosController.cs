@@ -8,19 +8,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using static AdSanare.Core.Areas.Identity.Pages.Account.RegisterModel;
 
 namespace AdSanare.Core.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UsuariosController : Controller
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly AdSanareUsuariosDbContext _context;
-        public UsuariosController(UserManager<Usuario> userManager,AdSanareUsuariosDbContext context)
+        private readonly ILogger<HomeController> _logger;
+
+        public UsuariosController(UserManager<Usuario> userManager,AdSanareUsuariosDbContext context, ILogger<HomeController> logger)
         {
             _userManager = userManager;
             _context = context;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -36,7 +40,6 @@ namespace AdSanare.Core.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(InputModel user)
         {
-
             try
             {
                 if (ModelState.IsValid)
@@ -47,7 +50,7 @@ namespace AdSanare.Core.Controllers
                         UserName = user.UserName,
                         Email = user.Email,
                         NormalizedEmail = user.Email.ToUpper(),
-                        NormalizedUserName = user.Email.ToUpper(),
+                        NormalizedUserName = user.UserName.ToUpper(),
                         Name=user.Name,
                         LastName=user.LastName,
                         EmployeeFileNumber=Convert.ToInt32(user.EmployeeFileNumber),
@@ -57,8 +60,20 @@ namespace AdSanare.Core.Controllers
                         PhoneNumberConfirmed=true,
                         LockoutEnabled = false
                     };
-                    await _userManager.CreateAsync(Usuario, user.Password);
-                    return RedirectToAction(nameof(Index));
+                    IdentityResult result = await _userManager.CreateAsync(Usuario, user.Password);
+                    if (result.Succeeded)
+                    {
+                        _logger.Log(LogLevel.Information, "Usuario creado", result);
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        // Si ingreso una contraseña sin las condiciones necesarias,
+                        // no muestra el error en los inputs.
+                        _logger.Log(LogLevel.Error, "No se pudo crear nuevo uusario", result);
+                        ModelState.AddModelError("", error.Description);
+                    }
                 }
             }
             catch (Exception ex)
@@ -70,8 +85,18 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public IActionResult Edit(string Id)
         {
-            var Usuario = _context.Users.Find(Id);
-            return View(Usuario);
+            try
+            {
+                var Usuario = _context.Users.Find(Id);
+                _logger.Log(LogLevel.Information, $"Usuario {Usuario.UserName} encontrado", Usuario);
+                return View(Usuario);
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, "Error al obtener el usuario", ex);
+                return View("Error", ex);
+            }
+            
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -81,7 +106,7 @@ namespace AdSanare.Core.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var Usuario = _context.Users.Find(user.Id);
+                    var Usuario = await _context.Users.FindAsync(user.Id);
                     Usuario.UserName = user.UserName;
                     Usuario.Email = user.Email;
                     Usuario.NormalizedEmail = user.Email.ToUpper();
@@ -96,11 +121,13 @@ namespace AdSanare.Core.Controllers
                     Usuario.LockoutEnabled = false;
                     _context.Users.Update(Usuario);
                     _context.SaveChanges();
+                    _logger.Log(LogLevel.Information, "Usuario editado correctamente", Usuario.Id);
                     return RedirectToAction(nameof(Index));
                 }
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, "Error al editar el usuario", ex);
                 return RedirectToAction("Error", ex);
             }
             return View(user);
