@@ -12,5 +12,6 @@ namespace AdSanare.Entities
         public virtual Servicio ServicioInternacion { get; set; }
         public virtual Cama CamaInternacion { get; set; }
         public virtual ExamenFisico ExamenFisico { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace AdSanare.Entities
         public DateTime FechaExamen { get; set; }
         public string TipoExamen { get; set; }
         public string Detalle { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
