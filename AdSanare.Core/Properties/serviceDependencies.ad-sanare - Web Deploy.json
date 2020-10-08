@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ad-sanare-db/databases/ad-sanare",
+      "type": "mssql.azure",
+      "connectionId": "AdSanareCoreDbContextConnection",
+      "secretStore": "AzureAppSettings"
+    },
+    "appInsights1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/ad-sanare",
+      "type": "appInsights.azure",
+      "connectionId": "APPINSIGHTS_INSTRUMENTATIONKEY",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ad-sanare-db/databases/ad-sanare",
+      "type": "mssql.azure",
+      "connectionId": "AdSanare",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql3": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ad-sanare-db/databases/ad-sanare",
+      "type": "mssql.azure",
+      "connectionId": "AdSanareUsuarios",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
