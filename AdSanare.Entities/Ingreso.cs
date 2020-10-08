@@ -19,5 +19,6 @@ namespace AdSanare.Entities
         public string MedicacionHabitual { get; set; }
         public decimal Peso { get; set; }
         public decimal Talla { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }
