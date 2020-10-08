@@ -70,14 +70,14 @@ namespace AdSanare.Validator.Tests
         {
             Paciente paciente = new Paciente { Sexo = null };
             var result = _validador.TestValidate(paciente);
-            result.ShouldHaveValidationErrorFor(p => p.ObraSocial);
+            result.ShouldHaveValidationErrorFor(p => p.Sexo);
         }
         [Test]
         public void Devuelve_error_sexo_cantidad_caracteres()
         {
             Paciente paciente = new Paciente { Sexo = "asdasdasdasdsdaasdasdasdasdasdasdasdsdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd" };
             var result = _validador.TestValidate(paciente);
-            result.ShouldHaveValidationErrorFor(p => p.ObraSocial);
+            result.ShouldHaveValidationErrorFor(p => p.Sexo);
         }
         [Test]
         public void Devuelve_error_estado_civil_nulo()
