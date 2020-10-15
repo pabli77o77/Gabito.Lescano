@@ -38,6 +38,7 @@
                         @Html.DisplayFor(modelItem => p.CamaInternacion.Descripcion)
                     </td>
                     <td align="center">
+                        <a href="#" onclick="VerDetalleEvolucion(@p.Id)" data-toggle="modal" data-target="#detalleEvolucion" title="Ver Evolucion" class="btn btn-info btn-xs"><i class="fa fa-search"></i></a>
                         <a href="@Url.Action("Edit", "Evolucion", new { id = p.Id})" title="Editar Evolucion" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                         <a href="@Url.Action("Delete", "Evolucion", new { id = p.Id })" title="Borrar Evolucion" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                     </td>
@@ -45,6 +46,14 @@
                 }
             </tbody>
         </table>
+    </div>
+</div>
+<div class="modal fade" id="detalleEvolucion" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" id="detalleEvolucionBody">
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -60,4 +69,10 @@
                 }
             });
         });
+        function VerDetalleEvolucion(Id) {
+            var url = "/Evolucion/Details?id=" + Id;
+            $("#detalleEvolucionBody").load(url, function () {
+                $("#detalleEvolucion").modal("show");
+            })
+        }
 </script>
