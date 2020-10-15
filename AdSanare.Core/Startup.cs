@@ -57,6 +57,8 @@ namespace AdSanare.Core
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPacienteRepository, PacienteRepository>();
             services.AddTransient<IExamenComplementarioRepository, ExamenComplementarioRepository>();
+            services.AddTransient<IServicioRepository, ServicioRepository>();
+            services.AddTransient<ICamaRepository, CamaRepository>();
             #endregion
             #region Unidad de Trabajo
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -64,6 +66,8 @@ namespace AdSanare.Core
             #region Logica de Negocio
             services.AddTransient<IPacienteLogic, PacienteLogic>();
             services.AddTransient<IExamenComplementarioLogic, ExamenComplementarioLogic>();
+            services.AddTransient<IServicioLogic, ServicioLogic>();
+            services.AddTransient<ICamaLogic, CamaLogic>();
             #endregion
             #region Validador
             services.AddTransient<IValidator<Paciente>, PacienteValidator>();

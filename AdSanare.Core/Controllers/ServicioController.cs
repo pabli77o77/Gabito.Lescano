@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdSanare.Core.Controllers
 {
     [Authorize]
-    public class ExamenComplementarioController : Controller
+    public class ServicioController : Controller
     {
-        private IExamenComplementarioLogic _logic;
-        public ExamenComplementarioController(IExamenComplementarioLogic logic)
+        private IServicioLogic _logic;
+
+        public ServicioController(IServicioLogic logic)
         {
             _logic = logic;
         }
@@ -34,7 +35,7 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ExamenComplementario model)
+        public IActionResult Create(Servicio model)
         {
             try
             {
@@ -54,7 +55,7 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            ExamenComplementario model = _logic.Get(id);
+            Servicio model = _logic.Get(id);
 
             if (model == null)
             {
@@ -67,7 +68,7 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ExamenComplementario model)
+        public ActionResult Edit(Servicio model)
         {
             try
             {
@@ -97,20 +98,6 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-        }
-
-        [HttpGet]
-        public ActionResult Details(int id)
-        {
-            ExamenComplementario model = _logic.Get(id);
-
-            if (model == null)
-            {
-                Response.StatusCode = 404;
-                return View("NotFound");
-            }
-
-            return PartialView(model);
         }
     }
 }

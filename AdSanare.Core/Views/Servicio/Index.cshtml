@@ -1,0 +1,69 @@
+﻿@model List<AdSanare.Entities.Servicio>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#listadoServicios').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 1
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+        function VerCamas(Id) {
+            $("#listadoCorrespondiente").html("<div class='col-md-12'><div class='form-group'><br/><label class='control-label'>Buscando...</label></div></div>");
+            $.ajax({
+                url: "/Cama/Index",
+                data: {
+                    ServicioId: Id,
+                },
+                type: "GET",
+                success: function (data) {
+                    $("#listadoCorrespondiente").html(data);
+                }
+            });
+        }
+    </script>
+}
+<h1>Listado de Servicios</h1>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Servicios</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Servicio" asp-action="Create" title="Agregar Servicio"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listadoServicios">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Servicio</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.Descripcion)
+                    </td>
+                    <td align="center">
+                        <a href="@Url.Action("Edit", "Servicio", new { id = p.Id})" title="Editar Servicio" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Action("Delete", "Servicio", new { id = p.Id })" title="Borrar Servicio" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        <a href="#" onclick="VerCamas(@p.Id)" title="Ver Camas" class="btn btn-primary btn-xs"><i class="fa fa-list"></i></a>
+                    </td>
+                </tr>
+}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="listadoCorrespondiente"></div>
