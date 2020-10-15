@@ -11,12 +11,16 @@ namespace AdSanare.UOW
 
         public IPacienteRepository Pacientes { get; private set; }
         public IExamenComplementarioRepository ExamenesComplementarios { get; private set; }
+        public ICamaRepository Camas { get; private set; }
+        public IServicioRepository Servicios { get; private set; }
 
         public UnitOfWork(AdSanareDbContext context)
         {
             _context = context;
             Pacientes = new PacienteRepository(_context);
             ExamenesComplementarios = new ExamenComplementarioRepository(_context);
+            Camas = new CamaRepository(_context);
+            Servicios = new ServicioRepository(_context);
 
         }
 

@@ -1,0 +1,51 @@
+﻿@model List<AdSanare.Entities.Cama>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Camas</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Cama" asp-action="Create" asp-route-ServicioId="@ViewBag.ServicioId" title="Agregar Cama"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listadoCamas">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Cama</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => p.Descripcion)
+                        </td>
+                        <td align="center">
+                            <a href="@Url.Action("Edit", "Cama", new { id = p.Id})" title="Editar Cama" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Action("Delete", "Cama", new { id = p.Id })" title="Borrar Cama" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#listadoCamas').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 1
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+</script>

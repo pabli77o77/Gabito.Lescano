@@ -7,6 +7,8 @@ namespace AdSanare.UOW.Interfaces
     {
         IPacienteRepository Pacientes { get; }
         IExamenComplementarioRepository ExamenesComplementarios { get; }
+        ICamaRepository Camas { get; }
+        IServicioRepository Servicios { get; }
         int Complete();
     }
 }

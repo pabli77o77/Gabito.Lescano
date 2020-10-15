@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -7,19 +11,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace AdSanare.Core.Controllers
 {
     [Authorize]
-    public class ExamenComplementarioController : Controller
+    public class CamaController : Controller
     {
-        private IExamenComplementarioLogic _logic;
-        public ExamenComplementarioController(IExamenComplementarioLogic logic)
+        private ICamaLogic _logic;
+
+        public CamaController(ICamaLogic logic)
         {
             _logic = logic;
         }
-
-        public IActionResult Index()
+        public IActionResult Index(int ServicioId)
         {
             try
             {
-                return View(_logic.Get());
+                List<Expression<Func<Cama, bool>>> listaWhere = new List<Expression<Func<Cama, bool>>>();
+                listaWhere.Add(p => p.ServicioInternacion.Id==ServicioId);
+                ViewBag.ServicioId = ServicioId;
+                return PartialView(_logic.Get(listaWhere));
             }
             catch (Exception ex)
             {
@@ -27,34 +34,36 @@ namespace AdSanare.Core.Controllers
             }
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int ServicioId)
         {
+            ViewBag.ServicioId = ServicioId;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ExamenComplementario model)
+        public IActionResult Create(Cama model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     _logic.Add(model);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Servicio");
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Error", ex);
             }
+            ViewBag.ServicioId = model.ServicioInternacion.Id;
             return View(model);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            ExamenComplementario model = _logic.Get(id);
+            Cama model = _logic.Get(id);
 
             if (model == null)
             {
@@ -67,14 +76,14 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ExamenComplementario model)
+        public ActionResult Edit(Cama model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     _logic.Update(model);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Servicio");
                 }
             }
             catch (Exception ex)
@@ -91,26 +100,12 @@ namespace AdSanare.Core.Controllers
             try
             {
                 _logic.Remove(Id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Servicio");
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Error", ex);
             }
-        }
-
-        [HttpGet]
-        public ActionResult Details(int id)
-        {
-            ExamenComplementario model = _logic.Get(id);
-
-            if (model == null)
-            {
-                Response.StatusCode = 404;
-                return View("NotFound");
-            }
-
-            return PartialView(model);
         }
     }
 }
