@@ -55,6 +55,13 @@ namespace AdSanare.Logic
 
         public void Update(Evolucion entidad)
         {
+            Servicio servicio = _unitOfWork.Servicios.Get(entidad.ServicioInternacion.Id);
+            entidad.ServicioInternacion = servicio;
+            Cama cama = _unitOfWork.Camas.Get(entidad.CamaInternacion.Id);
+            entidad.CamaInternacion = cama;
+            Ingreso ingreso = _unitOfWork.Ingresos.Get(entidad.Ingreso.Id);
+            entidad.Ingreso = ingreso;
+            _unitOfWork.ExamenesFisicos.Update(entidad.ExamenFisico);
             _unitOfWork.Evoluciones.Update(entidad);
             _unitOfWork.Complete();
         }

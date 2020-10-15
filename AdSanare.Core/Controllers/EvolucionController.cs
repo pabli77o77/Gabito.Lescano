@@ -65,6 +65,44 @@ namespace AdSanare.Core.Controllers
         }
 
         [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
+            listaWhere.Add(p => p.Id == id);
+            Evolucion model = _logic.Get(listaWhere, null, "ServicioInternacion,CamaInternacion,Ingreso,ExamenFisico").FirstOrDefault();
+            if (model == null)
+            {
+                Response.StatusCode = 404;
+                return View("NotFound");
+            }
+            ViewBag.Servicios = _logic.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Camas = _logic.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Evolucion model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _logic.Update(model);
+                    return RedirectToAction("Index", "Ingreso");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return RedirectToAction("Error", ex);
+            }
+            ViewBag.Servicios = _logic.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Camas = _logic.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            return View(model);
+        }
+
+        [HttpGet]
         public ActionResult Delete(int Id)
         {
             try
@@ -78,6 +116,20 @@ namespace AdSanare.Core.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
+            listaWhere.Add(p => p.Id == id);
+            Evolucion model = _logic.Get(listaWhere, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente,ExamenFisico").FirstOrDefault();
 
+            if (model == null)
+            {
+                Response.StatusCode = 404;
+                return View("NotFound");
+            }
+
+            return PartialView(model);
+        }
     }
 }
