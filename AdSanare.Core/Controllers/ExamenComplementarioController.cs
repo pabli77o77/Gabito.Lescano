@@ -27,8 +27,13 @@ namespace AdSanare.Core.Controllers
             }
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string Documento)
         {
+            ViewBag.Documento = null;
+            if (!String.IsNullOrWhiteSpace(Documento))
+            {
+                ViewBag.Documento = Documento;
+            }
             return View();
         }
 

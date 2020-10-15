@@ -32,8 +32,13 @@ namespace AdSanare.Core.Controllers
                 return View("Error", ex);
             }
         }
-        public IActionResult Create()
+        public IActionResult Create(string Documento)
         {
+            ViewBag.Documento = null;
+            if (!String.IsNullOrWhiteSpace(Documento))
+            {
+                ViewBag.Documento = Documento;
+            }
             return View();
         }
 
