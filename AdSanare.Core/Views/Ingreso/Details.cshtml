@@ -1,0 +1,67 @@
+﻿@model AdSanare.Entities.Ingreso
+    </br>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Detalle del Ingreso</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label asp-for="Paciente.Nombre"></label>
+                <input disabled class="form-control" asp-for="Paciente.Nombre">
+                <span class="text-danger" asp-validation-for="Paciente.Nombre"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Paciente.Apellido"></label>
+                <input disabled class="form-control" asp-for="Paciente.Apellido">
+                <span class="text-danger" asp-validation-for="Paciente.Apellido"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Paciente.Documento"></label>
+                <input disabled class="form-control" asp-for="Paciente.Documento">
+                <span class="text-danger" asp-validation-for="Paciente.Documento"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaIngreso"></label>
+                <input disabled class="form-control" asp-for="FechaIngreso">
+                <span class="text-danger" asp-validation-for="FechaIngreso"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Diagnostico"></label>
+                <input disabled class="form-control" asp-for="Diagnostico">
+                <span class="text-danger" asp-validation-for="Diagnostico"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AntecedentesMedicos"></label>
+                <input disabled class="form-control" asp-for="AntecedentesMedicos">
+                <span class="text-danger" asp-validation-for="AntecedentesMedicos"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AntecedentesQuirurgicos"></label>
+                <input disabled class="form-control" asp-for="AntecedentesQuirurgicos">
+                <span class="text-danger" asp-validation-for="AntecedentesQuirurgicos"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alergias"></label>
+                <input disabled class="form-control" asp-for="Alergias">
+                <span class="text-danger" asp-validation-for="Alergias"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicacionHabitual"></label>
+                <input disabled class="form-control" asp-for="MedicacionHabitual">
+                <span class="text-danger" asp-validation-for="MedicacionHabitual"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Peso"></label>
+                <input disabled class="form-control" asp-for="Peso">
+                <span class="text-danger" asp-validation-for="Peso"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Talla"></label>
+                <input disabled class="form-control" asp-for="Talla">
+                <span class="text-danger" asp-validation-for="Talla"></span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
