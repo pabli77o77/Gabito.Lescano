@@ -13,6 +13,9 @@ namespace AdSanare.UOW
         public IExamenComplementarioRepository ExamenesComplementarios { get; private set; }
         public ICamaRepository Camas { get; private set; }
         public IServicioRepository Servicios { get; private set; }
+        public IIngresoRepository Ingresos { get; private set; }
+        public IEvolucionRepository Evoluciones { get; private set; }
+        public IExamenFisicoRepository ExamenesFisicos { get; private set; }
 
         public UnitOfWork(AdSanareDbContext context)
         {
@@ -21,6 +24,9 @@ namespace AdSanare.UOW
             ExamenesComplementarios = new ExamenComplementarioRepository(_context);
             Camas = new CamaRepository(_context);
             Servicios = new ServicioRepository(_context);
+            Ingresos = new IngresoRepository(_context);
+            Evoluciones = new EvolucionRepository(_context);
+            ExamenesFisicos = new ExamenFisicoRepository(_context);
 
         }
 

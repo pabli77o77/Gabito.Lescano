@@ -1,0 +1,63 @@
+﻿@model List<AdSanare.Entities.Evolucion>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Evoluciones</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Evolucion" asp-action="Create" asp-route-IngresoId="@ViewBag.IngresoId" title="Evolucionar Paciente"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listadoEvoluciones">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Fecha Evolucion</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Servicio</th>
+                    <th scope="col">Cama</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.FechaEvolucion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.Ingreso.Paciente.Nombre) @Html.DisplayFor(modelItem => p.Ingreso.Paciente.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.ServicioInternacion.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.CamaInternacion.Descripcion)
+                    </td>
+                    <td align="center">
+                        <a href="@Url.Action("Edit", "Evolucion", new { id = p.Id})" title="Editar Evolucion" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Action("Delete", "Evolucion", new { id = p.Id })" title="Borrar Evolucion" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#listadoEvoluciones').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 4
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+</script>

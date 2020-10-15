@@ -10,7 +10,7 @@ namespace AdSanare.Entities
         [DataType(DataType.Date)]
         public DateTime FechaIngreso { get; set; }
         [DataType(DataType.Date)]
-        public DateTime FechaEgreso { get; set; }
+        public DateTime? FechaEgreso { get; set; }
         public bool Defuncion { get; set; }
         public string Diagnostico { get; set; }
         public string AntecedentesMedicos { get; set; }

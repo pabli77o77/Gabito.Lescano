@@ -1,0 +1,93 @@
+﻿@model List<AdSanare.Entities.Ingreso>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#listadoIngresos').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 3
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+        function VerIngreso(Id) {
+            var url = "/Ingreso/Details?id=" + Id;
+            $("#detalleIngresoBody").load(url, function () {
+                $("#detalleIngreso").modal("show");
+            })
+        }
+
+        function VerEvoluciones(Id) {
+            $("#listadoCorrespondiente").html("<div class='col-md-12'><div class='form-group'><br/><label class='control-label'>Buscando...</label></div></div>");
+            $.ajax({
+                url: "/Evolucion/Index",
+                data: {
+                    IngresoId: Id,
+                },
+                type: "GET",
+                success: function (data) {
+                    $("#listadoCorrespondiente").html(data);
+                }
+            });
+        }
+    </script>
+}
+<h1>Listado de Ingresos</h1>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Ingresos</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-primary btn-sm" asp-controller="Ingreso" asp-action="Create" title="Ingresar Paciente"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listadoIngresos">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Fecha Ingreso</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.Paciente.Nombre) @Html.DisplayFor(modelItem => p.Paciente.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.Paciente.Documento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.FechaIngreso)
+                    </td>
+                    <td align="center">
+                        <a href="#" onclick="VerIngreso(@p.Id)" data-toggle="modal" data-target="#detalle" title="Ver Ingreso" class="btn btn-info btn-xs"><i class="fa fa-search"></i></a>
+                        <a href="@Url.Action("Edit", "Ingreso", new { id = p.Id})" title="Editar Ingreso" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Action("Delete", "Ingreso", new { id = p.Id })" title="Borrar Ingreso" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        <a href="#" onclick="VerEvoluciones(@p.Id)" title="Ver Evoluciones" class="btn btn-primary btn-xs"><i class="fa fa-list"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="listadoCorrespondiente"></div>
+<div class="modal fade" id="detalleIngreso" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" id="detalleIngresoBody">
+            </div>
+        </div>
+    </div>
+</div>

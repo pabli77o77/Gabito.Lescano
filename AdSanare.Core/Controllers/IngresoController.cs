@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using AdSanare.Entities;
+﻿using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace AdSanare.Core.Controllers
 {
     [Authorize]
-    public class ServicioController : Controller
+    public class IngresoController : Controller
     {
-        private IServicioLogic _logic;
+        private IIngresoLogic _logic;
 
-        public ServicioController(IServicioLogic logic)
+        public IngresoController(IIngresoLogic logic)
         {
             _logic = logic;
         }
@@ -21,14 +23,15 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                return View(_logic.Get());
+                List<Expression<Func<Ingreso, bool>>> listaWhere = new List<Expression<Func<Ingreso, bool>>>();
+                listaWhere.Add(p => p.FechaEgreso==null && !p.Defuncion);         
+                return View(_logic.Get(listaWhere,null,"Paciente"));
             }
             catch (Exception ex)
             {
                 return View("Error", ex);
             }
         }
-
         public IActionResult Create()
         {
             return View();
@@ -36,7 +39,7 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Servicio model)
+        public IActionResult Create(Ingreso model)
         {
             try
             {
@@ -56,7 +59,7 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            Servicio model = _logic.Get(id);
+            Ingreso model = _logic.Get(id);
 
             if (model == null)
             {
@@ -69,7 +72,7 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Servicio model)
+        public ActionResult Edit(Ingreso model)
         {
             try
             {
@@ -100,5 +103,22 @@ namespace AdSanare.Core.Controllers
                 return RedirectToAction("Error", ex);
             }
         }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            List<Expression<Func<Ingreso, bool>>> listaWhere = new List<Expression<Func<Ingreso, bool>>>();
+            listaWhere.Add(p => p.Id==id);
+            Ingreso model = _logic.Get(listaWhere, null, "Paciente").FirstOrDefault();
+
+            if (model == null)
+            {
+                Response.StatusCode = 404;
+                return View("NotFound");
+            }
+
+            return PartialView(model);
+        }
+
     }
 }
