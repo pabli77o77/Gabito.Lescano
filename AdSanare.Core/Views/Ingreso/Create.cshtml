@@ -1,6 +1,7 @@
 ﻿@model AdSanare.Entities.Ingreso
 @section Scripts {
-    <script>$('#BuscarDni').on('click', function () {
+    <script>
+        $('#BuscarDni').on('click', function () {
             $.ajax({
                 url: "/Paciente/_BuscarPaciente",
                 data: {
@@ -12,7 +13,15 @@
                     $('#DivPaciente').replaceWith($('#DivPaciente').html(data));
                 }
             });
-        });</script>
+        });
+        $(document).ready(function () {
+            let dni = "@ViewBag.Documento";
+            if (dni != "undefined" && dni != "" && dni != null) {
+                $('#DniPaciente').val(dni);
+                $('#BuscarDni').click();
+            }
+        })
+    </script>
 }
 </br>
 <div class="card card-primary">

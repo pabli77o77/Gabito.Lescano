@@ -14,7 +14,13 @@
                 }
             });
         });
-
+        $(document).ready(function () {
+            let dni = "@ViewBag.Documento";
+            if (dni != "undefined" && dni != "" && dni != null) {
+                $('#DniPaciente').val(dni);
+                $('#BuscarDni').click();
+            }
+        })
     </script>
 }
 </br>

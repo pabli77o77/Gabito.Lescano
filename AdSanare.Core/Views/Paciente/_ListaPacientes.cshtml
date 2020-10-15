@@ -40,6 +40,8 @@
                         <td align="center">
                             <a href="#" onclick="VerPaciente(@p.Id)" data-toggle="modal" data-target="#detalle" title="Ver Paciente" class="btn btn-info btn-xs"><i class="fa fa-search"></i></a>
                             <a href="@Url.Action("Edit", "Paciente", new { id = p.Id})" title="Editar Paciente" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a href="@Url.Action("Create", "ExamenComplementario", new { Documento = p.Documento})" title="Cargar Examen Complementario" class="btn btn-warning btn-xs"><i class="fa fa-file"></i></a>
+                            <a href="@Url.Action("Create", "Ingreso", new { Documento = p.Documento})" title="Cargar Ingreso" class="btn btn-info btn-xs"><i class="fa fa-file-alt"></i></a>
                             <a href="@Url.Action("Delete", "Paciente", new { id = p.Id })" title="Borrar Paciente" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
