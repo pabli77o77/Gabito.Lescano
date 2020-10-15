@@ -11,13 +11,11 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace AdSanare.Core
 {
@@ -58,12 +56,14 @@ namespace AdSanare.Core
             #region Repositorios
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IPacienteRepository, PacienteRepository>();
+            services.AddTransient<IExamenComplementarioRepository, ExamenComplementarioRepository>();
             #endregion
             #region Unidad de Trabajo
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             #endregion
             #region Logica de Negocio
             services.AddTransient<IPacienteLogic, PacienteLogic>();
+            services.AddTransient<IExamenComplementarioLogic, ExamenComplementarioLogic>();
             #endregion
             #region Validador
             services.AddTransient<IValidator<Paciente>, PacienteValidator>();

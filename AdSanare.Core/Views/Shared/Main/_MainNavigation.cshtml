@@ -35,6 +35,30 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Historia Clinica
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview" style="display: none;">
+                            <li class="nav-item">
+                                <a asp-controller="Ingreso" asp-action="Index" class="nav-link @Url.MakeActiveClass("ingreso","index")">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ingresos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="ExamenComplementario" asp-action="Index" class="nav-link @Url.MakeActiveClass("examencomplementario","index")">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Estudios Complementarios</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item ">

@@ -15,22 +15,22 @@ namespace AdSanare.Repository
         {
             _context = context;
         }
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             _context.Set<T>().Add(entity);
         }
 
-        public IEnumerable<T> Get()
+        public virtual IEnumerable<T> Get()
         {
             return _context.Set<T>().ToList();
         }
 
-        public T Get(int Id)
+        public virtual T Get(int Id)
         {
             return _context.Set<T>().Find(Id);
         }
 
-        public IEnumerable<T> Get(List<Expression<Func<T, bool>>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orden = null, string include = "")
+        public virtual IEnumerable<T> Get(List<Expression<Func<T, bool>>> where = null, Func<IQueryable<T>, IOrderedQueryable<T>> orden = null, string include = "")
         {
             IQueryable<T> query = _context.Set<T>();
             if (where != null && where.Count()>0)
@@ -55,12 +55,12 @@ namespace AdSanare.Repository
             }
         }
 
-        public void Remove(T entity)
+        public virtual void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             _context.Set<T>().Update(entity);
         }
