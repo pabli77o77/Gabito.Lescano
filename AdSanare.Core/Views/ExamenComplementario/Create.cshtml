@@ -1,0 +1,55 @@
+﻿@model AdSanare.Entities.ExamenComplementario
+@section Scripts {
+    <script>
+        $('#BuscarDni').on('click', function () {
+            $.ajax({
+                url: "/Paciente/_BuscarPaciente",
+                data: {
+                    dni: $('#DniPaciente').val()
+                },
+                type: "GET",
+                dataType: "html",
+                success: function (data) {
+                    $('#DivPaciente').replaceWith($('#DivPaciente').html(data));
+                }
+            });
+        });
+
+    </script>
+}
+</br>
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Agregar Examen Complementario</h3>
+    </div>
+    <form asp-antiforgery="true" asp-action="Create" method="post">
+        <div class="card-body">
+            <div class="form-group">
+                <label asp-for="Paciente.Documento" class="control-label">Numero de Documento del Paciente</label>
+                <input id="DniPaciente" asp-for="Paciente.Documento" class="form-control control-label" placeholder="Ingrese el numero de documento del Paciente" />
+                <span asp-validation-for="Paciente" class="text-danger"></span>
+                <br />
+                <input type="button" id="BuscarDni" class="btn btn-primary form-control control-label" value="Buscar">
+            </div>
+            <div id="DivPaciente"></div>
+            <div class="form-group">
+                <label asp-for="FechaExamen"></label>
+                <input class="form-control" asp-for="FechaExamen">
+                <span class="text-danger" asp-validation-for="FechaExamen"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoExamen"></label>
+                <input class="form-control" asp-for="TipoExamen">
+                <span class="text-danger" asp-validation-for="TipoExamen"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Detalle"></label>
+                <input class="form-control" asp-for="Detalle">
+                <span class="text-danger" asp-validation-for="Detalle"></span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Agregar</button>
+        </div>
+    </form>
+</div>

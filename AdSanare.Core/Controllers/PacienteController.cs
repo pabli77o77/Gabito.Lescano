@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
@@ -140,5 +141,21 @@ namespace AdSanare.Core.Controllers
 
             return PartialView(model);
         }
+        public ActionResult _BuscarPaciente(string dni)
+        {
+            if (!string.IsNullOrWhiteSpace(dni))
+            {
+                List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
+                listaWhere.Add(p => p.Documento.Trim().ToUpper().Contains(dni.Trim().ToUpper()));
+                Paciente model = _logic.Get(listaWhere).FirstOrDefault();
+                if (model != null)
+                {
+                    return PartialView(model);
+                }
+            }
+            return PartialView("_NoResult");
+        }
+
+
     }
 }
