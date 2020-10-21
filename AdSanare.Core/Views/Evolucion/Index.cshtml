@@ -1,11 +1,11 @@
 ﻿@model List<AdSanare.Entities.Evolucion>
-<div class="card">
+<div class="card card-maroon">
     <div class="card-header">
         <h3 class="card-title">Lista de Evoluciones</h3>
         <div class="card-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
                 <div class="input-group input-group-sm pull-right">
-                    <a class="btn btn-primary btn-sm" asp-controller="Evolucion" asp-action="Create" asp-route-IngresoId="@ViewBag.IngresoId" title="Evolucionar Paciente"><i class="fas fa-plus">Nuevo</i></a>
+                    <a class="btn btn-success" asp-controller="Evolucion" asp-action="Create" asp-route-IngresoId="@ViewBag.IngresoId" title="Evolucionar Paciente"><i class="fas fa-plus">Nuevo</i></a>
                 </div>
             </div>
         </div>

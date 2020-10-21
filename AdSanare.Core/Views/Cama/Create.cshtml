@@ -1,19 +1,25 @@
 ﻿@model AdSanare.Entities.Cama
-</br>
-<div class="card card-primary">
+<br />
+<div class="card card-maroon">
     <div class="card-header">
         <h3 class="card-title">Agregar Cama</h3>
     </div>
     <form asp-antiforgery="true" asp-action="Create" method="post">
         <input type="hidden" asp-for="ServicioInternacion.Id" value="@ViewBag.ServicioId" />
         <div class="card-body">
-            <div class="form-group">
-                <label asp-for="Descripcion"></label>
-                <input class="form-control" asp-for="Descripcion">
-                <span class="text-danger" asp-validation-for="Descripcion"></span>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Descripcion"></label>
+                        <input class="form-control" asp-for="Descripcion">
+                        <span class="text-danger" asp-validation-for="Descripcion"></span>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
             </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer text-center">
             <button type="submit" class="btn btn-primary">Agregar</button>
         </div>
     </form>

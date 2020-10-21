@@ -23,63 +23,95 @@
         })
     </script>
 }
-</br>
-<div class="card card-primary">
+<br />
+<div class="card card-maroon">
     <div class="card-header">
         <h3 class="card-title">Ingresar Paciente</h3>
     </div>
     <form asp-antiforgery="true" asp-action="Create" method="post">
         <div class="card-body">
-            <div class="form-group">
-                <label asp-for="Paciente.Documento" class="control-label">Numero de Documento del Paciente</label>
-                <input id="DniPaciente" asp-for="Paciente.Documento" class="form-control control-label" placeholder="Ingrese el numero de documento del Paciente" />
-                <span asp-validation-for="Paciente" class="text-danger"></span>
-                <br />
-                <input type="button" id="BuscarDni" class="btn btn-primary form-control control-label" value="Buscar">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Paciente.Documento" class="control-label">Numero de Documento del Paciente</label>
+                        <input id="DniPaciente" asp-for="Paciente.Documento" class="form-control control-label" placeholder="Ingrese el numero de documento del Paciente" />
+                        <span asp-validation-for="Paciente" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <br />
+                    <input type="button" id="BuscarDni" class="btn btn-primary form-control control-label" value="Buscar">
+                </div>
+                <div class="col-md-4"></div>
             </div>
             <div id="DivPaciente"></div>
-            <div class="form-group">
-                <label asp-for="FechaIngreso"></label>
-                <input class="form-control" asp-for="FechaIngreso">
-                <span class="text-danger" asp-validation-for="FechaIngreso"></span>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="FechaIngreso"></label>
+                        <input class="form-control" asp-for="FechaIngreso">
+                        <span class="text-danger" asp-validation-for="FechaIngreso"></span>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label asp-for="Diagnostico"></label>
+                        <input class="form-control" asp-for="Diagnostico">
+                        <span class="text-danger" asp-validation-for="Diagnostico"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Diagnostico"></label>
-                <input class="form-control" asp-for="Diagnostico">
-                <span class="text-danger" asp-validation-for="Diagnostico"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="AntecedentesMedicos"></label>
+                        <textarea class="form-control" asp-for="AntecedentesMedicos" rows="6"></textarea>
+                        <span class="text-danger" asp-validation-for="AntecedentesMedicos"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="AntecedentesQuirurgicos"></label>
+                        <textarea class="form-control" asp-for="AntecedentesQuirurgicos" rows="6"></textarea>
+                        <span class="text-danger" asp-validation-for="AntecedentesQuirurgicos"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="AntecedentesMedicos"></label>
-                <input class="form-control" asp-for="AntecedentesMedicos">
-                <span class="text-danger" asp-validation-for="AntecedentesMedicos"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Alergias"></label>
+                        <textarea class="form-control" asp-for="Alergias" rows="6"></textarea>
+                        <span class="text-danger" asp-validation-for="Alergias"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="MedicacionHabitual"></label>
+                        <textarea class="form-control" asp-for="MedicacionHabitual" rows="6"></textarea>
+                        <span class="text-danger" asp-validation-for="MedicacionHabitual"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="AntecedentesQuirurgicos"></label>
-                <input class="form-control" asp-for="AntecedentesQuirurgicos">
-                <span class="text-danger" asp-validation-for="AntecedentesQuirurgicos"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Alergias"></label>
-                <input class="form-control" asp-for="Alergias">
-                <span class="text-danger" asp-validation-for="Alergias"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicacionHabitual"></label>
-                <input class="form-control" asp-for="MedicacionHabitual">
-                <span class="text-danger" asp-validation-for="MedicacionHabitual"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Peso"></label>
-                <input class="form-control" asp-for="Peso">
-                <span class="text-danger" asp-validation-for="Peso"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Talla"></label>
-                <input class="form-control" asp-for="Talla">
-                <span class="text-danger" asp-validation-for="Talla"></span>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Peso"></label>
+                        <input class="form-control" asp-for="Peso">
+                        <span class="text-danger" asp-validation-for="Peso"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Talla"></label>
+                        <input class="form-control" asp-for="Talla">
+                        <span class="text-danger" asp-validation-for="Talla"></span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer text-center">
             <button type="submit" class="btn btn-primary">Ingresar</button>
         </div>
     </form>
