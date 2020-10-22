@@ -22,14 +22,14 @@
                             <div class="form-group">
                                 <label asp-for="ServicioInternacion" class="control-label"></label>
                                 <select class="form-control" asp-for="ServicioInternacion.Id" asp-items="@ViewBag.Servicios" title="Seleccione el Servicio de Internación Correspondientes"></select>
-                                <span asp-validation-for="ServicioInternacion" class="text-danger"></span>
+                                <span asp-validation-for="ServicioInternacion.Id" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label asp-for="CamaInternacion" class="control-label"></label>
                                 <select class="form-control" asp-for="CamaInternacion.Id" asp-items="@ViewBag.Camas" title="Seleccione la Cama de Internación Correspondientes"></select>
-                                <span asp-validation-for="CamaInternacion" class="text-danger"></span>
+                                <span asp-validation-for="CamaInternacion.Id" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
