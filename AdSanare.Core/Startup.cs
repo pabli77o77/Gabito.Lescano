@@ -76,6 +76,12 @@ namespace AdSanare.Core
             #endregion
             #region Validador
             services.AddTransient<IValidator<Paciente>, PacienteValidator>();
+            services.AddTransient<IValidator<Cama>, CamaValidator>();
+            services.AddTransient<IValidator<Evolucion>, EvolucionValidator>();
+            services.AddTransient<IValidator<ExamenComplementario>, ExamenComplementarioValidator>();
+            services.AddTransient<IValidator<ExamenFisico>, ExamenFisicoValidator>();
+            services.AddTransient<IValidator<Ingreso>, IngresoValidator>();
+            services.AddTransient<IValidator<Servicio>, ServicioValidator>();
             services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
             #endregion
         }
