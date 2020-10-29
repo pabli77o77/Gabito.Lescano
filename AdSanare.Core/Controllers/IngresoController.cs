@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.Json;
 
 namespace AdSanare.Core.Controllers
 {
@@ -13,10 +14,14 @@ namespace AdSanare.Core.Controllers
     public class IngresoController : Controller
     {
         private IIngresoLogic _logic;
+        private IAuditoriaLogic _auditoriaLogic;
+        private IUsuarioLogic _userLogic;
 
-        public IngresoController(IIngresoLogic logic)
+        public IngresoController(IIngresoLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
         {
             _logic = logic;
+            _auditoriaLogic = auditoriaLogic;
+            _userLogic = userLogic;
         }
 
         public IActionResult Index()
@@ -48,9 +53,11 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
+                
                 if (ModelState.IsValid)
                 {
                     _logic.Add(model);
+                    SaveAuditoria(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -84,6 +91,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Update(model);
+                    SaveAuditoria(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -123,6 +131,18 @@ namespace AdSanare.Core.Controllers
             }
 
             return PartialView(model);
+        }
+
+        private void SaveAuditoria(Ingreso model)
+        {
+            _auditoriaLogic.Add(
+                new Auditoria
+                {
+                    EntidadId = model.Id,
+                    Entidad = JsonSerializer.Serialize(model),
+                    TipoEntidad = model.GetType().Name,
+                    Usuario = _userLogic.GetByName(User.Identity.Name)
+                });
         }
 
     }

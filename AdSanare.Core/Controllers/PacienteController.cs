@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.Json;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +14,14 @@ namespace AdSanare.Core.Controllers
     public class PacienteController : Controller
     {
         private IPacienteLogic _logic;
+        private IAuditoriaLogic _auditoriaLogic;
+        private IUsuarioLogic _userLogic;
 
-        public PacienteController(IPacienteLogic logic)
+        public PacienteController(IPacienteLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
         {
             _logic = logic;
+            _auditoriaLogic = auditoriaLogic;
+            _userLogic = userLogic;
         }
 
         public IActionResult Index()
@@ -72,6 +77,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Add(model);
+                    SaveAuditoria(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -104,6 +110,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Update(model);
+                    SaveAuditoria(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -155,7 +162,17 @@ namespace AdSanare.Core.Controllers
             }
             return PartialView("_NoResult");
         }
-
+        private void SaveAuditoria(Paciente model)
+        {
+            _auditoriaLogic.Add(
+                new Auditoria
+                {
+                    EntidadId = model.Id,
+                    Entidad = JsonSerializer.Serialize(model),
+                    TipoEntidad = model.GetType().Name,
+                    Usuario = _userLogic.GetByName(User.Identity.Name)
+                });
+        }
 
     }
 }

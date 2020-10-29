@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -10,9 +11,14 @@ namespace AdSanare.Core.Controllers
     public class ExamenComplementarioController : Controller
     {
         private IExamenComplementarioLogic _logic;
-        public ExamenComplementarioController(IExamenComplementarioLogic logic)
+        private IAuditoriaLogic _auditoriaLogic;
+        private IUsuarioLogic _userLogic;
+
+        public ExamenComplementarioController(IExamenComplementarioLogic logic,IAuditoriaLogic auditoriaLogic,IUsuarioLogic userLogic)
         {
             _logic = logic;
+            _auditoriaLogic = auditoriaLogic;
+            _userLogic = userLogic;
         }
 
         public IActionResult Index()
@@ -46,6 +52,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Add(model);
+                    SaveAuditoria(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -79,6 +86,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Update(model);
+                    SaveAuditoria(model);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -117,5 +125,18 @@ namespace AdSanare.Core.Controllers
 
             return PartialView(model);
         }
+
+        private void SaveAuditoria(ExamenComplementario model)
+        {
+            _auditoriaLogic.Add(
+                new Auditoria
+                {
+                    EntidadId = model.Id,
+                    Entidad = JsonSerializer.Serialize(model),
+                    TipoEntidad = model.GetType().Name,
+                    Usuario = _userLogic.GetByName(User.Identity.Name)
+                });
+        }
+
     }
 }

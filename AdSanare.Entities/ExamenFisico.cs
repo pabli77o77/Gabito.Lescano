@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace AdSanare.Entities
 {
@@ -17,5 +18,7 @@ namespace AdSanare.Entities
         public int SaturacionOxigeno { get; set; }
         [DisplayName("Temperatura")]
         public decimal Temperatura { get; set; }
+        public bool BajaLogica { get; set; }
+        public DateTime FechaBaja { get; set; } = DateTime.Now;
     }
 }

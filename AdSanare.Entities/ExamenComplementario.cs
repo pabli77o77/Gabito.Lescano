@@ -15,6 +15,7 @@ namespace AdSanare.Entities
         public string TipoExamen { get; set; }
         [DisplayName("Detalle")]
         public string Detalle { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public bool BajaLogica { get; set; }
+        public DateTime FechaBaja { get; set; } = DateTime.Now;
     }
 }

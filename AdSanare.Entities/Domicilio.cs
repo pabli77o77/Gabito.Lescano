@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace AdSanare.Entities
 {
@@ -11,5 +12,7 @@ namespace AdSanare.Entities
         public string Localidad { get; set; }
         [DisplayName("Provincia")]
         public string Provincia { get; set; }
+        public bool BajaLogica { get; set; }
+        public DateTime FechaBaja { get; set; } = DateTime.Now;
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdSanare.Context;
 using AdSanare.Entities;
+using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,18 +19,19 @@ namespace AdSanare.Core.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly AdSanareUsuariosDbContext _context;
+        private readonly IUsuarioLogic _logic;
         private readonly ILogger<HomeController> _logger;
 
-        public UsuariosController(UserManager<Usuario> userManager,AdSanareUsuariosDbContext context, ILogger<HomeController> logger)
+        public UsuariosController(UserManager<Usuario> userManager,IUsuarioLogic logic,AdSanareUsuariosDbContext context, ILogger<HomeController> logger)
         {
             _userManager = userManager;
+            _logic = logic;
             _context = context;
             _logger = logger;
         }
         public IActionResult Index()
         {
-            List<Usuario> usuarios = _context.Users.ToList();
-            return View(usuarios);
+            return View(_logic.Get());
         }
         public IActionResult Create()
         {
@@ -87,7 +89,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                var Usuario = _context.Users.Find(Id);
+                var Usuario = _logic.Get(Id);
                 _logger.Log(LogLevel.Information, $"Usuario {Usuario.UserName} encontrado", Usuario);
                 return View(Usuario);
             }
@@ -106,7 +108,7 @@ namespace AdSanare.Core.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var Usuario = await _context.Users.FindAsync(user.Id);
+                    var Usuario = _logic.Get(user.Id);
                     Usuario.UserName = user.UserName;
                     Usuario.Email = user.Email;
                     Usuario.NormalizedEmail = user.Email.ToUpper();
@@ -119,8 +121,7 @@ namespace AdSanare.Core.Controllers
                     Usuario.EmailConfirmed = true;
                     Usuario.PhoneNumberConfirmed = true;
                     Usuario.LockoutEnabled = false;
-                    _context.Users.Update(Usuario);
-                    _context.SaveChanges();
+                    _logic.Update(Usuario);
                     _logger.Log(LogLevel.Information, "Usuario editado correctamente", Usuario.Id);
                     return RedirectToAction(nameof(Index));
                 }

@@ -30,6 +30,7 @@ namespace AdSanare.Entities
         public decimal Peso { get; set; }
         [DisplayName("Talla")]
         public decimal Talla { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public bool BajaLogica { get; set; }
+        public DateTime FechaBaja { get; set; } = DateTime.Now;
     }
 }

@@ -1,0 +1,198 @@
+﻿@model List<AdSanare.Entities.Evolucion>
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AdSanare - Resumen de Atención PDF</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="h1 text-center"> AdSanare - Resumen de Atención de Paciente</div>
+        <div class="card card-maroon">
+            <div class="card-header">
+                <h3 class="card-title">Datos del Paciente</h3>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Nombre y Apellido
+                            </td>
+                            <td colspan="3" align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.Nombre) @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.Apellido)
+                            </td>
+                            <td class="bg-blue" align="center">
+                                Nro Documento
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.Documento)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Fecha Nacimiento
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.FechaNacimiento)
+                            </td>
+                            <td class="bg-blue" align="center">
+                                Edad
+                            </td>
+                            <td align="center">
+                                @(DateTime.Today.AddTicks(-Model.First().Ingreso.Paciente.FechaNacimiento.Ticks).Year-1)
+                            </td>
+                            <td class="bg-blue" align="center">
+                                N° Obra Social
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.ObraSocialNumero)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Sexo
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.Sexo)
+                            </td>
+                            <td class="bg-blue" align="center">
+                                Estado Civil
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.EstadoCivil)
+                            </td>
+                            <td class="bg-blue" align="center">
+                                Telefono
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Paciente.Telefono)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card card-maroon">
+            <div class="card-header">
+                <h3 class="card-title">Antecedentes del Paciente</h3>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="bg-blue" align="center" colspan="2">
+                                Fecha Ingreso
+                            </td>
+                            <td class="bg-blue" align="center">
+                                Talla
+                            </td>
+                            <td class="bg-blue" align="center">
+                                Peso
+                            </td>
+                            <td class="bg-blue" align="center" colspan="2">
+                                Fecha Egreso
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="2">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.FechaIngreso)
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Talla) mts
+                            </td>
+                            <td align="center">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Peso) kg
+                            </td>
+                            <td align="center" colspan="2">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.FechaEgreso)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Diagnóstico
+                            </td>
+                            <td align="center" colspan="5">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Diagnostico)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Antecedentes Medicos
+                            </td>
+                            <td align="center" colspan="5">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.AntecedentesMedicos)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Antecedentes Quirurgicos
+                            </td>
+                            <td align="center" colspan="5">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.AntecedentesQuirurgicos)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Alergias
+                            </td>
+                            <td align="center" colspan="5">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.Alergias)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bg-blue" align="center">
+                                Medicación Habitual
+                            </td>
+                            <td align="center" colspan="5">
+                                @Html.DisplayFor(modelItem => Model.First().Ingreso.MedicacionHabitual)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card card-maroon">
+            <div class="card-header">
+                <h3 class="card-title">Evoluciones del Paciente</h3>
+            </div>
+            <div class="card-body table-responsive">
+                <table class="table table-bordered">
+                    <thead class="bg-blue">
+                        <tr>
+                            <th scope="col">Fecha de Evolución</th>
+                            <th scope="col">Servicio - Cama</th>
+                            <th scope="col">Examen Físico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td align="center">
+                                    @Html.DisplayFor(modelItem => item.FechaEvolucion)
+                                </td>
+                                <td align="center">
+                                    @Html.DisplayFor(modelItem => item.ServicioInternacion.Descripcion) - @Html.DisplayFor(modelItem => item.CamaInternacion.Descripcion)
+                                </td>
+                                <td align="center">
+                                    @Html.DisplayFor(modelItem => item.ExamenFisico.EstadoActual)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -26,8 +26,14 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("ServicioInternacionId")
                         .HasColumnType("int");
@@ -46,8 +52,14 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Calle")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Localidad")
                         .HasColumnType("nvarchar(max)");
@@ -67,11 +79,17 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("CamaInternacionId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ExamenFisicoId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaEvolucion")
                         .HasColumnType("datetime2");
@@ -81,9 +99,6 @@ namespace AdSanare.Context.Migrations
 
                     b.Property<int?>("ServicioInternacionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -95,8 +110,6 @@ namespace AdSanare.Context.Migrations
 
                     b.HasIndex("ServicioInternacionId");
 
-                    b.HasIndex("UsuarioId");
-
                     b.ToTable("Evoluciones");
                 });
 
@@ -107,8 +120,14 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Detalle")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaExamen")
                         .HasColumnType("datetime2");
@@ -119,14 +138,9 @@ namespace AdSanare.Context.Migrations
                     b.Property<string>("TipoExamen")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PacienteId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("ExamenesComplementarios");
                 });
@@ -138,8 +152,14 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("EstadoActual")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("FrecuenciaCardiaca")
                         .HasColumnType("int");
@@ -177,11 +197,17 @@ namespace AdSanare.Context.Migrations
                     b.Property<string>("AntecedentesQuirurgicos")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Defuncion")
                         .HasColumnType("bit");
 
                     b.Property<string>("Diagnostico")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaEgreso")
                         .HasColumnType("datetime2");
@@ -201,14 +227,9 @@ namespace AdSanare.Context.Migrations
                     b.Property<decimal>("Talla")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PacienteId");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Ingresos");
                 });
@@ -220,8 +241,14 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -238,6 +265,9 @@ namespace AdSanare.Context.Migrations
                     b.Property<string>("Apellido")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Documento")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,6 +276,9 @@ namespace AdSanare.Context.Migrations
 
                     b.Property<string>("EstadoCivil")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaNacimiento")
                         .HasColumnType("datetime2");
@@ -281,73 +314,18 @@ namespace AdSanare.Context.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("BajaLogica")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaBaja")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Servicios");
-                });
-
-            modelBuilder.Entity("AdSanare.Entities.Usuario", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("EmployeeFileNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("AdSanare.Entities.Cama", b =>
@@ -374,10 +352,6 @@ namespace AdSanare.Context.Migrations
                     b.HasOne("AdSanare.Entities.Servicio", "ServicioInternacion")
                         .WithMany()
                         .HasForeignKey("ServicioInternacionId");
-
-                    b.HasOne("AdSanare.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("AdSanare.Entities.ExamenComplementario", b =>
@@ -385,10 +359,6 @@ namespace AdSanare.Context.Migrations
                     b.HasOne("AdSanare.Entities.Paciente", "Paciente")
                         .WithMany()
                         .HasForeignKey("PacienteId");
-
-                    b.HasOne("AdSanare.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("AdSanare.Entities.Ingreso", b =>
@@ -396,10 +366,6 @@ namespace AdSanare.Context.Migrations
                     b.HasOne("AdSanare.Entities.Paciente", "Paciente")
                         .WithMany()
                         .HasForeignKey("PacienteId");
-
-                    b.HasOne("AdSanare.Entities.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("AdSanare.Entities.Paciente", b =>
