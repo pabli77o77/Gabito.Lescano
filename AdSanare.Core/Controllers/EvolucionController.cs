@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 
 namespace AdSanare.Core.Controllers
 {
@@ -15,10 +18,16 @@ namespace AdSanare.Core.Controllers
     public class EvolucionController : Controller
     {
         private IEvolucionLogic _logic;
-        public EvolucionController(IEvolucionLogic logic)
+        private IAuditoriaLogic _auditoriaLogic;
+        private IUsuarioLogic _userLogic;
+
+        public EvolucionController(IEvolucionLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
         {
             _logic = logic;
+            _auditoriaLogic = auditoriaLogic;
+            _userLogic = userLogic;
         }
+
         public IActionResult Index(int IngresoId)
         {
             try
@@ -51,6 +60,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Add(model);
+                    SaveAuditoria(model);
                     return RedirectToAction("Index","Ingreso");
                 }
             }
@@ -89,6 +99,7 @@ namespace AdSanare.Core.Controllers
                 if (ModelState.IsValid)
                 {
                     _logic.Update(model);
+                    SaveAuditoria(model);
                     return RedirectToAction("Index", "Ingreso");
                 }
             }
@@ -130,6 +141,29 @@ namespace AdSanare.Core.Controllers
             }
 
             return PartialView(model);
+        }
+
+        [HttpGet]
+        public ActionResult PDF(int id)
+        {
+            List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
+            listaWhere.Add(p => p.Ingreso.Id == id);
+            return new ViewAsPdf("../PDF/PDF", _logic.Get(listaWhere, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente,ExamenFisico")) {
+                CustomSwitches = "--page-offset 0 --footer-center [page] --footer-font-size 12",
+                PageMargins = new Margins(10, 10, 10, 10)
+            };
+        }
+
+        private void SaveAuditoria(Evolucion model)
+        {
+            _auditoriaLogic.Add(
+                new Auditoria
+                {
+                    EntidadId = model.Id,
+                    Entidad = JsonSerializer.Serialize(model),
+                    TipoEntidad = model.GetType().Name,
+                    Usuario = _userLogic.GetByName(User.Identity.Name)
+                });
         }
     }
 }

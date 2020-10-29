@@ -55,6 +55,7 @@ namespace AdSanare.Core
 
             #region Repositorios
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericUserRepository<>));
             services.AddTransient<IPacienteRepository, PacienteRepository>();
             services.AddTransient<IExamenComplementarioRepository, ExamenComplementarioRepository>();
             services.AddTransient<IServicioRepository, ServicioRepository>();
@@ -62,9 +63,12 @@ namespace AdSanare.Core
             services.AddTransient<IIngresoRepository, IngresoRepository>();
             services.AddTransient<IEvolucionRepository, EvolucionRepository>();
             services.AddTransient<IExamenFisicoRepository, ExamenFisicoRepository>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IAuditoriaRepository, AuditoriaRepository>();
             #endregion
             #region Unidad de Trabajo
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUserUnitOfWork, UsuarioUnitOfWork>();
             #endregion
             #region Logica de Negocio
             services.AddTransient<IPacienteLogic, PacienteLogic>();
@@ -73,6 +77,8 @@ namespace AdSanare.Core
             services.AddTransient<ICamaLogic, CamaLogic>();
             services.AddTransient<IIngresoLogic, IngresoLogic>();
             services.AddTransient<IEvolucionLogic, EvolucionLogic>();
+            services.AddTransient<IUsuarioLogic, UsuarioLogic>();
+            services.AddTransient<IAuditoriaLogic, AuditoriaLogic>();
             #endregion
             #region Validador
             services.AddTransient<IValidator<Paciente>, PacienteValidator>();
@@ -114,6 +120,7 @@ namespace AdSanare.Core
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            Rotativa.AspNetCore.RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env, "lib\\Rotativa\\Windows\\");
         }
     }
 }

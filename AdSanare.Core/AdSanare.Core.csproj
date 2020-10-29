@@ -23,6 +23,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0-beta" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,19 @@
     <ProjectReference Include="..\AdSanare.UnitOfWork.Interfaces\AdSanare.UOW.Interfaces.csproj" />
     <ProjectReference Include="..\AdSanare.UnitOfWork\AdSanare.UOW.csproj" />
     <ProjectReference Include="..\AdSanare.Validation\AdSanare.Validation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\Rotativa\Windows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\Rotativa\Windows\wkhtmltoimage.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\lib\Rotativa\Windows\wkhtmltopdf.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

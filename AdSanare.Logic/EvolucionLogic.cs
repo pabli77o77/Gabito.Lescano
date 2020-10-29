@@ -23,7 +23,6 @@ namespace AdSanare.Logic
             entidad.CamaInternacion = cama;
             Ingreso ingreso = _unitOfWork.Ingresos.Get(entidad.Ingreso.Id);
             entidad.Ingreso = ingreso;
-            _unitOfWork.ExamenesFisicos.Add(entidad.ExamenFisico);
             _unitOfWork.Evoluciones.Add(entidad);
             _unitOfWork.Complete();
         }

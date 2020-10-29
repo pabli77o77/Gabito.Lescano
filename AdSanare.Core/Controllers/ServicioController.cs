@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;

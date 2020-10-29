@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace AdSanare.Entities
 {
@@ -8,5 +9,7 @@ namespace AdSanare.Entities
         public virtual Servicio ServicioInternacion { get; set; }
         [DisplayName("Número/Letra de Cama")]
         public string Descripcion { get; set; }
+        public bool BajaLogica { get; set; }
+        public DateTime FechaBaja { get; set; } = DateTime.Now;
     }
 }

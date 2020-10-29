@@ -11,6 +11,7 @@ namespace AdSanare.Logic
     public class IngresoLogic : IIngresoLogic
     {
         private readonly IUnitOfWork _unitOfWork;
+
         public IngresoLogic(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
