@@ -12,6 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.9" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -21,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdSanare.Context\AdSanare.Context.csproj" />
     <ProjectReference Include="..\AdSanare.Entities\AdSanare.Entities.csproj" />
     <ProjectReference Include="..\AdSanare.Logic.Interfaces\AdSanare.Logic.Interfaces.csproj" />
     <ProjectReference Include="..\AdSanare.Logic\AdSanare.Logic.csproj" />
