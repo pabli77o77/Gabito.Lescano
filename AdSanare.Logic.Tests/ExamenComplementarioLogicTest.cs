@@ -54,8 +54,7 @@ namespace AdSanare.Logic.Tests
                 FechaExamen = DateTime.Now,
                 Id = idExamen,
                 Paciente = paciente,
-                TipoExamen = "Complementario",
-                Usuario = null
+                TipoExamen = "Complementario"
             };
 
             ExamenComplementario examen1 = examen;
@@ -68,7 +67,6 @@ namespace AdSanare.Logic.Tests
             Assert.Equal(examen.Detalle, result.Detalle);
             Assert.Equal(examen.FechaExamen, result.FechaExamen);
             Assert.Equal(examen.TipoExamen, result.TipoExamen);
-            Assert.Equal(examen.Usuario, result.Usuario);
         }
 
         [Fact]
@@ -103,8 +101,7 @@ namespace AdSanare.Logic.Tests
                     FechaExamen = DateTime.Now,
                     Id = 25,
                     Paciente = paciente,
-                    TipoExamen = "Complementario",
-                    Usuario = null
+                    TipoExamen = "Complementario"
                 },
 
                 new ExamenComplementario
@@ -113,8 +110,7 @@ namespace AdSanare.Logic.Tests
                     FechaExamen = DateTime.Now,
                     Id = 26,
                     Paciente = paciente,
-                    TipoExamen = "Complementario_1",
-                    Usuario = null
+                    TipoExamen = "Complementario_1"
                 },
 
                 new ExamenComplementario
@@ -123,8 +119,7 @@ namespace AdSanare.Logic.Tests
                     FechaExamen = DateTime.Now,
                     Id = 27,
                     Paciente = paciente,
-                    TipoExamen = "Complementario_2",
-                    Usuario = null
+                    TipoExamen = "Complementario_2"
                 }
             };
             
