@@ -66,6 +66,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item ">
+                        <a asp-controller="ObraSocial" asp-action="Index" class="nav-link @Url.MakeActiveClass("obrasocial","index")">
+                            <i class="fas fa-medkit"></i>
+                            <p>
+                                Obra Social
+                            </p>
+                        </a>
+                    </li>
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="nav-item ">
@@ -84,8 +92,8 @@
                                 </p>
                             </a>
                         </li>
-                        }
                     }
+                }
             </ul>
         </nav>
     </div>
