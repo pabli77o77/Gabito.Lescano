@@ -17,6 +17,8 @@ namespace AdSanare.Logic
         }
         public void Add(Paciente entidad)
         {
+            ObraSocial obra = _unitOfWork.ObrasSociales.Get(entidad.ObraSocial.Id);
+            entidad.ObraSocial = obra;
             _unitOfWork.Pacientes.Add(entidad);
             _unitOfWork.Complete();
         }

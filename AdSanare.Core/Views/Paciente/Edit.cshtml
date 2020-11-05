@@ -7,59 +7,68 @@
             </div>
             <form asp-antiforgery="true" asp-action="Edit" method="post">
                 <input type="hidden" class="form-control" asp-for="Id" />
+                <input type="hidden" class="form-control" asp-for="ObraSocial.Id" />
+                <input type="hidden" class="form-control" asp-for="Domicilio.Id" />
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label asp-for="Nombre"></label>
                                 <input class="form-control" asp-for="Nombre">
                                 <span class="text-danger" asp-validation-for="Nombre"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
                                 <label asp-for="Apellido"></label>
                                 <input class="form-control" asp-for="Apellido">
                                 <span class="text-danger" asp-validation-for="Apellido"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label asp-for="Documento"></label>
                                 <input class="form-control" asp-for="Documento">
                                 <span class="text-danger" asp-validation-for="Documento"></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label asp-for="FechaNacimiento"></label>
                                 <input class="form-control" asp-for="FechaNacimiento">
                                 <span class="text-danger" asp-validation-for="FechaNacimiento"></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label asp-for="Sexo"></label>
                                 <input class="form-control" asp-for="Sexo">
                                 <span class="text-danger" asp-validation-for="Sexo"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label asp-for="EstadoCivil"></label>
                                 <input class="form-control" asp-for="EstadoCivil">
                                 <span class="text-danger" asp-validation-for="EstadoCivil"></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label asp-for="Telefono"></label>
                                 <input class="form-control" asp-for="Telefono">
                                 <span class="text-danger" asp-validation-for="Telefono"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="ObraSocial" class="control-label"></label>
+                                <select class="form-control" asp-for="ObraSocial.Id" asp-items="@ViewBag.ObraSocial" title="Seleccione la Obra Social Correspondiente"></select>
+                                <span asp-validation-for="ObraSocial.Id" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -67,6 +76,29 @@
                                 <label asp-for="ObraSocialNumero"></label>
                                 <input class="form-control" asp-for="ObraSocialNumero">
                                 <span class="text-danger" asp-validation-for="ObraSocialNumero"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Domicilio.Calle"></label>
+                                <input class="form-control" asp-for="Domicilio.Calle">
+                                <span class="text-danger" asp-validation-for="Domicilio.Calle"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Domicilio.Localidad"></label>
+                                <input class="form-control" asp-for="Domicilio.Localidad">
+                                <span class="text-danger" asp-validation-for="Domicilio.Localidad"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Domicilio.Provincia"></label>
+                                <input class="form-control" asp-for="Domicilio.Provincia">
+                                <span class="text-danger" asp-validation-for="Domicilio.Provincia"></span>
                             </div>
                         </div>
                     </div>

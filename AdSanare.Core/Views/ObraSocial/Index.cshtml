@@ -1,0 +1,54 @@
+﻿@model List<AdSanare.Entities.ObraSocial>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#listadoObrasSociales').DataTable({
+                "columnDefs": [{
+                    "searchable": false,
+                    "orderable": false,
+                    "targets": 1
+                }],
+                "language": {
+                    'url': '@Url.Content("~/lib/arg.json")'
+                }
+            });
+        });
+    </script>
+}
+<br />
+<div class="card card-maroon">
+    <div class="card-header">
+        <h3 class="card-title">Lista de Obras Sociales</h3>
+        <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm pull-right">
+                    <a class="btn btn-success" asp-controller="ObraSocial" asp-action="Create" title="Agregar Obra Social"><i class="fas fa-plus">Nuevo</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body table-responsive">
+        <table class="table table-bordered table-hover" id="listadoObrasSociales">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ObraSocial</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => p.Descripcion)
+                    </td>
+                    <td align="center">
+                        <a href="@Url.Action("Edit", "ObraSocial", new { id = p.Id})" title="Editar Obra Social" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                        <a href="@Url.Action("Delete", "ObraSocial", new { id = p.Id })" title="Borrar Obra Social" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

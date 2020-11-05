@@ -12,6 +12,8 @@ namespace AdSanare.UOW.Interfaces
         IIngresoRepository Ingresos { get; }
         IEvolucionRepository Evoluciones { get; }
         IExamenFisicoRepository ExamenesFisicos { get; }
+        IObraSocialRepository ObrasSociales { get; }
+        IDomicilioRepository Domicilios { get; }
         int Complete();
     }
 }

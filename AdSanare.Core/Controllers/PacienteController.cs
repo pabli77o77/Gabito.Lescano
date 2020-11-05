@@ -7,6 +7,7 @@ using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AdSanare.Core.Controllers
 {
@@ -14,14 +15,16 @@ namespace AdSanare.Core.Controllers
     public class PacienteController : Controller
     {
         private IPacienteLogic _logic;
+        private IObraSocialLogic _logicObraSocial;
         private IAuditoriaLogic _auditoriaLogic;
         private IUsuarioLogic _userLogic;
 
-        public PacienteController(IPacienteLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
+        public PacienteController(IPacienteLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic,IObraSocialLogic logicObraSocial)
         {
             _logic = logic;
             _auditoriaLogic = auditoriaLogic;
             _userLogic = userLogic;
+            _logicObraSocial = logicObraSocial;
         }
 
         public IActionResult Index()
@@ -65,12 +68,13 @@ namespace AdSanare.Core.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente model)
+        public IActionResult Create(Paciente model)
         {            
             try
             {
@@ -85,25 +89,28 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
+            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
             return View(model);
         }
 
         [HttpGet]
         public ActionResult Edit(int id) 
         {
-            Paciente model = _logic.Get(id);
+            List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
+            listaWhere.Add(p => p.Id == id);
+            Paciente model = _logic.Get(listaWhere, null, "ObraSocial,Domicilio").FirstOrDefault();
 
             if (model == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
-
+            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
             return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(include: "Id,Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente model)
+        public ActionResult Edit(Paciente model)
         {
             try
             {
@@ -119,6 +126,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
+            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
             return View(model);
         }
 
@@ -138,7 +146,9 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            Paciente model = _logic.Get(id);
+            List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
+            listaWhere.Add(p => p.Id == id);
+            Paciente model = _logic.Get(listaWhere, null, "ObraSocial,Domicilio").FirstOrDefault();
 
             if (model == null)
             {

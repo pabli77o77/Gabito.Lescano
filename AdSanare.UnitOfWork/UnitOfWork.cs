@@ -16,6 +16,8 @@ namespace AdSanare.UOW
         public IIngresoRepository Ingresos { get; private set; }
         public IEvolucionRepository Evoluciones { get; private set; }
         public IExamenFisicoRepository ExamenesFisicos { get; private set; }
+        public IObraSocialRepository ObrasSociales { get; private set; }
+        public IDomicilioRepository Domicilios { get; private set; }
 
         public UnitOfWork(AdSanareDbContext context)
         {
@@ -27,6 +29,8 @@ namespace AdSanare.UOW
             Ingresos = new IngresoRepository(_context);
             Evoluciones = new EvolucionRepository(_context);
             ExamenesFisicos = new ExamenFisicoRepository(_context);
+            ObrasSociales = new ObraSocialRepository(_context);
+            Domicilios = new DomicilioRepository(_context);
 
         }
 
