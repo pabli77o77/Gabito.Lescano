@@ -249,3 +249,8 @@ a[data-toggle="collapse"] {
 .textoPrincipal {
     padding-top: 100px;
 }
+
+/*Mensaje Modal*/
+.modalCustomHeader {
+    background-color: #d81b60;
+}

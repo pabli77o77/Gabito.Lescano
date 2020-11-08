@@ -49,23 +49,25 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Ingreso model)
+        public IActionResult Create(Ingreso ingreso)
         {
             try
             {
-                
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
-                    SaveAuditoria(model);
-                    return RedirectToAction(nameof(Index));
+                    if (ingreso.Paciente != null)
+                    {
+                        _logic.Add(ingreso);
+                        SaveAuditoria(ingreso);
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(ingreso);
         }
 
         [HttpGet]
