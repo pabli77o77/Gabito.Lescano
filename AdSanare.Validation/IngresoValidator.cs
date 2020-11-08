@@ -14,7 +14,7 @@ namespace AdSanare.Validation
                 .NotNull().When(x => x.Paciente != null).WithMessage("Debe ingresar un Paciente");
             RuleFor(x => x.FechaIngreso)
                 .NotEmpty().WithMessage("Debe seleccionar una Fecha de Ingreso")
-                .LessThan(x => DateTime.Now.AddDays(1)).WithMessage("La Fecha ingresada no puede ser mayor a la de Hoy.");
+                .LessThan(x => DateTime.Now.Date).WithMessage("La Fecha ingresada no puede ser mayor a la de Hoy.");
             RuleFor(p => p.Diagnostico)
                 .NotNull().WithMessage("Debe Ingresar el Diagnostico")
                 .Length(5, 200).WithMessage("Debe ingresar entre {MinLength} y {MaxLength} caracteres.");

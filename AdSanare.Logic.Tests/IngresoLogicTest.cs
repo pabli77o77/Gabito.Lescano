@@ -6,12 +6,15 @@ using AdSanare.UOW.Interfaces;
 using AutoMoqCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Microsoft.AspNetCore.Http;
+using System.Linq.Expressions;
 
 namespace AdSanare.Logic.Tests
 {
@@ -24,7 +27,8 @@ namespace AdSanare.Logic.Tests
         {
             _autoMoquer = new AutoMoqer();
             _ingresoLogic = _autoMoquer.Resolve<IngresoLogic>();
-            _autoMoquer.GetMock<IUnitOfWork>().Setup(i => i.Ingresos).Returns(_autoMoquer.GetMock<IIngresoRepository>().Object);
+            _autoMoquer.GetMock<IUnitOfWork>().Setup(i => i.Ingresos).Returns(_autoMoquer.GetMock<IIngresoRepository>().Object).Verifiable();
+            _autoMoquer.GetMock<IUnitOfWork>().Setup(p => p.Pacientes).Returns(_autoMoquer.GetMock<IPacienteRepository>().Object).Verifiable();
 
         }
 
@@ -66,8 +70,7 @@ namespace AdSanare.Logic.Tests
                 MedicacionHabitual = "Ninguna",
                 Paciente = paciente,
                 Peso = 80,
-                Talla = 175,
-                Usuario = null
+                Talla = 175
             };
             
             Ingreso ingreso1 = ingreso;
@@ -88,7 +91,6 @@ namespace AdSanare.Logic.Tests
             Assert.Equal(ingreso.AntecedentesQuirurgicos, result.AntecedentesQuirurgicos);
             Assert.Equal(ingreso.Defuncion, result.Defuncion);
             Assert.Equal(ingreso.Paciente, result.Paciente);
-            Assert.Equal(ingreso.Usuario, result.Usuario);
         }
 
         [Fact]
@@ -131,8 +133,7 @@ namespace AdSanare.Logic.Tests
                 MedicacionHabitual = "Ninguna",
                 Paciente = paciente,
                 Peso = 80,
-                Talla = 175,
-                Usuario = null
+                Talla = 175
             },
 
             new Ingreso
@@ -148,8 +149,7 @@ namespace AdSanare.Logic.Tests
                 MedicacionHabitual = "Ninguna",
                 Paciente = paciente,
                 Peso = 80,
-                Talla = 175,
-                Usuario = null
+                Talla = 175
             },
 
             new Ingreso
@@ -165,8 +165,7 @@ namespace AdSanare.Logic.Tests
                 MedicacionHabitual = "Ninguna",
                 Paciente = paciente,
                 Peso = 80,
-                Talla = 175,
-                Usuario = null
+                Talla = 175
             },
         };
 
@@ -177,5 +176,54 @@ namespace AdSanare.Logic.Tests
             Assert.Equal(listaIngresos.Count, result.Count());
         }
 
+        [Fact]
+        public void InsertaIngreso() 
+        {
+            ObraSocial obSocial = new ObraSocial
+            {
+                Descripcion = "Swiss Medical",
+                Id = 154
+            };
+
+            Paciente paciente = new Paciente
+            {
+                Apellido = "Gomez",
+                Nombre = "Claudio",
+                Documento = "12345678",
+                Domicilio = new Domicilio { Calle = "Lafinur", Id = 1, Localidad = "Capital Federal", Provincia = "Bs. As." },
+                EstadoCivil = "Casado",
+                FechaNacimiento = Convert.ToDateTime("25/09/1980"),
+                Id = 575,
+                ObraSocial = obSocial,
+                ObraSocialNumero = "54635-7389393",
+                Sexo = "M",
+                Telefono = "1156789944"
+            };
+
+            Ingreso ingreso = new Ingreso
+            {
+                Alergias = "Ninguna",
+                AntecedentesMedicos = "Ninguno",
+                AntecedentesQuirurgicos = "Ninguno",
+                Defuncion = false,
+                Diagnostico = "Gripe",
+                FechaEgreso = null,
+                FechaIngreso = DateTime.Now,
+                MedicacionHabitual = "Ninguna",
+                Paciente = paciente,
+                Peso = 80,
+                Talla = 175,
+            };
+
+            try
+            {
+                _ingresoLogic.Add(ingreso);
+                Assert.True(true);
+            }
+            catch
+            {
+                Assert.True(false);
+            }
+        }
     }
 }

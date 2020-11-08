@@ -1,4 +1,8 @@
 ﻿@model AdSanare.Entities.Ingreso
+@{ 
+    var mensajeError = ViewBag.Error;
+}
+
 @section Scripts {
     <script>
         $('#BuscarDni').on('click', function () {
@@ -12,38 +16,61 @@
                 success: function (data) {
                     $('#DivPaciente').replaceWith($('#DivPaciente').html(data));
                 }
+            }).done(function (data) {
+                var res = $('#divNoResult').length;
+                if (res > 0) {
+                    $('#NuevoPaciente').removeClass('invisible');
+                } else {
+                    $('#NuevoPaciente').addClass('invisible');
+                }
             });
         });
+
+        $('#NuevoPaciente').on('click', function () {
+            var url = $('#modalPaciente').data('url');
+            $.get(url, function (data) {
+                $('#modalPaciente').html(data);
+                $('#modalPaciente').modal('show');  
+            })
+        });
+
         $(document).ready(function () {
             let dni = "@ViewBag.Documento";
             if (dni != "undefined" && dni != "" && dni != null) {
                 $('#DniPaciente').val(dni);
                 $('#BuscarDni').click();
+                
             }
         })
+
     </script>
 }
+
 <br />
 <div class="card card-maroon">
     <div class="card-header">
         <h3 class="card-title">Ingresar Paciente</h3>
     </div>
     <form asp-antiforgery="true" asp-action="Create" method="post">
+        <div id="modalPaciente" class="modal fade" role="dialog" data-url="@Url.Action("Create","Paciente", new { iPaciente = "iPaciente"})">
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
+            <div class="form-group col-md-12">
+                <div class="row col-md-12">
+                    <div class="col-md-4">
                         <label asp-for="Paciente.Documento" class="control-label">Numero de Documento del Paciente</label>
                         <input id="DniPaciente" asp-for="Paciente.Documento" class="form-control control-label" placeholder="Ingrese el numero de documento del Paciente" />
                         <span asp-validation-for="Paciente.Documento" class="text-danger"></span>
                     </div>
+                    <div class="col-md-2">
+                        <br />
+                        <input type="button" id="BuscarDni" class="btn btn-primary form-control control-label" value="Buscar">
+                    </div>
+                    <div class="col-md-2">
+                        <br />
+                        <input type="button" id="NuevoPaciente" class="btn btn-primary form-control control-label invisible" value="Cargar Paciente">
+                    </div>
                 </div>
-                <div class="col-md-1"></div>
-                <div class="col-md-2">
-                    <br />
-                    <input type="button" id="BuscarDni" class="btn btn-primary form-control control-label" value="Buscar">
-                </div>
-                <div class="col-md-4"></div>
             </div>
             <div id="DivPaciente"></div>
             <div class="row">

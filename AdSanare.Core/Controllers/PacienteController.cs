@@ -93,6 +93,34 @@ namespace AdSanare.Core.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[controller]/[action]/{iPaciente}")]
+        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente model, string iPaciente)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _logic.Add(model);
+                    SaveAuditoria(model);
+                    if (!string.IsNullOrEmpty(iPaciente))
+                    {
+                        return RedirectToAction("Create", "Ingreso", new { Documento = model.Documento });
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", ex);
+            }
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult Edit(int id) 
         {

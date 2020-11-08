@@ -17,14 +17,22 @@ namespace AdSanare.Logic
             _unitOfWork = unitOfWork;
         }
 
-        public void Add(Ingreso entidad)
+        public void Add(Ingreso pacienteIngreso)
         {
-            List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
-            listaWhere.Add(p => p.Documento.Trim().ToUpper().Contains(entidad.Paciente.Documento.Trim().ToUpper()));
-            Paciente paciente = _unitOfWork.Pacientes.Get(listaWhere).FirstOrDefault();
-            entidad.Paciente = paciente;
-            _unitOfWork.Ingresos.Add(entidad);
-            _unitOfWork.Complete();
+            List<Expression<Func<Paciente, bool>>> filtroDni = new List<Expression<Func<Paciente, bool>>>();
+            filtroDni.Add(p => p.Documento.Trim().ToUpper().Contains(pacienteIngreso.Paciente.Documento.Trim().ToUpper()));
+            Paciente paciente = _unitOfWork.Pacientes.Get(filtroDni).FirstOrDefault();
+            if (paciente == null) 
+            {
+                _unitOfWork.Dispose();
+                return;
+            }
+            else
+            {
+                pacienteIngreso.Paciente = paciente;
+                _unitOfWork.Ingresos.Add(pacienteIngreso);
+                _unitOfWork.Complete();
+            }
         }
 
         public IEnumerable<Ingreso> Get()
