@@ -19,6 +19,6 @@ namespace AdSanare.Entities
         [DisplayName("Temperatura")]
         public decimal Temperatura { get; set; }
         public bool BajaLogica { get; set; }
-        public DateTime FechaBaja { get; set; } = DateTime.Now;
+        public DateTime FechaBaja { get; set; }
     }
 }

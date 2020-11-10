@@ -45,9 +45,9 @@ namespace AdSanare.Logic
             return _unitOfWork.Ingresos.Get(Id);
         }
 
-        public IEnumerable<Ingreso> Get(List<Expression<Func<Ingreso, bool>>> where = null, Func<IQueryable<Ingreso>, IOrderedQueryable<Ingreso>> orden = null, string include = "")
+        public IEnumerable<Ingreso> Get(List<Expression<Func<Ingreso, bool>>> filtros = null, Func<IQueryable<Ingreso>, IOrderedQueryable<Ingreso>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Ingresos.Get(where, orden, include);
+            return _unitOfWork.Ingresos.Get(filtros, ordenamiento, incluir);
         }
 
         public void Remove(int Id)
@@ -55,14 +55,16 @@ namespace AdSanare.Logic
             Ingreso ingreso = _unitOfWork.Ingresos.Get(Id);
             if (ingreso != null)
             {
-                _unitOfWork.Ingresos.Remove(ingreso);
+                ingreso.BajaLogica = true;
+                ingreso.FechaBaja = DateTime.Now;
+                _unitOfWork.Ingresos.Update(ingreso);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(Ingreso entidad)
+        public void Update(Ingreso ingreso)
         {
-            _unitOfWork.Ingresos.Update(entidad);
+            _unitOfWork.Ingresos.Update(ingreso);
             _unitOfWork.Complete();
         }
     }

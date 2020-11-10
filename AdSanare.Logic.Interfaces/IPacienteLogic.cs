@@ -8,11 +8,11 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IPacienteLogic
     {
-        void Add(Paciente entidad);
+        void Add(Paciente paciente);
         IEnumerable<Paciente> Get();
         Paciente Get(int Id);
-        IEnumerable<Paciente> Get(List<Expression<Func<Paciente, bool>>> where = null, Func<IQueryable<Paciente>, IOrderedQueryable<Paciente>> orden = null, string include = "");
+        IEnumerable<Paciente> Get(List<Expression<Func<Paciente, bool>>> filtros = null, Func<IQueryable<Paciente>, IOrderedQueryable<Paciente>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(Paciente entidad);
+        void Update(Paciente paciente);
     }
 }

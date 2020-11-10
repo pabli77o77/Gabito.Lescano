@@ -16,9 +16,9 @@ namespace AdSanare.Logic
         {
             _unitOfWork = unitOfWork;
         }
-        public void Add(ObraSocial entidad)
+        public void Add(ObraSocial nuevaObraSocial)
         {
-            _unitOfWork.ObrasSociales.Add(entidad);
+            _unitOfWork.ObrasSociales.Add(nuevaObraSocial);
             _unitOfWork.Complete();
         }
 
@@ -32,24 +32,26 @@ namespace AdSanare.Logic
             return _unitOfWork.ObrasSociales.Get(Id);
         }
 
-        public IEnumerable<ObraSocial> Get(List<Expression<Func<ObraSocial, bool>>> where = null, Func<IQueryable<ObraSocial>, IOrderedQueryable<ObraSocial>> orden = null, string include = "")
+        public IEnumerable<ObraSocial> Get(List<Expression<Func<ObraSocial, bool>>> filtros = null, Func<IQueryable<ObraSocial>, IOrderedQueryable<ObraSocial>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.ObrasSociales.Get(where, orden, include);
+            return _unitOfWork.ObrasSociales.Get(filtros, ordenamiento, incluir);
         }
 
         public void Remove(int Id)
         {
-            ObraSocial obra = _unitOfWork.ObrasSociales.Get(Id);
-            if (obra != null)
+            ObraSocial obraSocial = _unitOfWork.ObrasSociales.Get(Id);
+            if (obraSocial != null)
             {
-                _unitOfWork.ObrasSociales.Remove(obra);
+                obraSocial.BajaLogica = true;
+                obraSocial.FechaBaja = DateTime.Now;
+                _unitOfWork.ObrasSociales.Update(obraSocial);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(ObraSocial entidad)
+        public void Update(ObraSocial obraSocial)
         {
-            _unitOfWork.ObrasSociales.Update(entidad);
+            _unitOfWork.ObrasSociales.Update(obraSocial);
             _unitOfWork.Complete();
         }
     }

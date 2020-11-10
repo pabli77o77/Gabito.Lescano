@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.Json;
+using AdSanare.Core.Helper;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,14 +15,14 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class PacienteController : Controller
     {
-        private IPacienteLogic _logic;
+        private IPacienteLogic _logicPaciente;
         private IObraSocialLogic _logicObraSocial;
         private IAuditoriaLogic _auditoriaLogic;
         private IUsuarioLogic _userLogic;
 
-        public PacienteController(IPacienteLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic,IObraSocialLogic logicObraSocial)
+        public PacienteController(IPacienteLogic logicPaciente, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic,IObraSocialLogic logicObraSocial)
         {
-            _logic = logic;
+            _logicPaciente = logicPaciente;
             _auditoriaLogic = auditoriaLogic;
             _userLogic = userLogic;
             _logicObraSocial = logicObraSocial;
@@ -39,24 +40,25 @@ namespace AdSanare.Core.Controllers
             }
             
         }
-        public IActionResult _ListaPacientes(Paciente model)
+        public IActionResult _ListaPacientes(Paciente paciente)
         {
             try
             {
-                List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
-                if (!string.IsNullOrWhiteSpace(model.Nombre))
+                List<Expression<Func<Paciente, bool>>> filtrosPacientes = new List<Expression<Func<Paciente, bool>>>();
+                if (!string.IsNullOrWhiteSpace(paciente.Nombre))
                 {
-                    listaWhere.Add(p => p.Nombre.Trim().ToUpper().Contains(model.Nombre.Trim().ToUpper()));
+                    filtrosPacientes.Add(p => p.Nombre.Trim().ToUpper().Contains(paciente.Nombre.Trim().ToUpper()));
                 }
-                if (!string.IsNullOrWhiteSpace(model.Apellido))
+                if (!string.IsNullOrWhiteSpace(paciente.Apellido))
                 {
-                    listaWhere.Add(p => p.Apellido.Trim().ToUpper().Contains(model.Apellido.Trim().ToUpper()));
+                    filtrosPacientes.Add(p => p.Apellido.Trim().ToUpper().Contains(paciente.Apellido.Trim().ToUpper()));
                 }
-                if (!string.IsNullOrWhiteSpace(model.Documento))
+                if (!string.IsNullOrWhiteSpace(paciente.Documento))
                 {
-                    listaWhere.Add(p => p.Documento.Trim().ToUpper().Contains(model.Documento.Trim().ToUpper()));
+                    filtrosPacientes.Add(p => p.Documento.Trim().ToUpper().Contains(paciente.Documento.Trim().ToUpper()));
                 }
-                return PartialView(_logic.Get(listaWhere));
+                filtrosPacientes.Add(p=>!p.BajaLogica);
+                return PartialView(_logicPaciente.Get(filtrosPacientes));
             }
             catch (Exception ex)
             {
@@ -68,20 +70,22 @@ namespace AdSanare.Core.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            List<Expression<Func<ObraSocial, bool>>> filtroObraSocial = new List<Expression<Func<ObraSocial, bool>>>();
+            filtroObraSocial.Add(p => !p.BajaLogica);
+            ViewBag.ObraSocial = _logicObraSocial.Get(filtroObraSocial).Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Paciente model)
+        public IActionResult Create(Paciente paciente)
         {            
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
-                    SaveAuditoria(model);
+                    _logicPaciente.Add(paciente);
+                    SaveAuditoria(paciente);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -89,24 +93,26 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            return View(model);
+            List<Expression<Func<ObraSocial, bool>>> filtroObraSocial = new List<Expression<Func<ObraSocial, bool>>>();
+            filtroObraSocial.Add(p => !p.BajaLogica);
+            ViewBag.ObraSocial = _logicObraSocial.Get(filtroObraSocial).Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            return View(paciente);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("[controller]/[action]/{iPaciente}")]
-        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente model, string iPaciente)
+        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente paciente, string iPaciente)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
-                    SaveAuditoria(model);
+                    _logicPaciente.Add(paciente);
+                    SaveAuditoria(paciente);
                     if (!string.IsNullOrEmpty(iPaciente))
                     {
-                        return RedirectToAction("Create", "Ingreso", new { Documento = model.Documento });
+                        return RedirectToAction("Create", "Ingreso", new { Documento = paciente.Documento });
                     }
                     else
                     {
@@ -118,34 +124,34 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(paciente);
         }
 
         [HttpGet]
         public ActionResult Edit(int id) 
         {
-            List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
-            listaWhere.Add(p => p.Id == id);
-            Paciente model = _logic.Get(listaWhere, null, "ObraSocial,Domicilio").FirstOrDefault();
+            List<Expression<Func<Paciente, bool>>> filtroPaciente = new List<Expression<Func<Paciente, bool>>>();
+            filtroPaciente.Add(p => p.Id == id);
+            Paciente paciente = _logicPaciente.Get(filtroPaciente, null, "ObraSocial,Domicilio").FirstOrDefault();
 
-            if (model == null)
+            if (paciente == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
             ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            return View(model);
+            return View(paciente);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Paciente model)
+        public ActionResult Edit(Paciente paciente)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
-                    SaveAuditoria(model);
+                    _logicPaciente.Update(paciente);
+                    SaveAuditoria(paciente);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -154,8 +160,10 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            ViewBag.ObraSocial = _logicObraSocial.Get().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            return View(model);
+            List<Expression<Func<ObraSocial, bool>>> filtroObraSocial = new List<Expression<Func<ObraSocial, bool>>>();
+            filtroObraSocial.Add(p => !p.BajaLogica);
+            ViewBag.ObraSocial = _logicObraSocial.Get(filtroObraSocial).Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            return View(paciente);
         }
 
         [HttpGet]
@@ -163,7 +171,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicPaciente.Remove(Id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -174,40 +182,40 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
-            listaWhere.Add(p => p.Id == id);
-            Paciente model = _logic.Get(listaWhere, null, "ObraSocial,Domicilio").FirstOrDefault();
+            List<Expression<Func<Paciente, bool>>> filtroPaciente = new List<Expression<Func<Paciente, bool>>>();
+            filtroPaciente.Add(p => p.Id == id);
+            Paciente paciente = _logicPaciente.Get(filtroPaciente, null, "ObraSocial,Domicilio").FirstOrDefault();
 
-            if (model == null)
+            if (paciente == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return PartialView(model);
+            return PartialView(paciente);
         }
         public ActionResult _BuscarPaciente(string dni)
         {
             if (!string.IsNullOrWhiteSpace(dni))
             {
-                List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
-                listaWhere.Add(p => p.Documento.Trim().ToUpper().Contains(dni.Trim().ToUpper()));
-                Paciente model = _logic.Get(listaWhere).FirstOrDefault();
-                if (model != null)
+                List<Expression<Func<Paciente, bool>>> filtroPaciente = new List<Expression<Func<Paciente, bool>>>();
+                filtroPaciente.Add(p => p.Documento.Trim().ToUpper().Contains(dni.Trim().ToUpper()));
+                Paciente paciente = _logicPaciente.Get(filtroPaciente).FirstOrDefault();
+                if (paciente != null)
                 {
-                    return PartialView(model);
+                    return PartialView(paciente);
                 }
             }
             return PartialView("_NoResult");
         }
-        private void SaveAuditoria(Paciente model)
+        private void SaveAuditoria(Paciente paciente)
         {
             _auditoriaLogic.Add(
                 new Auditoria
                 {
-                    EntidadId = model.Id,
-                    Entidad = JsonSerializer.Serialize(model),
-                    TipoEntidad = model.GetType().Name,
+                    EntidadId = paciente.Id,
+                    Entidad = Cypher.Encrypt(JsonSerializer.Serialize(paciente), paciente.GetType().Name),
+                    TipoEntidad = paciente.GetType().Name,
                     Usuario = _userLogic.GetByName(User.Identity.Name)
                 });
         }

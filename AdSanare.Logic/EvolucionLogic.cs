@@ -15,15 +15,15 @@ namespace AdSanare.Logic
         {
             _unitOfWork = unitOfWork;
         }
-        public void Add(Evolucion entidad)
+        public void Add(Evolucion nuevaEvolucion)
         {
-            Servicio servicio = _unitOfWork.Servicios.Get(entidad.ServicioInternacion.Id);
-            entidad.ServicioInternacion = servicio;
-            Cama cama = _unitOfWork.Camas.Get(entidad.CamaInternacion.Id);
-            entidad.CamaInternacion = cama;
-            Ingreso ingreso = _unitOfWork.Ingresos.Get(entidad.Ingreso.Id);
-            entidad.Ingreso = ingreso;
-            _unitOfWork.Evoluciones.Add(entidad);
+            Servicio servicio = _unitOfWork.Servicios.Get(nuevaEvolucion.ServicioInternacion.Id);
+            nuevaEvolucion.ServicioInternacion = servicio;
+            Cama cama = _unitOfWork.Camas.Get(nuevaEvolucion.CamaInternacion.Id);
+            nuevaEvolucion.CamaInternacion = cama;
+            Ingreso ingreso = _unitOfWork.Ingresos.Get(nuevaEvolucion.Ingreso.Id);
+            nuevaEvolucion.Ingreso = ingreso;
+            _unitOfWork.Evoluciones.Add(nuevaEvolucion);
             _unitOfWork.Complete();
         }
 
@@ -37,9 +37,9 @@ namespace AdSanare.Logic
             return _unitOfWork.Evoluciones.Get(Id);
         }
 
-        public IEnumerable<Evolucion> Get(List<Expression<Func<Evolucion, bool>>> where = null, Func<IQueryable<Evolucion>, IOrderedQueryable<Evolucion>> orden = null, string include = "")
+        public IEnumerable<Evolucion> Get(List<Expression<Func<Evolucion, bool>>> filtros = null, Func<IQueryable<Evolucion>, IOrderedQueryable<Evolucion>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Evoluciones.Get(where, orden, include);
+            return _unitOfWork.Evoluciones.Get(filtros, ordenamiento, incluir);
         }
 
         public void Remove(int Id)
@@ -47,32 +47,38 @@ namespace AdSanare.Logic
             Evolucion evolucion = _unitOfWork.Evoluciones.Get(Id);
             if (evolucion != null)
             {
-                _unitOfWork.Evoluciones.Remove(evolucion);
+                evolucion.BajaLogica = true;
+                evolucion.FechaBaja = DateTime.Now;
+                _unitOfWork.Evoluciones.Update(evolucion);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(Evolucion entidad)
+        public void Update(Evolucion evolucion)
         {
-            Servicio servicio = _unitOfWork.Servicios.Get(entidad.ServicioInternacion.Id);
-            entidad.ServicioInternacion = servicio;
-            Cama cama = _unitOfWork.Camas.Get(entidad.CamaInternacion.Id);
-            entidad.CamaInternacion = cama;
-            Ingreso ingreso = _unitOfWork.Ingresos.Get(entidad.Ingreso.Id);
-            entidad.Ingreso = ingreso;
-            _unitOfWork.ExamenesFisicos.Update(entidad.ExamenFisico);
-            _unitOfWork.Evoluciones.Update(entidad);
+            Servicio servicio = _unitOfWork.Servicios.Get(evolucion.ServicioInternacion.Id);
+            evolucion.ServicioInternacion = servicio;
+            Cama cama = _unitOfWork.Camas.Get(evolucion.CamaInternacion.Id);
+            evolucion.CamaInternacion = cama;
+            Ingreso ingreso = _unitOfWork.Ingresos.Get(evolucion.Ingreso.Id);
+            evolucion.Ingreso = ingreso;
+            _unitOfWork.ExamenesFisicos.Update(evolucion.ExamenFisico);
+            _unitOfWork.Evoluciones.Update(evolucion);
             _unitOfWork.Complete();
         }
 
         public IEnumerable<Cama> GetCamas()
         {
-            return _unitOfWork.Camas.Get();
+            List<Expression<Func<Cama, bool>>> filtros = new List<Expression<Func<Cama, bool>>>();
+            filtros.Add(c => !c.BajaLogica);
+            return _unitOfWork.Camas.Get(filtros);
         }
 
         public IEnumerable<Servicio> GetServicios()
         {
-            return _unitOfWork.Servicios.Get();
+            List<Expression<Func<Servicio, bool>>> filtros = new List<Expression<Func<Servicio, bool>>>();
+            filtros.Add(c => !c.BajaLogica);
+            return _unitOfWork.Servicios.Get(filtros);
         }
     }
 }

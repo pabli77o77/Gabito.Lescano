@@ -8,11 +8,11 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IExamenComplementarioLogic
     {
-        void Add(ExamenComplementario entidad);
+        void Add(ExamenComplementario examenComplementario);
         IEnumerable<ExamenComplementario> Get();
         ExamenComplementario Get(int Id);
-        IEnumerable<ExamenComplementario> Get(List<Expression<Func<ExamenComplementario, bool>>> where = null, Func<IQueryable<ExamenComplementario>, IOrderedQueryable<ExamenComplementario>> orden = null, string include = "");
+        IEnumerable<ExamenComplementario> Get(List<Expression<Func<ExamenComplementario, bool>>> filtros = null, Func<IQueryable<ExamenComplementario>, IOrderedQueryable<ExamenComplementario>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(ExamenComplementario entidad);
+        void Update(ExamenComplementario examenComplementario);
     }
 }

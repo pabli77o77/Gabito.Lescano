@@ -8,11 +8,11 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IDomicilioLogic
     {
-        void Add(Domicilio entidad);
+        void Add(Domicilio domicilio);
         IEnumerable<Domicilio> Get();
         Domicilio Get(int Id);
-        IEnumerable<Domicilio> Get(List<Expression<Func<Domicilio, bool>>> where = null, Func<IQueryable<Domicilio>, IOrderedQueryable<Domicilio>> orden = null, string include = "");
+        IEnumerable<Domicilio> Get(List<Expression<Func<Domicilio, bool>>> filtros = null, Func<IQueryable<Domicilio>, IOrderedQueryable<Domicilio>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(Domicilio entidad);
+        void Update(Domicilio domicilio);
     }
 }

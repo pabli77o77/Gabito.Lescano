@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text.Json;
+using AdSanare.Core.Helper;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -10,13 +13,13 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class ExamenComplementarioController : Controller
     {
-        private IExamenComplementarioLogic _logic;
+        private IExamenComplementarioLogic _logicExamen;
         private IAuditoriaLogic _auditoriaLogic;
         private IUsuarioLogic _userLogic;
 
-        public ExamenComplementarioController(IExamenComplementarioLogic logic,IAuditoriaLogic auditoriaLogic,IUsuarioLogic userLogic)
+        public ExamenComplementarioController(IExamenComplementarioLogic logicExamen,IAuditoriaLogic auditoriaLogic,IUsuarioLogic userLogic)
         {
-            _logic = logic;
+            _logicExamen = logicExamen;
             _auditoriaLogic = auditoriaLogic;
             _userLogic = userLogic;
         }
@@ -25,7 +28,9 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                return View(_logic.Get());
+                List<Expression<Func<ExamenComplementario, bool>>> filtroExamen = new List<Expression<Func<ExamenComplementario, bool>>>();
+                filtroExamen.Add(p => !p.BajaLogica);
+                return View(_logicExamen.Get(filtroExamen));
             }
             catch (Exception ex)
             {
@@ -45,14 +50,14 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ExamenComplementario model)
+        public IActionResult Create(ExamenComplementario examenComplementario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
-                    SaveAuditoria(model);
+                    _logicExamen.Add(examenComplementario);
+                    SaveAuditoria(examenComplementario);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -60,33 +65,33 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(examenComplementario);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            ExamenComplementario model = _logic.Get(id);
+            ExamenComplementario examenComplementario = _logicExamen.Get(id);
 
-            if (model == null)
+            if (examenComplementario == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return View(model);
+            return View(examenComplementario);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ExamenComplementario model)
+        public ActionResult Edit(ExamenComplementario examenComplementario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
-                    SaveAuditoria(model);
+                    _logicExamen.Update(examenComplementario);
+                    SaveAuditoria(examenComplementario);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -95,7 +100,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(examenComplementario);
         }
 
         [HttpGet]
@@ -103,7 +108,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicExamen.Remove(Id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -115,25 +120,25 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            ExamenComplementario model = _logic.Get(id);
+            ExamenComplementario examenComplementario = _logicExamen.Get(id);
 
-            if (model == null)
+            if (examenComplementario == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return PartialView(model);
+            return PartialView(examenComplementario);
         }
 
-        private void SaveAuditoria(ExamenComplementario model)
+        private void SaveAuditoria(ExamenComplementario examenComplementario)
         {
             _auditoriaLogic.Add(
                 new Auditoria
                 {
-                    EntidadId = model.Id,
-                    Entidad = JsonSerializer.Serialize(model),
-                    TipoEntidad = model.GetType().Name,
+                    EntidadId = examenComplementario.Id,
+                    Entidad = Cypher.Encrypt(JsonSerializer.Serialize(examenComplementario), examenComplementario.GetType().Name),
+                    TipoEntidad = examenComplementario.GetType().Name,
                     Usuario = _userLogic.GetByName(User.Identity.Name)
                 });
         }

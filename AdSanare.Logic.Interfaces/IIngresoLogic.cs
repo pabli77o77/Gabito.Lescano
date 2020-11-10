@@ -8,12 +8,12 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IIngresoLogic
     {
-        void Add(Ingreso entidad);
+        void Add(Ingreso ingreso);
         IEnumerable<Ingreso> Get();
         Ingreso Get(int Id);
-        IEnumerable<Ingreso> Get(List<Expression<Func<Ingreso, bool>>> where = null, Func<IQueryable<Ingreso>, IOrderedQueryable<Ingreso>> orden = null, string include = "");
+        IEnumerable<Ingreso> Get(List<Expression<Func<Ingreso, bool>>> filtros = null, Func<IQueryable<Ingreso>, IOrderedQueryable<Ingreso>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(Ingreso entidad);
+        void Update(Ingreso ingreso);
 
     }
 }

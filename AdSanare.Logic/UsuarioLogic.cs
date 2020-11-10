@@ -17,9 +17,9 @@ namespace AdSanare.Logic
             _unitOfWork = unitOfWork;
         }
 
-        public void Add(Usuario entidad)
+        public void Add(Usuario nuevoUsuario)
         {
-            _unitOfWork.Usuarios.Add(entidad);
+            _unitOfWork.Usuarios.Add(nuevoUsuario);
             _unitOfWork.Complete();
         }
 
@@ -33,14 +33,14 @@ namespace AdSanare.Logic
             return _unitOfWork.Usuarios.Get(Id);
         }
 
-        public IEnumerable<Usuario> Get(List<Expression<Func<Usuario, bool>>> where = null, Func<IQueryable<Usuario>, IOrderedQueryable<Usuario>> orden = null, string include = "")
+        public IEnumerable<Usuario> Get(List<Expression<Func<Usuario, bool>>> filtros = null, Func<IQueryable<Usuario>, IOrderedQueryable<Usuario>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Usuarios.Get(where, orden, include);
+            return _unitOfWork.Usuarios.Get(filtros, ordenamiento, incluir);
         }
 
-        public Usuario GetByName(string Name)
+        public Usuario GetByName(string nombreUsuario)
         {
-            return _unitOfWork.Usuarios.GetByUserName(Name);
+            return _unitOfWork.Usuarios.GetByUserName(nombreUsuario);
         }
 
         public void Remove(int Id)
@@ -53,9 +53,9 @@ namespace AdSanare.Logic
             }
         }
 
-        public void Update(Usuario entidad)
+        public void Update(Usuario usuario)
         {
-            _unitOfWork.Usuarios.Update(entidad);
+            _unitOfWork.Usuarios.Update(usuario);
             _unitOfWork.Complete();
         }
     }

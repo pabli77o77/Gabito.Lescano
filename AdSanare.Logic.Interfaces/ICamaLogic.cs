@@ -8,11 +8,11 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface ICamaLogic
     {
-        void Add(Cama entidad);
+        void Add(Cama cama);
         IEnumerable<Cama> Get();
         Cama Get(int Id);
-        IEnumerable<Cama> Get(List<Expression<Func<Cama, bool>>> where = null, Func<IQueryable<Cama>, IOrderedQueryable<Cama>> orden = null, string include = "");
+        IEnumerable<Cama> Get(List<Expression<Func<Cama, bool>>> filtros = null, Func<IQueryable<Cama>, IOrderedQueryable<Cama>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(Cama entidad);
+        void Update(Cama cama);
     }
 }

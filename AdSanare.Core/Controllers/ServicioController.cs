@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,18 +11,20 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class ServicioController : Controller
     {
-        private IServicioLogic _logic;
+        private IServicioLogic _logicServicio;
 
-        public ServicioController(IServicioLogic logic)
+        public ServicioController(IServicioLogic logicServicio)
         {
-            _logic = logic;
+            _logicServicio = logicServicio;
         }
 
         public IActionResult Index()
         {
             try
             {
-                return View(_logic.Get());
+                List<Expression<Func<Servicio, bool>>> filtroServicio = new List<Expression<Func<Servicio, bool>>>();
+                filtroServicio.Add(p => !p.BajaLogica);
+                return View(_logicServicio.Get(filtroServicio));
             }
             catch (Exception ex)
             {
@@ -35,13 +39,13 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Servicio model)
+        public IActionResult Create(Servicio servicio)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
+                    _logicServicio.Add(servicio);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -49,32 +53,32 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(servicio);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            Servicio model = _logic.Get(id);
+            Servicio servicio = _logicServicio.Get(id);
 
-            if (model == null)
+            if (servicio == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return View(model);
+            return View(servicio);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Servicio model)
+        public ActionResult Edit(Servicio servicio)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
+                    _logicServicio.Update(servicio);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -83,7 +87,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(servicio);
         }
 
         [HttpGet]
@@ -91,7 +95,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicServicio.Remove(Id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

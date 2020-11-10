@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AdSanare.Core.Helper;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +18,13 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class EvolucionController : Controller
     {
-        private IEvolucionLogic _logic;
+        private IEvolucionLogic _logicEvolucion;
         private IAuditoriaLogic _auditoriaLogic;
         private IUsuarioLogic _userLogic;
 
-        public EvolucionController(IEvolucionLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
+        public EvolucionController(IEvolucionLogic logicEvolucion, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
         {
-            _logic = logic;
+            _logicEvolucion = logicEvolucion;
             _auditoriaLogic = auditoriaLogic;
             _userLogic = userLogic;
         }
@@ -32,10 +33,11 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
-                listaWhere.Add(p => p.Ingreso.Id == IngresoId);
+                List<Expression<Func<Evolucion, bool>>> filtroIngreso = new List<Expression<Func<Evolucion, bool>>>();
+                filtroIngreso.Add(p => p.Ingreso.Id == IngresoId);
+                filtroIngreso.Add(p => !p.BajaLogica);
                 ViewBag.IngresoId = IngresoId;
-                return PartialView(_logic.Get(listaWhere,null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente"));
+                return PartialView(_logicEvolucion.Get(filtroIngreso, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente"));
             }
             catch (Exception ex)
             {
@@ -45,22 +47,22 @@ namespace AdSanare.Core.Controllers
 
         public IActionResult Create(int IngresoId)
         {
-            ViewBag.Servicios=_logic.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            ViewBag.Camas= _logic.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Servicios=_logicEvolucion.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Camas= _logicEvolucion.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
             ViewBag.IngresoId = IngresoId;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Evolucion model)
+        public IActionResult Create(Evolucion evolucion)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
-                    SaveAuditoria(model);
+                    _logicEvolucion.Add(evolucion);
+                    SaveAuditoria(evolucion);
                     return RedirectToAction("Index","Ingreso");
                 }
             }
@@ -68,38 +70,38 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            ViewBag.Servicios = _logic.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            ViewBag.Camas = _logic.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            ViewBag.IngresoId = model.Ingreso.Id;
-            return View(model);
+            ViewBag.Servicios = _logicEvolucion.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Camas = _logicEvolucion.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.IngresoId = evolucion.Ingreso.Id;
+            return View(evolucion);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
-            listaWhere.Add(p => p.Id == id);
-            Evolucion model = _logic.Get(listaWhere, null, "ServicioInternacion,CamaInternacion,Ingreso,ExamenFisico").FirstOrDefault();
-            if (model == null)
+            List<Expression<Func<Evolucion, bool>>> filtroEvolucion = new List<Expression<Func<Evolucion, bool>>>();
+            filtroEvolucion.Add(p => p.Id == id);
+            Evolucion evolucion = _logicEvolucion.Get(filtroEvolucion, null, "ServicioInternacion,CamaInternacion,Ingreso,ExamenFisico").FirstOrDefault();
+            if (evolucion == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
-            ViewBag.Servicios = _logic.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            ViewBag.Camas = _logic.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            return View(model);
+            ViewBag.Servicios = _logicEvolucion.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Camas = _logicEvolucion.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            return View(evolucion);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Evolucion model)
+        public ActionResult Edit(Evolucion evolucion)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
-                    SaveAuditoria(model);
+                    _logicEvolucion.Update(evolucion);
+                    SaveAuditoria(evolucion);
                     return RedirectToAction("Index", "Ingreso");
                 }
             }
@@ -108,9 +110,9 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            ViewBag.Servicios = _logic.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            ViewBag.Camas = _logic.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
-            return View(model);
+            ViewBag.Servicios = _logicEvolucion.GetServicios().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            ViewBag.Camas = _logicEvolucion.GetCamas().Select(g => new SelectListItem() { Text = g.Descripcion, Value = g.Id.ToString() }).ToList();
+            return View(evolucion);
         }
 
         [HttpGet]
@@ -118,7 +120,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicEvolucion.Remove(Id);
                 return RedirectToAction("Index","Ingreso");
             }
             catch (Exception ex)
@@ -130,38 +132,38 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
-            listaWhere.Add(p => p.Id == id);
-            Evolucion model = _logic.Get(listaWhere, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente,ExamenFisico").FirstOrDefault();
+            List<Expression<Func<Evolucion, bool>>> filtroEvolucion = new List<Expression<Func<Evolucion, bool>>>();
+            filtroEvolucion.Add(p => p.Id == id);
+            Evolucion evolucion = _logicEvolucion.Get(filtroEvolucion, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente,ExamenFisico").FirstOrDefault();
 
-            if (model == null)
+            if (evolucion == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return PartialView(model);
+            return PartialView(evolucion);
         }
 
         [HttpGet]
         public ActionResult PDF(int id)
         {
-            List<Expression<Func<Evolucion, bool>>> listaWhere = new List<Expression<Func<Evolucion, bool>>>();
-            listaWhere.Add(p => p.Ingreso.Id == id);
-            return new ViewAsPdf("../PDF/PDF", _logic.Get(listaWhere, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente,ExamenFisico")) {
+            List<Expression<Func<Evolucion, bool>>> filtroEvolucion = new List<Expression<Func<Evolucion, bool>>>();
+            filtroEvolucion.Add(p => p.Ingreso.Id == id);
+            return new ViewAsPdf("../PDF/PDF", _logicEvolucion.Get(filtroEvolucion, null, "ServicioInternacion,CamaInternacion,Ingreso,Ingreso.Paciente,ExamenFisico")) {
                 CustomSwitches = "--page-offset 0 --footer-center [page] --footer-font-size 12",
                 PageMargins = new Margins(10, 10, 10, 10)
             };
         }
 
-        private void SaveAuditoria(Evolucion model)
+        private void SaveAuditoria(Evolucion evolucion)
         {
             _auditoriaLogic.Add(
                 new Auditoria
                 {
-                    EntidadId = model.Id,
-                    Entidad = JsonSerializer.Serialize(model),
-                    TipoEntidad = model.GetType().Name,
+                    EntidadId = evolucion.Id,
+                    Entidad = Cypher.Encrypt(JsonSerializer.Serialize(evolucion),evolucion.GetType().Name),
+                    TipoEntidad = evolucion.GetType().Name,
                     Usuario = _userLogic.GetByName(User.Identity.Name)
                 });
         }
