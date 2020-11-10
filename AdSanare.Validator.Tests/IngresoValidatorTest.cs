@@ -18,15 +18,6 @@ namespace AdSanare.Validator.Tests
         }
 
         [Test]
-        public void Devuelve_error_paciente_nulo() 
-        {
-            Paciente paciente = new Paciente { Documento = string.Empty };
-            Ingreso ingreso = new Ingreso { Paciente = paciente };
-            var result = _validador.TestValidate(ingreso);
-            result.ShouldHaveValidationErrorFor(p => p.Paciente.Documento);
-        }
-
-        [Test]
         public void Devuelve_error_fechaIngreso_vacia()
         {
             Ingreso ingreso = new Ingreso { FechaIngreso = Convert.ToDateTime(null) };
@@ -165,7 +156,7 @@ namespace AdSanare.Validator.Tests
         [Test]
         public void Devuelve_error_peso_vacio()
         {
-            Ingreso ingreso = new Ingreso { Peso = Convert.ToDecimal("") };
+            Ingreso ingreso = new Ingreso();
             var result = _validador.TestValidate(ingreso);
             result.ShouldHaveValidationErrorFor(i => i.Peso);
         }
@@ -173,7 +164,7 @@ namespace AdSanare.Validator.Tests
         [Test]
         public void Devuelve_error_talla_vacia()
         {
-            Ingreso ingreso = new Ingreso { Talla = Convert.ToDecimal("") };
+            Ingreso ingreso = new Ingreso();
             var result = _validador.TestValidate(ingreso);
             result.ShouldHaveValidationErrorFor(i => i.Talla);
         }

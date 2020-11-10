@@ -9,12 +9,12 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IEvolucionLogic
     {
-        void Add(Evolucion entidad);
+        void Add(Evolucion evolucion);
         IEnumerable<Evolucion> Get();
         Evolucion Get(int Id);
-        IEnumerable<Evolucion> Get(List<Expression<Func<Evolucion, bool>>> where = null, Func<IQueryable<Evolucion>, IOrderedQueryable<Evolucion>> orden = null, string include = "");
+        IEnumerable<Evolucion> Get(List<Expression<Func<Evolucion, bool>>> filtros = null, Func<IQueryable<Evolucion>, IOrderedQueryable<Evolucion>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(Evolucion entidad);
+        void Update(Evolucion evolucion);
         IEnumerable<Servicio> GetServicios();
         IEnumerable<Cama> GetCamas();
     }

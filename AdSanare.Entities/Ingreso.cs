@@ -31,6 +31,6 @@ namespace AdSanare.Entities
         [DisplayName("Talla")]
         public decimal Talla { get; set; }
         public bool BajaLogica { get; set; }
-        public DateTime FechaBaja { get; set; } = DateTime.Now;
+        public DateTime FechaBaja { get; set; }
     }
 }

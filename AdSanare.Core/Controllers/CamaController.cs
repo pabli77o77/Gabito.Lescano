@@ -13,20 +13,21 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class CamaController : Controller
     {
-        private ICamaLogic _logic;
+        private ICamaLogic _logicCama;
 
-        public CamaController(ICamaLogic logic)
+        public CamaController(ICamaLogic logicCama)
         {
-            _logic = logic;
+            _logicCama = logicCama;
         }
         public IActionResult Index(int ServicioId)
         {
             try
             {
-                List<Expression<Func<Cama, bool>>> listaWhere = new List<Expression<Func<Cama, bool>>>();
-                listaWhere.Add(p => p.ServicioInternacion.Id==ServicioId);
+                List<Expression<Func<Cama, bool>>> filtroCama = new List<Expression<Func<Cama, bool>>>();
+                filtroCama.Add(p => p.ServicioInternacion.Id==ServicioId);
+                filtroCama.Add(p => !p.BajaLogica);
                 ViewBag.ServicioId = ServicioId;
-                return PartialView(_logic.Get(listaWhere));
+                return PartialView(_logicCama.Get(filtroCama));
             }
             catch (Exception ex)
             {
@@ -42,13 +43,13 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Cama model)
+        public IActionResult Create(Cama cama)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
+                    _logicCama.Add(cama);
                     return RedirectToAction("Index", "Servicio");
                 }
             }
@@ -56,33 +57,33 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            ViewBag.ServicioId = model.ServicioInternacion.Id;
-            return View(model);
+            ViewBag.ServicioId = cama.ServicioInternacion.Id;
+            return View(cama);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            Cama model = _logic.Get(id);
+            Cama cama = _logicCama.Get(id);
 
-            if (model == null)
+            if (cama == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return View(model);
+            return View(cama);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Cama model)
+        public ActionResult Edit(Cama cama)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
+                    _logicCama.Update(cama);
                     return RedirectToAction("Index", "Servicio");
                 }
             }
@@ -91,7 +92,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(cama);
         }
 
         [HttpGet]
@@ -99,7 +100,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicCama.Remove(Id);
                 return RedirectToAction("Index", "Servicio");
             }
             catch (Exception ex)

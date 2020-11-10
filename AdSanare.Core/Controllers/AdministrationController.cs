@@ -39,13 +39,13 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
+        public async Task<IActionResult> CreateRole(CreateRoleViewModel rol)
         {
             if (ModelState.IsValid)
             {
                 IdentityRole identityRole = new IdentityRole
                 {
-                    Name = model.RoleName
+                    Name = rol.RoleName
                 };
 
                 IdentityResult result = await _roleManager.CreateAsync(identityRole);
@@ -61,7 +61,7 @@ namespace AdSanare.Core.Controllers
                 }
             }
 
-            return View(model);
+            return View(rol);
         }
 
         [HttpGet]

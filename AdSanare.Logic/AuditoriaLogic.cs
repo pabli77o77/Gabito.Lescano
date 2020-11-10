@@ -16,9 +16,9 @@ namespace AdSanare.Logic
         {
             _unitOfWork = unitOfWork;
         }
-        public void Add(Auditoria entidad)
+        public void Add(Auditoria auditoria)
         {
-            _unitOfWork.Auditorias.Add(entidad);
+            _unitOfWork.Auditorias.Add(auditoria);
             _unitOfWork.Complete();
         }
 
@@ -32,9 +32,9 @@ namespace AdSanare.Logic
             return _unitOfWork.Auditorias.Get(Id);
         }
 
-        public IEnumerable<Auditoria> Get(List<Expression<Func<Auditoria, bool>>> where = null, Func<IQueryable<Auditoria>, IOrderedQueryable<Auditoria>> orden = null, string include = "")
+        public IEnumerable<Auditoria> Get(List<Expression<Func<Auditoria, bool>>> filtros = null, Func<IQueryable<Auditoria>, IOrderedQueryable<Auditoria>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Auditorias.Get(where, orden, include);
+            return _unitOfWork.Auditorias.Get(filtros, ordenamiento, incluir);
         }
     }
 }

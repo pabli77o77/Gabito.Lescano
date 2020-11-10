@@ -24,6 +24,6 @@ namespace AdSanare.Entities
         [DisplayName("Número de Obra Social")]
         public string ObraSocialNumero { get; set; }
         public bool BajaLogica { get; set; }
-        public DateTime FechaBaja { get; set; } = DateTime.Now;
+        public DateTime FechaBaja { get; set; }
     }
 }

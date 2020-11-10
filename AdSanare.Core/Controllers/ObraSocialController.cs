@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,18 +11,20 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class ObraSocialController : Controller
     {
-        private IObraSocialLogic _logic;
+        private IObraSocialLogic _logicObraSocial;
 
-        public ObraSocialController(IObraSocialLogic logic)
+        public ObraSocialController(IObraSocialLogic logicObraSocial)
         {
-            _logic = logic;
+            _logicObraSocial = logicObraSocial;
         }
 
         public IActionResult Index()
         {
             try
             {
-                return View(_logic.Get());
+                List<Expression<Func<ObraSocial, bool>>> filtroObraSocial = new List<Expression<Func<ObraSocial, bool>>>();
+                filtroObraSocial.Add(p => !p.BajaLogica);
+                return View(_logicObraSocial.Get(filtroObraSocial));
             }
             catch (Exception ex)
             {
@@ -35,13 +39,13 @@ namespace AdSanare.Core.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ObraSocial model)
+        public IActionResult Create(ObraSocial obraSocial)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Add(model);
+                    _logicObraSocial.Add(obraSocial);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -49,32 +53,32 @@ namespace AdSanare.Core.Controllers
             {
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(obraSocial);
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            ObraSocial model = _logic.Get(id);
+            ObraSocial obraSocial = _logicObraSocial.Get(id);
 
-            if (model == null)
+            if (obraSocial == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return View(model);
+            return View(obraSocial);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ObraSocial model)
+        public ActionResult Edit(ObraSocial obraSocial)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
+                    _logicObraSocial.Update(obraSocial);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -83,7 +87,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(obraSocial);
         }
 
         [HttpGet]
@@ -91,7 +95,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicObraSocial.Remove(Id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

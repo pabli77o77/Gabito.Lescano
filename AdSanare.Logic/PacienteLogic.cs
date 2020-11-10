@@ -15,11 +15,11 @@ namespace AdSanare.Logic
         {
             _unitOfWork = unitOfWork;
         }
-        public void Add(Paciente entidad)
+        public void Add(Paciente nuevoPaciente)
         {
-            ObraSocial obra = _unitOfWork.ObrasSociales.Get(entidad.ObraSocial.Id);
-            entidad.ObraSocial = obra;
-            _unitOfWork.Pacientes.Add(entidad);
+            ObraSocial obraSocial = _unitOfWork.ObrasSociales.Get(nuevoPaciente.ObraSocial.Id);
+            nuevoPaciente.ObraSocial = obraSocial;
+            _unitOfWork.Pacientes.Add(nuevoPaciente);
             _unitOfWork.Complete();
         }
 
@@ -33,9 +33,9 @@ namespace AdSanare.Logic
             return _unitOfWork.Pacientes.Get(Id);
         }
 
-        public IEnumerable<Paciente> Get(List<Expression<Func<Paciente, bool>>> where = null, Func<IQueryable<Paciente>, IOrderedQueryable<Paciente>> orden = null, string include = "")
+        public IEnumerable<Paciente> Get(List<Expression<Func<Paciente, bool>>> filtros = null, Func<IQueryable<Paciente>, IOrderedQueryable<Paciente>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Pacientes.Get(where, orden, include);            
+            return _unitOfWork.Pacientes.Get(filtros, ordenamiento, incluir);            
         }
 
         public void Remove(int Id)
@@ -43,14 +43,16 @@ namespace AdSanare.Logic
             Paciente paciente = _unitOfWork.Pacientes.Get(Id);
             if (paciente != null)
             {
-                _unitOfWork.Pacientes.Remove(paciente);
+                paciente.BajaLogica = true;
+                paciente.FechaBaja = DateTime.Now;
+                _unitOfWork.Pacientes.Update(paciente);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(Paciente entidad)
+        public void Update(Paciente paciente)
         {
-            _unitOfWork.Pacientes.Update(entidad);
+            _unitOfWork.Pacientes.Update(paciente);
             _unitOfWork.Complete();
         }
     }

@@ -17,13 +17,13 @@ namespace AdSanare.Logic
             _unitOfWork = unitOfWork;
         }
 
-        public void Add(ExamenComplementario entidad)
+        public void Add(ExamenComplementario nuevoExamenComplementario)
         {
-            List<Expression<Func<Paciente, bool>>> listaWhere = new List<Expression<Func<Paciente, bool>>>();
-            listaWhere.Add(p => p.Documento.Trim().ToUpper().Contains(entidad.Paciente.Documento.Trim().ToUpper()));
-            Paciente paciente = _unitOfWork.Pacientes.Get(listaWhere).FirstOrDefault();
-            entidad.Paciente = paciente;
-            _unitOfWork.ExamenesComplementarios.Add(entidad);
+            List<Expression<Func<Paciente, bool>>> filtroDni = new List<Expression<Func<Paciente, bool>>>();
+            filtroDni.Add(p => p.Documento.Trim().ToUpper().Contains(nuevoExamenComplementario.Paciente.Documento.Trim().ToUpper()));
+            Paciente paciente = _unitOfWork.Pacientes.Get(filtroDni).FirstOrDefault();
+            nuevoExamenComplementario.Paciente = paciente;
+            _unitOfWork.ExamenesComplementarios.Add(nuevoExamenComplementario);
             _unitOfWork.Complete();
         }
 
@@ -37,9 +37,9 @@ namespace AdSanare.Logic
             return _unitOfWork.ExamenesComplementarios.Get(Id);
         }
 
-        public IEnumerable<ExamenComplementario> Get(List<Expression<Func<ExamenComplementario, bool>>> where = null, Func<IQueryable<ExamenComplementario>, IOrderedQueryable<ExamenComplementario>> orden = null, string include = "")
+        public IEnumerable<ExamenComplementario> Get(List<Expression<Func<ExamenComplementario, bool>>> filtros = null, Func<IQueryable<ExamenComplementario>, IOrderedQueryable<ExamenComplementario>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.ExamenesComplementarios.Get(where, orden, include);
+            return _unitOfWork.ExamenesComplementarios.Get(filtros, ordenamiento, incluir);
         }
 
         public void Remove(int Id)
@@ -47,14 +47,16 @@ namespace AdSanare.Logic
             ExamenComplementario examen = _unitOfWork.ExamenesComplementarios.Get(Id);
             if (examen != null)
             {
-                _unitOfWork.ExamenesComplementarios.Remove(examen);
+                examen.BajaLogica = true;
+                examen.FechaBaja = DateTime.Now;
+                _unitOfWork.ExamenesComplementarios.Update(examen);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(ExamenComplementario entidad)
+        public void Update(ExamenComplementario examenComplementario)
         {
-            _unitOfWork.ExamenesComplementarios.Update(entidad);
+            _unitOfWork.ExamenesComplementarios.Update(examenComplementario);
             _unitOfWork.Complete();
         }
     }

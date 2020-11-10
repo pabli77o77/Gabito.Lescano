@@ -19,15 +19,6 @@ namespace AdSanare.Validator.Tests
         }
 
         [Test]
-        public void Devuelve_error_paciente_nulo()
-        {
-            Paciente paciente = new Paciente { Documento = string.Empty };
-            ExamenComplementario examen = new ExamenComplementario { Paciente = paciente };
-            var result = _validador.TestValidate(examen);
-            result.ShouldHaveValidationErrorFor(p => p.Paciente.Documento);
-        }
-
-        [Test]
         public void Devuelve_error_fechaIngreso_vacia()
         {
             ExamenComplementario examen = new ExamenComplementario { FechaExamen = Convert.ToDateTime(null) };

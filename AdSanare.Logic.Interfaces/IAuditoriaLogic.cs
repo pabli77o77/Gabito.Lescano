@@ -9,9 +9,9 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IAuditoriaLogic
     {
-        void Add(Auditoria entidad);
+        void Add(Auditoria auditoria);
         IEnumerable<Auditoria> Get();
         Auditoria Get(int Id);
-        IEnumerable<Auditoria> Get(List<Expression<Func<Auditoria, bool>>> where = null, Func<IQueryable<Auditoria>, IOrderedQueryable<Auditoria>> orden = null, string include = "");
+        IEnumerable<Auditoria> Get(List<Expression<Func<Auditoria, bool>>> filtros = null, Func<IQueryable<Auditoria>, IOrderedQueryable<Auditoria>> ordenamiento = null, string incluir = "");
     }
 }

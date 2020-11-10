@@ -17,9 +17,9 @@ namespace AdSanare.Logic
         {
             _unitOfWork = unitOfWork;
         }
-        public void Add(Servicio entidad)
+        public void Add(Servicio nuevoServicio)
         {
-            _unitOfWork.Servicios.Add(entidad);
+            _unitOfWork.Servicios.Add(nuevoServicio);
             _unitOfWork.Complete();
         }
 
@@ -33,9 +33,9 @@ namespace AdSanare.Logic
             return _unitOfWork.Servicios.Get(Id);
         }
 
-        public IEnumerable<Servicio> Get(List<Expression<Func<Servicio, bool>>> where = null, Func<IQueryable<Servicio>, IOrderedQueryable<Servicio>> orden = null, string include = "")
+        public IEnumerable<Servicio> Get(List<Expression<Func<Servicio, bool>>> filtros = null, Func<IQueryable<Servicio>, IOrderedQueryable<Servicio>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Servicios.Get(where, orden, include);
+            return _unitOfWork.Servicios.Get(filtros, ordenamiento, incluir);
         }
 
         public void Remove(int Id)
@@ -43,14 +43,16 @@ namespace AdSanare.Logic
             Servicio servicio = _unitOfWork.Servicios.Get(Id);
             if (servicio != null)
             {
-                _unitOfWork.Servicios.Remove(servicio);
+                servicio.BajaLogica = true;
+                servicio.FechaBaja = DateTime.Now;
+                _unitOfWork.Servicios.Update(servicio);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(Servicio entidad)
+        public void Update(Servicio servicio)
         {
-            _unitOfWork.Servicios.Update(entidad);
+            _unitOfWork.Servicios.Update(servicio);
             _unitOfWork.Complete();
         }
     }

@@ -8,12 +8,12 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IUsuarioLogic
     {
-        void Add(Usuario entidad);
+        void Add(Usuario usuario);
         IEnumerable<Usuario> Get();
         Usuario Get(string Id);
-        Usuario GetByName(string Name);
-        IEnumerable<Usuario> Get(List<Expression<Func<Usuario, bool>>> where = null, Func<IQueryable<Usuario>, IOrderedQueryable<Usuario>> orden = null, string include = "");
+        Usuario GetByName(string NombreUsuario);
+        IEnumerable<Usuario> Get(List<Expression<Func<Usuario, bool>>> filtros = null, Func<IQueryable<Usuario>, IOrderedQueryable<Usuario>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(Usuario entidad);
+        void Update(Usuario usuario);
     }
 }

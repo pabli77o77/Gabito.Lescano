@@ -8,11 +8,11 @@ namespace AdSanare.Logic.Interfaces
 {
     public interface IObraSocialLogic
     {
-        void Add(ObraSocial entidad);
+        void Add(ObraSocial obraSocial);
         IEnumerable<ObraSocial> Get();
         ObraSocial Get(int Id);
-        IEnumerable<ObraSocial> Get(List<Expression<Func<ObraSocial, bool>>> where = null, Func<IQueryable<ObraSocial>, IOrderedQueryable<ObraSocial>> orden = null, string include = "");
+        IEnumerable<ObraSocial> Get(List<Expression<Func<ObraSocial, bool>>> filtros = null, Func<IQueryable<ObraSocial>, IOrderedQueryable<ObraSocial>> ordenamiento = null, string incluir = "");
         void Remove(int Id);
-        void Update(ObraSocial entidad);
+        void Update(ObraSocial obraSocial);
     }
 }

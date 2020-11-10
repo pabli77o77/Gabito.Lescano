@@ -17,6 +17,6 @@ namespace AdSanare.Entities
         public virtual Cama CamaInternacion { get; set; }
         public virtual ExamenFisico ExamenFisico { get; set; }
         public bool BajaLogica { get; set; }
-        public DateTime FechaBaja { get; set; } = DateTime.Now;
+        public DateTime FechaBaja { get; set; }
     }
 }

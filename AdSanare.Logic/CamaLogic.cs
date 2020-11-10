@@ -17,11 +17,11 @@ namespace AdSanare.Logic
             _unitOfWork = unitOfWork;
         }
 
-        public void Add(Cama entidad)
+        public void Add(Cama nuevaCama)
         {
-            Servicio servicio = _unitOfWork.Servicios.Get(entidad.ServicioInternacion.Id);
-            entidad.ServicioInternacion = servicio;
-            _unitOfWork.Camas.Add(entidad);
+            Servicio servicio = _unitOfWork.Servicios.Get(nuevaCama.ServicioInternacion.Id);
+            nuevaCama.ServicioInternacion = servicio;
+            _unitOfWork.Camas.Add(nuevaCama);
             _unitOfWork.Complete();
         }
 
@@ -35,9 +35,9 @@ namespace AdSanare.Logic
             return _unitOfWork.Camas.Get(Id);
         }
 
-        public IEnumerable<Cama> Get(List<Expression<Func<Cama, bool>>> where = null, Func<IQueryable<Cama>, IOrderedQueryable<Cama>> orden = null, string include = "")
+        public IEnumerable<Cama> Get(List<Expression<Func<Cama, bool>>> filtros = null, Func<IQueryable<Cama>, IOrderedQueryable<Cama>> ordenamiento = null, string incluir = "")
         {
-            return _unitOfWork.Camas.Get(where, orden, include);
+            return _unitOfWork.Camas.Get(filtros, ordenamiento, incluir);
         }
 
         public void Remove(int Id)
@@ -45,14 +45,16 @@ namespace AdSanare.Logic
             Cama cama = _unitOfWork.Camas.Get(Id);
             if (cama != null)
             {
-                _unitOfWork.Camas.Remove(cama);
+                cama.BajaLogica = true;
+                cama.FechaBaja = DateTime.Now;
+                _unitOfWork.Camas.Update(cama);
                 _unitOfWork.Complete();
             }
         }
 
-        public void Update(Cama entidad)
+        public void Update(Cama cama)
         {
-            _unitOfWork.Camas.Update(entidad);
+            _unitOfWork.Camas.Update(cama);
             _unitOfWork.Complete();
         }
     }

@@ -1,4 +1,5 @@
-﻿using AdSanare.Entities;
+﻿using AdSanare.Core.Helper;
+using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,13 @@ namespace AdSanare.Core.Controllers
     [Authorize]
     public class IngresoController : Controller
     {
-        private IIngresoLogic _logic;
+        private IIngresoLogic _logicIngreso;
         private IAuditoriaLogic _auditoriaLogic;
         private IUsuarioLogic _userLogic;
 
-        public IngresoController(IIngresoLogic logic, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
+        public IngresoController(IIngresoLogic logicIngreso, IAuditoriaLogic auditoriaLogic, IUsuarioLogic userLogic)
         {
-            _logic = logic;
+            _logicIngreso = logicIngreso;
             _auditoriaLogic = auditoriaLogic;
             _userLogic = userLogic;
         }
@@ -28,9 +29,10 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                List<Expression<Func<Ingreso, bool>>> listaWhere = new List<Expression<Func<Ingreso, bool>>>();
-                listaWhere.Add(p => p.FechaEgreso==null && !p.Defuncion);         
-                return View(_logic.Get(listaWhere,null,"Paciente"));
+                List<Expression<Func<Ingreso, bool>>> filtroIngreso = new List<Expression<Func<Ingreso, bool>>>();
+                filtroIngreso.Add(p => p.FechaEgreso==null && !p.Defuncion);         
+                filtroIngreso.Add(p => !p.BajaLogica);         
+                return View(_logicIngreso.Get(filtroIngreso,null,"Paciente"));
             }
             catch (Exception ex)
             {
@@ -57,7 +59,7 @@ namespace AdSanare.Core.Controllers
                 {
                     if (ingreso.Paciente != null)
                     {
-                        _logic.Add(ingreso);
+                        _logicIngreso.Add(ingreso);
                         SaveAuditoria(ingreso);
                         return RedirectToAction(nameof(Index));
                     }
@@ -73,27 +75,27 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            Ingreso model = _logic.Get(id);
+            Ingreso ingreso = _logicIngreso.Get(id);
 
-            if (model == null)
+            if (ingreso == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return View(model);
+            return View(ingreso);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Ingreso model)
+        public ActionResult Edit(Ingreso ingreso)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _logic.Update(model);
-                    SaveAuditoria(model);
+                    _logicIngreso.Update(ingreso);
+                    SaveAuditoria(ingreso);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -102,7 +104,7 @@ namespace AdSanare.Core.Controllers
 
                 return RedirectToAction("Error", ex);
             }
-            return View(model);
+            return View(ingreso);
         }
 
         [HttpGet]
@@ -110,7 +112,7 @@ namespace AdSanare.Core.Controllers
         {
             try
             {
-                _logic.Remove(Id);
+                _logicIngreso.Remove(Id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -122,27 +124,27 @@ namespace AdSanare.Core.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            List<Expression<Func<Ingreso, bool>>> listaWhere = new List<Expression<Func<Ingreso, bool>>>();
-            listaWhere.Add(p => p.Id==id);
-            Ingreso model = _logic.Get(listaWhere, null, "Paciente").FirstOrDefault();
+            List<Expression<Func<Ingreso, bool>>> filtroIngreso = new List<Expression<Func<Ingreso, bool>>>();
+            filtroIngreso.Add(p => p.Id==id);
+            Ingreso ingreso = _logicIngreso.Get(filtroIngreso, null, "Paciente").FirstOrDefault();
 
-            if (model == null)
+            if (ingreso == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            return PartialView(model);
+            return PartialView(ingreso);
         }
 
-        private void SaveAuditoria(Ingreso model)
+        private void SaveAuditoria(Ingreso ingreso)
         {
             _auditoriaLogic.Add(
                 new Auditoria
                 {
-                    EntidadId = model.Id,
-                    Entidad = JsonSerializer.Serialize(model),
-                    TipoEntidad = model.GetType().Name,
+                    EntidadId = ingreso.Id,
+                    Entidad = Cypher.Encrypt(JsonSerializer.Serialize(ingreso), ingreso.GetType().Name),
+                    TipoEntidad = ingreso.GetType().Name,
                     Usuario = _userLogic.GetByName(User.Identity.Name)
                 });
         }
