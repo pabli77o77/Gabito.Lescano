@@ -200,6 +200,7 @@ namespace AdSanare.Core.Controllers
             {
                 List<Expression<Func<Paciente, bool>>> filtroPaciente = new List<Expression<Func<Paciente, bool>>>();
                 filtroPaciente.Add(p => p.Documento.Trim().ToUpper().Contains(dni.Trim().ToUpper()));
+                filtroPaciente.Add(p => !p.BajaLogica);
                 Paciente paciente = _logicPaciente.Get(filtroPaciente).FirstOrDefault();
                 if (paciente != null)
                 {

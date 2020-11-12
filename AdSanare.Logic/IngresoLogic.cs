@@ -57,6 +57,18 @@ namespace AdSanare.Logic
             {
                 ingreso.BajaLogica = true;
                 ingreso.FechaBaja = DateTime.Now;
+                
+                List<Expression<Func<Evolucion, bool>>> filtroEvoluciones = new List<Expression<Func<Evolucion, bool>>>();
+                filtroEvoluciones.Add(x => x.Ingreso.Id == Id);
+                IEnumerable<Evolucion> evoluciones = _unitOfWork.Evoluciones.Get(filtroEvoluciones, null, "ExamenFisico");
+                foreach (Evolucion ev in evoluciones)
+                {
+                    ev.BajaLogica = true;
+                    ev.FechaBaja = DateTime.Now;
+                    ev.ExamenFisico.BajaLogica = true;
+                    ev.ExamenFisico.FechaBaja = DateTime.Now;
+                    _unitOfWork.Evoluciones.Update(ev);
+                }
                 _unitOfWork.Ingresos.Update(ingreso);
                 _unitOfWork.Complete();
             }

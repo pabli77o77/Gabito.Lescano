@@ -45,6 +45,15 @@ namespace AdSanare.Logic
             {
                 servicio.BajaLogica = true;
                 servicio.FechaBaja = DateTime.Now;
+                List<Expression<Func<Cama, bool>>> filtrosCama = new List<Expression<Func<Cama, bool>>>();
+                filtrosCama.Add(x => x.ServicioInternacion.Id == Id);
+                var camasServicio = _unitOfWork.Camas.Get(filtrosCama);
+                foreach (Cama c in camasServicio)
+                {
+                    c.BajaLogica = true;
+                    c.FechaBaja = DateTime.Now;
+                    _unitOfWork.Camas.Update(c);
+                }
                 _unitOfWork.Servicios.Update(servicio);
                 _unitOfWork.Complete();
             }
