@@ -120,110 +120,60 @@ namespace AdSanare.Logic.Tests
             List<Ingreso> listaIngresos = new List<Ingreso>()
             {
 
-            new Ingreso
-            {
-                Alergias = "Ninguna",
-                AntecedentesMedicos = "Ninguno",
-                AntecedentesQuirurgicos = "Ninguno",
-                Defuncion = false,
-                Diagnostico = "Gripe",
-                FechaEgreso = null,
-                FechaIngreso = DateTime.Now,
-                Id = 25,
-                MedicacionHabitual = "Ninguna",
-                Paciente = paciente,
-                Peso = 80,
-                Talla = 175
-            },
+                new Ingreso
+                {
+                    Alergias = "Ninguna",
+                    AntecedentesMedicos = "Ninguno",
+                    AntecedentesQuirurgicos = "Ninguno",
+                    Defuncion = false,
+                    Diagnostico = "Gripe",
+                    FechaEgreso = null,
+                    FechaIngreso = DateTime.Now,
+                    Id = 25,
+                    MedicacionHabitual = "Ninguna",
+                    Paciente = paciente,
+                    Peso = 80,
+                    Talla = 175
+                },
 
-            new Ingreso
-            {
-                Alergias = "Si",
-                AntecedentesMedicos = "Ya tiene un ingreso",
-                AntecedentesQuirurgicos = "No",
-                Defuncion = false,
-                Diagnostico = "Fractura",
-                FechaEgreso = null,
-                FechaIngreso = DateTime.Now,
-                Id = 46,
-                MedicacionHabitual = "Ninguna",
-                Paciente = paciente,
-                Peso = 80,
-                Talla = 175
-            },
+                new Ingreso
+                {
+                    Alergias = "Si",
+                    AntecedentesMedicos = "Ya tiene un ingreso",
+                    AntecedentesQuirurgicos = "No",
+                    Defuncion = false,
+                    Diagnostico = "Fractura",
+                    FechaEgreso = null,
+                    FechaIngreso = DateTime.Now,
+                    Id = 46,
+                    MedicacionHabitual = "Ninguna",
+                    Paciente = paciente,
+                    Peso = 80,
+                    Talla = 175
+                },
 
-            new Ingreso
-            {
-                Alergias = "Penicilina",
-                AntecedentesMedicos = "Intervención",
-                AntecedentesQuirurgicos = "Apéndice",
-                Defuncion = false,
-                Diagnostico = "Diagnóstico",
-                FechaEgreso = null,
-                FechaIngreso = DateTime.Now,
-                Id = 77,
-                MedicacionHabitual = "Ninguna",
-                Paciente = paciente,
-                Peso = 80,
-                Talla = 175
-            },
-        };
+                new Ingreso
+                {
+                    Alergias = "Penicilina",
+                    AntecedentesMedicos = "Intervención",
+                    AntecedentesQuirurgicos = "Apéndice",
+                    Defuncion = false,
+                    Diagnostico = "Diagnóstico",
+                    FechaEgreso = null,
+                    FechaIngreso = DateTime.Now,
+                    Id = 77,
+                    MedicacionHabitual = "Ninguna",
+                    Paciente = paciente,
+                    Peso = 80,
+                    Talla = 175
+                },
+            };
 
             _autoMoquer.GetMock<IIngresoRepository>().Setup(i => i.Get()).Returns(listaIngresos);
             var result = _ingresoLogic.Get();
             
             Assert.True(result != null);
             Assert.Equal(listaIngresos.Count, result.Count());
-        }
-
-        [Fact]
-        public void InsertaIngreso() 
-        {
-            ObraSocial obSocial = new ObraSocial
-            {
-                Descripcion = "Swiss Medical",
-                Id = 154
-            };
-
-            Paciente paciente = new Paciente
-            {
-                Apellido = "Gomez",
-                Nombre = "Claudio",
-                Documento = "12345678",
-                Domicilio = new Domicilio { Calle = "Lafinur", Id = 1, Localidad = "Capital Federal", Provincia = "Bs. As." },
-                EstadoCivil = "Casado",
-                FechaNacimiento = Convert.ToDateTime("25/09/1980"),
-                Id = 575,
-                ObraSocial = obSocial,
-                ObraSocialNumero = "54635-7389393",
-                Sexo = "M",
-                Telefono = "1156789944"
-            };
-
-            Ingreso ingreso = new Ingreso
-            {
-                Alergias = "Ninguna",
-                AntecedentesMedicos = "Ninguno",
-                AntecedentesQuirurgicos = "Ninguno",
-                Defuncion = false,
-                Diagnostico = "Gripe",
-                FechaEgreso = null,
-                FechaIngreso = DateTime.Now,
-                MedicacionHabitual = "Ninguna",
-                Paciente = paciente,
-                Peso = 80,
-                Talla = 175,
-            };
-
-            try
-            {
-                _ingresoLogic.Add(ingreso);
-                Assert.True(true);
-            }
-            catch
-            {
-                Assert.True(false);
-            }
         }
     }
 }
