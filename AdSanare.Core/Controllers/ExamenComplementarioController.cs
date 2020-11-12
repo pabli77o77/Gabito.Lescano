@@ -30,7 +30,7 @@ namespace AdSanare.Core.Controllers
             {
                 List<Expression<Func<ExamenComplementario, bool>>> filtroExamen = new List<Expression<Func<ExamenComplementario, bool>>>();
                 filtroExamen.Add(p => !p.BajaLogica);
-                return View(_logicExamen.Get(filtroExamen));
+                return View(_logicExamen.Get(filtroExamen,null,"Paciente"));
             }
             catch (Exception ex)
             {
