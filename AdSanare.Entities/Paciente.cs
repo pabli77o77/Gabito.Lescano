@@ -9,7 +9,7 @@ namespace AdSanare.Entities
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        [DisplayName("Número de Documento")]
+        [DisplayName("N° de Documento")]
         public string Documento { get; set; }
         [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }

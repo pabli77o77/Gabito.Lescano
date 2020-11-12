@@ -19,7 +19,7 @@ namespace AdSanare.Validation
                 .Length(6, 9).WithMessage("Debe ingresar entre {MinLength} y {MaxLength} caracteres.");
             RuleFor(x => x.FechaNacimiento)
                 .NotEmpty().WithMessage("Debe seleccionar una Fecha de Nacimiento")
-                .LessThan(x => DateTime.Now.AddDays(1)).WithMessage("La Fecha ingresada no puede ser mayor a la de Hoy.");
+                .LessThan(x => DateTime.Now).WithMessage("La Fecha ingresada no puede ser mayor a la de Hoy.");
             RuleFor(p => p.Sexo)
                 .NotNull().WithMessage("Debe Ingresar el Sexo del Paciente")
                 .Length(1, 20).WithMessage("Debe ingresar entre {MinLength} y {MaxLength} caracteres.");
