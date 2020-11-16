@@ -1,4 +1,5 @@
-﻿using AdSanare.Entities;
+﻿using AdSanare.Core.Helper;
+using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using AdSanare.Repository.Interfaces;
 using AdSanare.UOW.Interfaces;
@@ -40,9 +41,9 @@ namespace AdSanare.Logic.Tests
                 FechaNacimiento = DateTime.Parse("1990-01-10")
             };
 
-            Paciente paciente1 = paciente;
+            Paciente pacienteClonado = CloningService.Clone(paciente);
 
-            _autoMoquer.GetMock<IPacienteRepository>().Setup(p => p.Get(pacienteId)).Returns(paciente1);
+            _autoMoquer.GetMock<IPacienteRepository>().Setup(p => p.Get(pacienteId)).Returns(pacienteClonado);
 
             var result = _pacienteLogic.Get(pacienteId);
 
@@ -101,8 +102,12 @@ namespace AdSanare.Logic.Tests
                 }
 
             };
-
-            _autoMoquer.GetMock<IPacienteRepository>().Setup(p => p.Get()).Returns(listado);
+            List<Paciente> listadoPacientesClonado = new List<Paciente>();
+            foreach(Paciente p in listado)
+            {
+                listadoPacientesClonado.Add(CloningService.Clone(p));
+            }
+            _autoMoquer.GetMock<IPacienteRepository>().Setup(p => p.Get()).Returns(listadoPacientesClonado);
 
             var result = _pacienteLogic.Get();
 

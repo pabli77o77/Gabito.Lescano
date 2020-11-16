@@ -1,4 +1,5 @@
-﻿using AdSanare.Entities;
+﻿using AdSanare.Core.Helper;
+using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using AdSanare.Repository.Interfaces;
 using AdSanare.UOW.Interfaces;
@@ -57,9 +58,9 @@ namespace AdSanare.Logic.Tests
                 TipoExamen = "Complementario"
             };
 
-            ExamenComplementario examen1 = examen;
+            ExamenComplementario examenClonado = CloningService.Clone(examen);
 
-            _autoMoquer.GetMock<IExamenComplementarioRepository>().Setup(e => e.Get(idExamen)).Returns(examen1);
+            _autoMoquer.GetMock<IExamenComplementarioRepository>().Setup(e => e.Get(idExamen)).Returns(examenClonado);
 
             var result = _examenComplementarioLogic.Get(idExamen);
             Assert.Equal(examen.Id, result.Id);
@@ -122,9 +123,14 @@ namespace AdSanare.Logic.Tests
                     TipoExamen = "Complementario_2"
                 }
             };
-            
 
-            _autoMoquer.GetMock<IExamenComplementarioRepository>().Setup(e => e.Get()).Returns(listaExamenes);
+            List<ExamenComplementario> listaExamenesComplementariosClonados = new List<ExamenComplementario>();
+            foreach (ExamenComplementario e in listaExamenes)
+            {
+                listaExamenesComplementariosClonados.Add(CloningService.Clone(e));
+            }
+
+            _autoMoquer.GetMock<IExamenComplementarioRepository>().Setup(e => e.Get()).Returns(listaExamenesComplementariosClonados);
             var result = _examenComplementarioLogic.Get();
 
             Assert.True(result != null);

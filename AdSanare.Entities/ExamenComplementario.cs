@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AdSanare.Entities
 {
+    [Serializable]
     public class ExamenComplementario
     {
         public int Id { get; set; }

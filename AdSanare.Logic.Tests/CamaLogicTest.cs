@@ -1,4 +1,5 @@
 ﻿using AdSanare.Context;
+using AdSanare.Core.Helper;
 using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using AdSanare.Repository.Interfaces;
@@ -46,13 +47,15 @@ namespace AdSanare.Logic.Tests
                 ServicioInternacion = servicio1
             };
 
-            Cama camaTest = cama;
-            _autoMoquer.GetMock<ICamaRepository>().Setup(c => c.Get(idCama)).Returns(camaTest);
+            Cama camaClon = CloningService.Clone(cama);
+
+            _autoMoquer.GetMock<ICamaRepository>().Setup(c => c.Get(idCama)).Returns(camaClon);
 
             var result = _camaLogic.Get(idCama);
             Assert.Equal(cama.Id, result.Id);
             Assert.Equal(cama.Descripcion, result.Descripcion);
-            Assert.Equal(cama.ServicioInternacion, result.ServicioInternacion);
+            Assert.Equal(cama.ServicioInternacion.Id, result.ServicioInternacion.Id);
+            Assert.Equal(cama.ServicioInternacion.Descripcion, result.ServicioInternacion.Descripcion);
         }
 
         [Fact]
@@ -89,7 +92,13 @@ namespace AdSanare.Logic.Tests
                 }
             };
 
-            _autoMoquer.GetMock<ICamaRepository>().Setup(c => c.Get()).Returns(listaCamas);
+            List<Cama> listaCamasClonadas = new List<Cama>();
+            foreach (Cama c in listaCamas)
+            {
+                listaCamasClonadas.Add(CloningService.Clone(c));
+            }
+
+            _autoMoquer.GetMock<ICamaRepository>().Setup(c => c.Get()).Returns(listaCamasClonadas);
             var result = _camaLogic.Get();
 
             Assert.True(result != null);

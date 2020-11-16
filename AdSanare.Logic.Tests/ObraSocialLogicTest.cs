@@ -1,4 +1,5 @@
-﻿using AdSanare.Entities;
+﻿using AdSanare.Core.Helper;
+using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using AdSanare.Repository.Interfaces;
 using AdSanare.UOW.Interfaces;
@@ -33,8 +34,9 @@ namespace AdSanare.Logic.Tests
                 Id = 1
             };
 
-            ObraSocial os1 = os;
-            _autoMoquer.GetMock<IObraSocialRepository>().Setup(i => i.Get(os.Id)).Returns(os1);
+            ObraSocial obraSocialClonada = CloningService.Clone(os);
+
+            _autoMoquer.GetMock<IObraSocialRepository>().Setup(i => i.Get(os.Id)).Returns(obraSocialClonada);
 
             var result = _obraSocialLogic.Get(os.Id);
             Assert.Equal(os.Id, result.Id);
@@ -64,7 +66,14 @@ namespace AdSanare.Logic.Tests
                     Id = 3
                 }
             };
-            _autoMoquer.GetMock<IObraSocialRepository>().Setup(o => o.Get()).Returns(lsObraSocial);
+
+            List<ObraSocial> listaObrasSocialesClonados = new List<ObraSocial>();
+            foreach (ObraSocial s in lsObraSocial)
+            {
+                listaObrasSocialesClonados.Add(CloningService.Clone(s));
+            }
+
+            _autoMoquer.GetMock<IObraSocialRepository>().Setup(o => o.Get()).Returns(listaObrasSocialesClonados);
             var result = _obraSocialLogic.Get();
 
             Assert.True(result != null);

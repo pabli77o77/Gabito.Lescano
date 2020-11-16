@@ -3,6 +3,7 @@ using System.ComponentModel;
 
 namespace AdSanare.Entities
 {
+    [Serializable]
     public class Domicilio
     {
         public int Id { get; set; }
