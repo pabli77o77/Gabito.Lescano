@@ -2,6 +2,7 @@
 using System.ComponentModel;
 namespace AdSanare.Entities
 {
+    [Serializable]
     public class ObraSocial
     {
         public int Id { get; set; }

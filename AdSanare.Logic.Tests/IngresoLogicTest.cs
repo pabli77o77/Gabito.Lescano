@@ -15,6 +15,7 @@ using System.Text;
 using Xunit;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
+using AdSanare.Core.Helper;
 
 namespace AdSanare.Logic.Tests
 {
@@ -73,9 +74,9 @@ namespace AdSanare.Logic.Tests
                 Talla = 175
             };
             
-            Ingreso ingreso1 = ingreso;
+            Ingreso ingresoClonado = CloningService.Clone(ingreso);
 
-            _autoMoquer.GetMock<IIngresoRepository>().Setup(i => i.Get(idIngreso)).Returns(ingreso1);
+            _autoMoquer.GetMock<IIngresoRepository>().Setup(i => i.Get(idIngreso)).Returns(ingresoClonado);
 
             var result = _ingresoLogic.Get(idIngreso);
 
@@ -90,7 +91,9 @@ namespace AdSanare.Logic.Tests
             Assert.Equal(ingreso.AntecedentesMedicos, result.AntecedentesMedicos);
             Assert.Equal(ingreso.AntecedentesQuirurgicos, result.AntecedentesQuirurgicos);
             Assert.Equal(ingreso.Defuncion, result.Defuncion);
-            Assert.Equal(ingreso.Paciente, result.Paciente);
+            Assert.Equal(ingreso.Paciente.Id, result.Paciente.Id);
+            Assert.Equal(ingreso.Paciente.Documento, result.Paciente.Documento);
+            Assert.Equal(ingreso.Paciente.Apellido, result.Paciente.Apellido);
         }
 
         [Fact]
@@ -169,7 +172,14 @@ namespace AdSanare.Logic.Tests
                 },
             };
 
-            _autoMoquer.GetMock<IIngresoRepository>().Setup(i => i.Get()).Returns(listaIngresos);
+            List<Ingreso> listaIngresosClonados = new List<Ingreso>();
+            foreach (Ingreso i in listaIngresos)
+            {
+                listaIngresosClonados.Add(CloningService.Clone(i));
+            }
+
+
+            _autoMoquer.GetMock<IIngresoRepository>().Setup(i => i.Get()).Returns(listaIngresosClonados);
             var result = _ingresoLogic.Get();
             
             Assert.True(result != null);

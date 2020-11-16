@@ -1,4 +1,5 @@
-﻿using AdSanare.Entities;
+﻿using AdSanare.Core.Helper;
+using AdSanare.Entities;
 using AdSanare.Logic.Interfaces;
 using AdSanare.Repository.Interfaces;
 using AdSanare.UOW.Interfaces;
@@ -35,9 +36,9 @@ namespace AdSanare.Logic.Tests
                 Id = idServicio
             };
 
-            Servicio servicio1 = servicio;
+            Servicio servicioClonado = CloningService.Clone(servicio);
 
-            _autoMoquer.GetMock<IServicioRepository>().Setup(s => s.Get(idServicio)).Returns(servicio1);
+            _autoMoquer.GetMock<IServicioRepository>().Setup(s => s.Get(idServicio)).Returns(servicioClonado);
             var result = _servicioLogic.Get(idServicio);
             Assert.Equal(servicio.Id, result.Id);
             Assert.Equal(servicio.Descripcion, result.Descripcion);
@@ -67,8 +68,13 @@ namespace AdSanare.Logic.Tests
                 }
             };
 
+            List<Servicio> listaServiciosClonados = new List<Servicio>();
+            foreach (Servicio s in listaServicios)
+            {
+                listaServiciosClonados.Add(CloningService.Clone(s));
+            }
 
-            _autoMoquer.GetMock<IServicioRepository>().Setup(s => s.Get()).Returns(listaServicios);
+            _autoMoquer.GetMock<IServicioRepository>().Setup(s => s.Get()).Returns(listaServiciosClonados);
             var result = _servicioLogic.Get();
 
             Assert.True(result != null);
