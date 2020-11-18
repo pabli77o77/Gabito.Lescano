@@ -5,7 +5,10 @@
 
 trigger:
 - master
-
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
 pool:
   vmImage: 'windows-latest'
 
