@@ -102,7 +102,7 @@ namespace AdSanare.Core.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("[controller]/[action]/{iPaciente}")]
-        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocialNumero")] Paciente paciente, string iPaciente)
+        public IActionResult Create([Bind(include: "Nombre,Apellido,Documento,Domicilio,FechaNacimiento,Sexo,EstadoCivil,Telefono,ObraSocial,ObraSocialNumero")] Paciente paciente, string iPaciente)
         {
             try
             {

@@ -99,10 +99,10 @@ namespace AdSanare.Core.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> EditRole(EditRoleViewModel model) 
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string id) 
         {
-            var role = await _roleManager.FindByIdAsync(model.Id);
+            var role = await _roleManager.FindByIdAsync(id);
             
             if (role == null)
             {
@@ -111,8 +111,7 @@ namespace AdSanare.Core.Controllers
             }
             else
             {
-                role.Name = model.RoleName;
-                var result = await _roleManager.UpdateAsync(role);
+                var result = await _roleManager.DeleteAsync(role);
 
                 if (result.Succeeded)
                 {
@@ -124,7 +123,7 @@ namespace AdSanare.Core.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
 
-                return View(model);
+                return View("ListRoles");
             }
         }
 

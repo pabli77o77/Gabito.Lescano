@@ -12,8 +12,24 @@
                 success: function (data) {
                     $('#DivPaciente').replaceWith($('#DivPaciente').html(data));
                 }
+            }).done(function (data) {
+                var res = $('#divNoResult').length;
+                if (res > 0) {
+                    $('#NuevoPaciente').removeClass('invisible');
+                } else {
+                    $('#NuevoPaciente').addClass('invisible');
+                }
             });
         });
+
+        $('#NuevoPaciente').on('click', function () {
+            var url = $('#modalPaciente').data('url');
+            $.get(url, function (data) {
+                $('#modalPaciente').html(data);
+                $('#modalPaciente').modal('show');
+            })
+        });
+
         $(document).ready(function () {
             let dni = "@ViewBag.Documento";
             if (dni != "undefined" && dni != "" && dni != null) {
@@ -29,6 +45,8 @@
         <h3 class="card-title">Agregar Examen Complementario</h3>
     </div>
     <form asp-antiforgery="true" asp-action="Create" method="post">
+        <div id="modalPaciente" class="modal fade" role="dialog" data-url="@Url.Action("Create","Paciente", new { iPaciente = "iPaciente"})">
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
@@ -42,6 +60,10 @@
                 <div class="col-md-2">
                     <br />
                     <input type="button" id="BuscarDni" class="btn btn-primary form-control control-label" value="Buscar">
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <input type="button" id="NuevoPaciente" class="btn btn-primary form-control control-label invisible" value="Cargar Paciente">
                 </div>
                 <div class="col-md-4"></div>
             </div>
